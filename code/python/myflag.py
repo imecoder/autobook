@@ -3,20 +3,6 @@
 
 import threading
 
-# 舱位记录标志
-flagSpace = True
-mutexSpace = threading.Lock()
-
-def set_flag_space(flag) :
-    with mutexSpace :
-        global flagSpace
-        flagSpace = flag
-
-def get_flag_space() :
-    with mutexSpace :
-        global flagSpace
-        return flagSpace
-
 # 舱位占有标志
 flagOccupied = False
 mutexOccupied = threading.Lock()

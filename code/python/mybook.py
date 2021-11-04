@@ -59,29 +59,6 @@ def execute_instruction(sessionid, arg):
 
     return True, msg
 
-def get_space(flight):
-    flight_airtype = myfile.get_config("config.flight.airtype.json")
-    if flight not in flight_airtype:
-        logger.info("未找到为航班" + flight + "配置的飞机类型 .")
-        return False, []
-
-    airtype = flight_airtype[flight]
-    if airtype == "":
-        logger.info("未找到为航班" + flight + "配置的飞机类型 .")
-        return False, []
-
-    airtype_space = myfile.get_config("config.airtype.space.json")
-    if airtype not in airtype_space:
-        logger.info("未找到为机型" + airtype + "配置的舱位 .")
-        return False, []
-
-    space = airtype_space[airtype]
-    if space == []:
-        logger.info("未找到为机型" + airtype + "配置的舱位 .")
-        return False, []
-
-    return True, space
-
 # 占票
 def occupy(sessionid):
     ret, msg = execute_instruction(sessionid, book_config["occupy"])
@@ -105,9 +82,6 @@ def query(sessionid):
         if limit() == True:
             return
 
-        if myflag.get_flag_space() == False:
-            return
-
         if myflag.get_flag_occupied() == True:
             logger.info("其他刷票分支已占票, 当前刷票分支退出.")
             return
@@ -121,42 +95,86 @@ def query(sessionid):
             return
 
         attrlist = msg["masks"]["special"]["attrList"]
+
         # 确定航班
-        flight = attrlist[16]["text"] + attrlist[17]["text"].strip()
-        logger.info('查询到航班' + flight)
 
-        # 确定本地舱位配置
-        ret, space = get_space(flight)
-        if ret == False:
-            myflag.set_flag_space(False)
-            logger.info("尚未配置舱位, 请退出后, 联系开发人员进行配置...")
-            return
+        # 查找 text : line 位置
+        line = book_config["occupy"][3:]
+        start_location = len(attrlist)
+        for i in range(len(attrlist)):
+            if "text" in attrlist[i] and attrlist[i]["text"] == line :
+                start_location = i
+                break
 
-        # 查找带票仓位
-        flagHasTicket = False
-        for i in range(len(space)):
-            if "extended" not in attrlist[space[i]] :
-                logger.info("配置舱位有误, 请退出后, 联系开发人员进行配置...")
-                return
-
-            if "status" not in attrlist[space[i]]["extended"] :
-                logger.info("配置舱位有误, 请退出后, 联系开发人员进行配置...")
-                return
-
-            status = attrlist[space[i]]["extended"]["status"]
-            if (status >= "1" and status <= "9"):
-                flagHasTicket = True
-
-        if flagHasTicket == False:
-            logger.info("航班无票")
+        if start_location >= len(attrlist) :
+            logger.info('未找到任何航班')
             continue
 
-        logger.info("航班" + flight + "有票")
+        # logger.info("start_location = %d" % start_location )
+
+        # 查找 text : comp 位置
+        comp_start_location = start_location
+        for i in range(start_location, len(attrlist)):
+            if "text" in attrlist[i] and attrlist[i]["text"] == book_config["comp"] :
+                comp_start_location = i
+                break
+
+        if comp_start_location >= len(attrlist) :
+            logger.info('未找到任何航班')
+            continue
+
+        # logger.info("comp_start_location = %d" % comp_start_location )
+
+        flight = attrlist[comp_start_location]["text"] + attrlist[comp_start_location+1]["text"].strip()
+        logger.info('查询到航班' + flight)
+
+
+        # 查找 text: line + 1 位置
+        lineplus = str(int(line) +1)
+        lineplus_start_location = comp_start_location
+        for i in range(comp_start_location, len(attrlist)):
+            if "text" in attrlist[i] and attrlist[i]["text"] == lineplus :
+                lineplus_start_location = i
+                break
+
+
+        end_location = len(attrlist)
+        if lineplus_start_location < len(attrlist) :
+            # logger.info("lineplus_start_location = %d" % lineplus_start_location)
+            # logger.info('找到第二个航班')
+            end_location = lineplus_start_location-1
+
+        # 查找 spacetype 的位置, 及状态
+        space_start_location = comp_start_location+2
+        space_location = end_location
+        spacetype = book_config["occupy"][2:3]
+        flagHasTicket = False
+
+        for i in range(space_start_location, end_location):
+            if "extended" in attrlist[i] :
+                if "bic" in attrlist[i]["extended"] :
+                    if attrlist[i]["extended"]["bic"] == spacetype :
+                        space_location = i
+                        status = attrlist[space_location]["extended"]["status"]
+                        if (status >= "1" and status <= "9"):
+                            flagHasTicket = True
+
+                        break
+
+        # logger.info("space_location = %d" % space_location )
+        # logger.info("text = " + attrlist[space_location]["text"])
+
+        if flagHasTicket == False:
+            logger.info("航班" + flight + "无票")
+            continue
+
+        logger.info("航班" + flight + "有票 : ", attrlist[space_location]["text"])
 
         if myflag.get_flag_occupied() == True:
             logger.info("其他刷票分支已占票, 当前刷票分支退出.")
             return
 
+        # 占票
         myflag.set_flag_occupied(occupy(sessionid))
         if myflag.get_flag_occupied() == True:
             return
@@ -301,7 +319,7 @@ if __name__ == '__main__':
         time.sleep(1 / size)
     pool.wait()
 
-    if myflag.get_flag_space() == False:
+    if myflag.get_flag_occupied() == False:
         exit(0)
 
     if book_config["manual"] == True:
