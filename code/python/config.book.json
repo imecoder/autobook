@@ -1,10 +1,10 @@
 {
-    "date" : "04NOV",
+    "date" : "05NOV",
     "from" : "FRA",
-    "to" : "LON",
+    "to" : "TAO",
     "comp" : "LH",
     "occupy" : "01Y1",
-    "manual" : true,
-    "user": "N.ZHAO/ANQIANG",
+    "manual" : false,
+    "user": "N.LUO/JUAN",
     "contact": "P.LOST08039943766"
 }

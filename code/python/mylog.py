@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 import logging
 import datetime
 
@@ -16,3 +19,5 @@ def mylog() :
     logger.addHandler(ch)
     logger.addHandler(fh)
     return logger
+
+logger = mylog()

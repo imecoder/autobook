@@ -4,3 +4,6 @@ build
 venv
 test*
 log*
+dist
+*.zip
+*.spec

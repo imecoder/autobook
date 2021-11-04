@@ -1,21 +1,20 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+
 import datetime
-import threading
 import time
 import requests
-import json
 import threadpool
-import mylog
+from mylog import *
 import myflag
 import myfile
-
-logger = mylog.mylog()
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
 
-book_config = myfile.get_config("config.book.json")
+ret, book_config = myfile.get_config("config.book.json")
+if ret == False :
+    exit(0)
 
 
 def limit():
@@ -26,8 +25,16 @@ def limit():
 
 # 登录
 def login():
-    config = myfile.get_config("config.login.json")
-    response = requests.post(login_url, json=config)
+    ret, config = myfile.get_config("config.login.json")
+    if ret == False :
+        return False, {}
+
+    try:
+        response = requests.post(login_url, json=config, timeout=10)
+    except :
+        logger.info('请确认是否打开VPN, 如果打开请关闭 ...')
+        return False, {}
+
     logger.debug(response.text)
     resjson = response.json()
     if resjson["success"] == True:
@@ -39,7 +46,12 @@ def login():
 
 def execute_instruction(sessionid, arg):
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
-    response = requests.post(book_url, json=cmd)
+    try :
+        response = requests.post(book_url, json=cmd, timeout=10)
+    except :
+        logger.info('请确认是否打开VPN, 如果打开请关闭 ...')
+        return False, {}
+
     logger.debug(response.text)
     msg = response.json()["message"]
     if response.json()["success"] == False:
@@ -123,6 +135,14 @@ def query(sessionid):
         # 查找带票仓位
         flagHasTicket = False
         for i in range(len(space)):
+            if "extended" not in attrlist[space[i]] :
+                logger.info("配置舱位有误, 请退出后, 联系开发人员进行配置...")
+                return
+
+            if "status" not in attrlist[space[i]]["extended"] :
+                logger.info("配置舱位有误, 请退出后, 联系开发人员进行配置...")
+                return
+
             status = attrlist[space[i]]["extended"]["status"]
             if (status >= "1" and status <= "9"):
                 flagHasTicket = True
@@ -264,17 +284,21 @@ if __name__ == '__main__':
     if ret == False :
         exit(0)
 
-    count = myfile.get_config("config.count.json")["count"]
+    ret, config = myfile.get_config("config.branch.json")
+    if ret == False :
+        exit(0)
+
+    size = config["size"]
 
     session_list = []
-    for i in range(count):
+    for i in range(size):
         session_list.append(sessionid)
 
-    pool = threadpool.ThreadPool(count)
+    pool = threadpool.ThreadPool(size)
     reqs = threadpool.makeRequests(query, session_list)
     for req in reqs:
         pool.putRequest(req)
-        time.sleep(1 / count)
+        time.sleep(1 / size)
     pool.wait()
 
     if myflag.get_flag_space() == False:
