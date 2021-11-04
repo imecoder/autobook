@@ -1,196 +1,111 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import datetime
+import threading
 import time
 import requests
 import json
-import threading
 import threadpool
-import sys
-import logging
-import msvcrt
+import mylog
+import myflag
+import myfile
 
-fmt = logging.Formatter('%(asctime)s - [%(lineno)3.3d] %(threadName)-10.10s: %(message)s')
-ch = logging.StreamHandler()
-ch.setFormatter(fmt)
-ch.setLevel(logging.INFO)
-fh = logging.FileHandler(filename="log_%s.txt"%(datetime.datetime.now().strftime('%Y%m%d-%H-%M-%S')), mode='a', encoding='utf-8')
-fh.setFormatter(fmt)
-fh.setLevel(logging.INFO)
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-logger.addHandler(ch)
-logger.addHandler(fh)
-
+logger = mylog.mylog()
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
 
-flagQueryAllFlight = True
-flagQueryDestFlight = True
-flagSpace = True
-flagBook = False
-flagOccupied = False
-
-# 读取订票配置文件
-with open("config.book.json", 'r') as thefile:
-    book_config = json.load(thefile)
+book_config = myfile.get_config("config.book.json")
 
 
-def limit() :
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-4 00:00', '%Y-%m-%d %H:%M'):
+def limit():
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-6 00:00', '%Y-%m-%d %H:%M'):
         logger.info("试用期限已到...")
         return True
     return False
 
 # 登录
 def login():
-    with open("config.login.json", 'r') as thefile:
-        config = json.load(thefile)
+    config = myfile.get_config("config.login.json")
     response = requests.post(login_url, json=config)
-    logger.info(response.text)
+    logger.debug(response.text)
     resjson = response.json()
-    if (resjson["success"] == True):
-        logger.info('')
+    if resjson["success"] == True:
         logger.info('登录成功')
-        return resjson['sessionId']
+        return True, resjson['sessionId']
     else:
-        logger.info('登录失败, 请重新配置登录配置文件, 按任意键退出...')
-        msvcrt.getch()
-        exit(0)
+        logger.info('登录失败, 请检查登录配置文件 [ config.login.json ] ...')
+        return False, ''
 
-def invoke(sessionid, arg) :
+def execute_instruction(sessionid, arg):
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
-    response = requests.request("POST", book_url, json=cmd)
-    logger.info(response.text)
-    resjson = response.json()
-    if (resjson["success"] != True):
-        logger.info('指令返回失败')
-        return False, resjson
-    return True, resjson["message"]
+    response = requests.post(book_url, json=cmd)
+    logger.debug(response.text)
+    msg = response.json()["message"]
+    if response.json()["success"] == False:
+        return False, msg
 
+    return True, msg
 
-def save(name, message) :
-    fo = open(name + '.txt', "w")
-    fo.write(message)
-    fo.close()
-
-def autobook( sessionid ) :
-    ret, msg = invoke(sessionid, book_config["user"] )
-    if ret != True :
-        logger.info('订票失败')
-        return False
-
-    ret, msg = invoke(sessionid, book_config["contact"] )
-    if ret != True :
-        logger.info('订票失败')
-        return False
-
-    ret, msg = invoke(sessionid, "R.PEI" )
-    if ret != True :
-        logger.info('订票失败')
-        return False
-
-    ret, msg = invoke(sessionid, "T.T*" )
-    if ret != True :
-        logger.info('订票失败')
-        return False
-
-    ret, msg = invoke(sessionid, "ER" )
-    if ret != True :
-        logger.info('订票失败')
-        return False
-
-    save(book_config["user"], msg["text"])
-
-
-# 占票
-def occupy(sessionid):
-    global flagBook
-    global flagOccupied
-
-    ret, msg = invoke(sessionid, book_config["occupy"] )
-    if ret != True :
-        logger.info('占票失败')
-        flagBook = False
-        return
-
-    if book_config["autobook"] == True :
-        flagOccupied = True
-        logger.info('票已占, 请继续未用户订票流程 ...')
-        return
-
-    if autobook(sessionid) == False :
-        flagBook = False
-        return
-
-    logger.info('订票成功')
-    flagBook = True
-
-
-def get_space(flight) :
-    with open("config.flight.airtype.json", 'r') as thefile:
-        flight_airtype = json.load(thefile)
-    if not flight_airtype.has_key(flight):
+def get_space(flight):
+    flight_airtype = myfile.get_config("config.flight.airtype.json")
+    if flight not in flight_airtype:
         logger.info("未找到为航班" + flight + "配置的飞机类型 .")
         return False, []
 
     airtype = flight_airtype[flight]
-    if airtype == "" :
+    if airtype == "":
         logger.info("未找到为航班" + flight + "配置的飞机类型 .")
         return False, []
 
-    with open("config.airtype.space.json", 'r') as thefile:
-        airtype_space = json.load(thefile)
-    if not airtype_space.has_key(airtype):
+    airtype_space = myfile.get_config("config.airtype.space.json")
+    if airtype not in airtype_space:
         logger.info("未找到为机型" + airtype + "配置的舱位 .")
         return False, []
 
     space = airtype_space[airtype]
-    if space == [] :
+    if space == []:
         logger.info("未找到为机型" + airtype + "配置的舱位 .")
         return False, []
 
     return True, space
 
+# 占票
+def occupy(sessionid):
+    ret, msg = execute_instruction(sessionid, book_config["occupy"])
+    if ret == False:
+        logger.info('占票失败')
+        return False
+
+    if 'text' in msg and 'UNABLE - DUPLICATE SEGMENT' in msg["text"]:
+        logger.info('前期占票命令已经执行...')
+        return True
+
+    logger.info('占票成功')
+    return True
+
+
 # 查票
 def query(sessionid):
-    global flagQueryAllFlight
-    global flagQueryDestFlight
-    global flagSpace
-    global flagBook
-    global flagOccupied
-
-    # logger.info(sessionid)
-
     while True:
         # logger.info(sessionid)
 
-        if limit() == True :
+        if limit() == True:
             return
 
-        if flagQueryAllFlight == False or flagQueryDestFlight == False:
-            logger.info("刷票分支出错, 分支退出.")
+        if myflag.get_flag_space() == False:
             return
 
-        if flagSpace == False:
-            logger.info("尚未配置舱位, 请退出后, 联系开发人员进行配置...")
+        if myflag.get_flag_occupied() == True:
+            logger.info("其他刷票分支已占票, 当前刷票分支退出.")
             return
 
-        if flagBook == True:
-            logger.info("其他刷票分支已出票, 当前刷票分支退出.")
-            return
-
-        if flagOccupied == True:
-            logger.info("票已占, 当前刷票分支退出.")
-            return
-
-        # 查票
-        cmd = 'A'+book_config["date"]+book_config["from"]+book_config["to"]+'*'+book_config["comp"];
-        ret, msg = invoke(sessionid, cmd)
-        if ret != True:
+        # 查航线
+        cmd = 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '*' + book_config["comp"];
+        # logger.info(cmd)
+        ret, msg = execute_instruction(sessionid, cmd)
+        if ret == False:
             logger.info('航线查询失败')
-            flagQueryAllFlight = False
             return
 
         attrlist = msg["masks"]["special"]["attrList"]
@@ -198,88 +113,185 @@ def query(sessionid):
         flight = attrlist[16]["text"] + attrlist[17]["text"].strip()
         logger.info('查询到航班' + flight)
 
-        # 确定舱位
+        # 确定本地舱位配置
         ret, space = get_space(flight)
-        if ret == False :
-            flagSpace == False
+        if ret == False:
+            myflag.set_flag_space(False)
             logger.info("尚未配置舱位, 请退出后, 联系开发人员进行配置...")
-
-
-        # 查找带票仓位
-        for i in range(len(space)):
-            status = attrlist[space[i]]["extended"]["status"]
-            # print(space[i], status)
-            if (status >= "1" and status <= "9"):
-                logger.info(space[i], status, "航班有票")
-                # 订票流程
-                occupy(sessionid)
-                return
-
-        logger.info("航班无票")
-
-        if flagBook == True:
-            logger.info("其他刷票分支已出票, 当前刷票分支退出.")
             return
 
-def command(sessionid) :
+        # 查找带票仓位
+        flagHasTicket = False
+        for i in range(len(space)):
+            status = attrlist[space[i]]["extended"]["status"]
+            if (status >= "1" and status <= "9"):
+                flagHasTicket = True
+
+        if flagHasTicket == False:
+            logger.info("航班无票")
+            continue
+
+        logger.info("航班" + flight + "有票")
+
+        if myflag.get_flag_occupied() == True:
+            logger.info("其他刷票分支已占票, 当前刷票分支退出.")
+            return
+
+        myflag.set_flag_occupied(occupy(sessionid))
+        if myflag.get_flag_occupied() == True:
+            return
+
+def munual_book(sessionid):
     logger.info("进入命令行, 进行手动订票...")
-    while True :
-        cmd = input("> ")
-        if cmd == "exit" :
-            msvcrt.getch()
+    while True:
+        cmd = input("\n> ")
+
+        if cmd.strip('') == '' :
+            continue
+
+        if cmd == "exit":
             exit(0)
 
-        ret, msg = invoke(sessionid, cmd)
-        if ret != True:
-            logger.info('订票失败')
-            return False
+        ret, msg = execute_instruction(sessionid, cmd)
+        if ret == False:
+            logger.info(msg)
+            continue
 
         result = msg["text"]
+        print()
         print(result)
-        if cmd == "ER" :
-            name = result.split('\n')[1].strip().strip('/')
-            save(name, result)
+        print(flush=True)
+
+
+        if 'UNABLE - DUPLICATE SEGMENT' in result:
+            logger.info('前期占票命令已经执行...')
+            continue
+
+        if 'INVALID NAME - DUPLICATE ITEM' in result:
+            logger.info('前期客户姓名命令已经执行...')
+            continue
+
+        if 'SINGLE ITEM FIELD' in result and "R.PEI" in result:
+            logger.info('前期R.PEI命令已经执行...')
+            continue
+
+        if 'SINGLE ITEM FIELD' in result and "T.T*" in result:
+            logger.info('前期T.T*命令已经执行...')
+            continue
+
+        if cmd == "ER":
+            if "SELL OPTION HAS EXPIRED - CHECK ITINERARY" in result :
+                continue
+
+            if 'NEED RECEIVED' in result:
+                continue
+
+            if 'MODIFY BOOKING' in result:
+                continue
+
+            name = book_config["user"].strip('N.').replace('/','')
+            id = result.split('\n')[0].split('/')[0]
+            logger.info("存档 : " + name + '-' + id)
+            myfile.save(name + '-' + id, result)
+            logger.info('订票存档成功 !!!')
+
+def auto_book(sessionid):
+    # 客户姓名
+    ret, msg = execute_instruction(sessionid, book_config["user"])
+    if ret == False :
+        logger.info(msg)
+        return False, ''
+
+    if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
+        logger.info('前期客户姓名命令已经执行...')
+
+
+    # 客户联系方式
+    ret, msg = execute_instruction(sessionid, book_config["contact"])
+    if ret == False :
+        logger.info(msg)
+        return False, ''
+
+    if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
+        logger.info('前期客户电话命令已经执行...')
+
+    # R.PEI
+    ret, msg = execute_instruction(sessionid, "R.PEI")
+    if ret == False:
+        logger.info(msg)
+        return False, ''
+
+    if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
+        logger.info('前期R.PEI命令已经执行...')
+
+    # T.T*
+    ret, msg = execute_instruction(sessionid, "T.T*")
+    if ret == False:
+        logger.info(msg)
+        return False, ''
+
+    if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
+        logger.info('前期T.T*命令已经执行...')
+
+    # ER
+    ret, msg = execute_instruction(sessionid, "ER")
+    if ret == False:
+        logger.info(msg)
+        return False, ''
+
+    if 'SELL OPTION HAS EXPIRED - CHECK ITINERARY' in msg["text"]:
+        return False, 'SELL OPTION HAS EXPIRED - CHECK ITINERARY'
+
+    name = book_config["user"].strip('N.').replace('/','')
+    id = msg["text"].split('\n')[0].split('/')[0]
+    logger.info("存档 : " + name + '-' + id)
+    myfile.save(name + '-' + id, msg["text"])
+    logger.info('订票存档成功 !!!')
+
+    execute_instruction(sessionid, "I")
+    execute_instruction(sessionid, "I")
+    execute_instruction(sessionid, "I")
+
+    return True, ''
 
 
 if __name__ == '__main__':
 
-    # 大循环启动线程
-    while True:
-        flagQueryAllFlight = True
-        flagQueryDestFlight = True
-        flagSpace = True
-        flagOccupied = False
+    if limit() == True:
+        exit(0)
 
-        if flagBook == True:
-            logger.info("已出票, 按任意键退出")
-            msvcrt.getch()
-            exit(0)
+    ret, sessionid = login()
+    if ret == False :
+        exit(0)
 
-        sessionid = login()
+    count = myfile.get_config("config.count.json")["count"]
 
-        with open("config.count.json", 'r') as thefile:
-            count = json.load(thefile)["count"]
+    session_list = []
+    for i in range(count):
+        session_list.append(sessionid)
 
-        session_list = []
-        for i in range(count):
-            session_list.append(sessionid)
+    pool = threadpool.ThreadPool(count)
+    reqs = threadpool.makeRequests(query, session_list)
+    for req in reqs:
+        pool.putRequest(req)
+        time.sleep(1 / count)
+    pool.wait()
 
-        pool = threadpool.ThreadPool(count)
-        reqs = threadpool.makeRequests(query, session_list)
-        for req in reqs:
-            pool.putRequest(req)
-            time.sleep(1 / count)
-        pool.wait()
+    if myflag.get_flag_space() == False:
+        exit(0)
 
-        if flagOccupied == True :
-            command(sessionid)
-            msvcrt.getch()
-            exit(0)
+    if book_config["manual"] == True:
+        munual_book(sessionid)
+        exit(0)
 
-        if flagSpace == False:
-            msvcrt.getch()
-            exit(0)
+    ret, msg = auto_book(sessionid)
+    if ret == False:
+        if msg == '' :
+            logger.info("请检查订票配置文件 [ config.book.json ] ...")
+        else :
+            logger.info(msg)
 
-        if limit() == True :
-            msvcrt.getch()
-            exit(0)
+
+
+
+
