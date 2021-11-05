@@ -15,7 +15,16 @@ APPLES12
 通道任选一个就行.
 
 
-
+N KL1223 J 05NOV AMSCDG NN1
+----------------
+N 固定指令
+KL1223  航班号
+J  仓位
+05NOV  日期
+AMSCDG  城市对：AMS阿姆斯特丹-CDG巴黎 这部分代码是机场三字码
+NN1  数量1
+NN2  数量2
+NN固定，数字不固定
 
 
 A1NOVFRAPVG*LH
