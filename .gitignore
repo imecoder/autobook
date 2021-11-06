@@ -7,3 +7,4 @@ log*
 dist
 *.zip
 *.spec
+*.7z

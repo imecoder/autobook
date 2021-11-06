@@ -240,9 +240,6 @@ def occupy(sessionid):
 
                                 # LL HL
                                 logger.warning('占票失败')
-                                execute_instruction(sessionid, 'I')
-                                execute_instruction(sessionid, 'I')
-                                execute_instruction(sessionid, 'I')
                                 break
 
                             break
@@ -372,13 +369,13 @@ if __name__ == '__main__':
 
     branch_size = base_config["branch_size"]
 
+    ret, sessionid = login()
+    if ret == False:
+        exit(0)
+
     for config in book_config :
 
         if limit() == True:
-            exit(0)
-
-        ret, sessionid = login()
-        if ret == False :
             exit(0)
 
         session_list = []
