@@ -15,7 +15,7 @@ ret, base_config = myfile.get_config("config.base.json")
 if ret == False :
     exit(0)
 
-ret, book_config = myfile.get_config("config.book.json")
+ret, book_config_list = myfile.get_config("config.book.json")
 if ret == False :
     exit(0)
 
@@ -87,7 +87,9 @@ def execute_instruction(sessionid, arg):
     return True, msg
 
 # 占票
-def occupy(sessionid):
+def occupy(book_list):
+    sessionid = book_list["sessionid"]
+    book_config = book_list["config"]
     while True:
         # logger.warning(sessionid)
 
@@ -373,17 +375,21 @@ if __name__ == '__main__':
     if ret == False:
         exit(0)
 
-    for config in book_config :
+    execute_instruction(sessionid, 'I')
+    execute_instruction(sessionid, 'I')
+    execute_instruction(sessionid, 'I')
+
+    for book_config in book_config_list :
 
         if limit() == True:
             exit(0)
 
-        session_list = []
+        book_list = []
         for i in range(branch_size):
-            session_list.append(sessionid)
+            book_list.append({"sessionid" : sessionid, "config" : book_config })
 
         pool = threadpool.ThreadPool(branch_size)
-        reqs = threadpool.makeRequests(occupy, session_list)
+        reqs = threadpool.makeRequests(occupy, book_list)
         for req in reqs:
             pool.putRequest(req)
             time.sleep(1 / branch_size)
