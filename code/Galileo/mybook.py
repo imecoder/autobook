@@ -156,7 +156,7 @@ def query(sessionid):
                     if attrlist[i]["extended"]["bic"] == spacetype :
                         space_location = i
                         status = attrlist[space_location]["extended"]["status"]
-                        if (status >= "1" and status <= "9"):
+                        if status >= "1" and status <= "9":
                             flagHasTicket = True
 
                         break
