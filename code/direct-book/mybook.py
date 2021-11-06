@@ -176,28 +176,35 @@ def occupy(book_list):
                                 logger.warning('占票失败')
                                 break
 
+                            if 'text' not in msg:
+                                logger.warning('占票失败')
+                                break
+
+                            if 'HL' in msg["text"] or \
+                                    'LL' in msg["text"] :
+                                logger.warning('占票失败')
+                                execute_instruction(sessionid, 'I')
+                                execute_instruction(sessionid, 'I')
+                                execute_instruction(sessionid, 'I')
+                                break
+
+                            if 'HS' not in msg["text"] :
+                                logger.warning('占票失败')
+                                break
+
                             # HS
-                            if 'text' in msg :
-                                if 'HS' in msg["text"]:
-                                    logger.warning('占票成功')
-                                    myflag.set_flag_occupied(True)
+                            logger.warning('占票成功')
+                            myflag.set_flag_occupied(True)
 
-                                    ret, msg = auto_book(sessionid)
-                                    if ret == False:
-                                        if msg == '':
-                                            logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-                                            return
+                            ret, msg = auto_book(sessionid)
+                            if ret == True:
+                                return
 
-                                        logger.warning('\n\n' + msg)
-                                        break
+                            if msg == '':
+                                logger.warning("请检查订票配置文件 [ config.book.json ] ...")
+                                return
 
-                                    return
-
-                            # LL HL
-                            logger.warning('占票失败')
-                            execute_instruction(sessionid, 'I')
-                            execute_instruction(sessionid, 'I')
-                            execute_instruction(sessionid, 'I')
+                            logger.warning('\n\n' + msg)
                             break
 
 
@@ -224,25 +231,32 @@ def occupy(book_list):
                                     continue
 
                                 # HS
-                                if 'text' in msg :
-                                    if 'HS' in msg["text"]:
-                                        logger.warning('占票成功')
-                                        myflag.set_flag_occupied(True)
+                                if 'text' not in msg :
+                                    logger.warning('占票失败')
+                                    break
 
-                                        ret, msg = auto_book(sessionid)
-                                        if ret == False:
-                                            if msg == '':
-                                                logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-                                                return
+                                if '*0 AVAIL/WL CLOSED*' in msg["text"] :
+                                    logger.warning('票面关闭中')
+                                    continue
 
-                                            logger.warning('\n\n' + msg)
-                                            break
+                                if 'HL' in msg["text"] or \
+                                        'LL' in msg["text"] :
+                                    break
 
+                                if 'HS' in msg["text"]:
+                                    logger.warning('占票成功')
+                                    myflag.set_flag_occupied(True)
+
+                                    ret, msg = auto_book(sessionid)
+                                    if ret == True:
                                         return
 
-                                # LL HL
-                                logger.warning('占票失败')
-                                break
+                                    if msg == '':
+                                        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
+                                        return
+
+                                    logger.warning('\n\n' + msg)
+                                    break
 
                             break
 
