@@ -1,20 +1,10 @@
 [
     {
-        "date": "11NOV",
+        "date": "08NOV",
         "from": "FRA",
-        "to": "LON",
+        "to": "PVG",
         "comp": "LH",
-        "flight": "900",
-        "space": "Y",
-        "user": "N.LUO/JUAN",
-        "contact": "P.LOST08039943766"
-    },
-    {
-        "date": "11NOV",
-        "from": "FRA",
-        "to": "LON",
-        "comp": "LH",
-        "flight": "900",
+        "flight": "728",
         "space": "Y",
         "user": "N.LUO/JUAN",
         "contact": "P.LOST08039943766"

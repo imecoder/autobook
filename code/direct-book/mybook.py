@@ -59,9 +59,24 @@ def dofilter(js) :
     if "enablePageDown" in js :
         del js["enablePageDown"]
 
-    # msg = js["message"]
-    # if "masks" in msg:
-    #     del msg["masks"]
+    if "masks" in js["message"]:
+        if 'special' in js["message"]["masks"] :
+            if 'ctlChr' in js["message"]["masks"]['special']:
+                del js["message"]["masks"]['special']['ctlChr']
+            if 'escChr' in js["message"]["masks"]['special']:
+                del js["message"]["masks"]['special']['escChr']
+
+        if 'links' in js["message"]["masks"]:
+            if 'ctlChr' in js["message"]["masks"]['links']:
+                del js["message"]["masks"]['links']['ctlChr']
+            if 'escChr' in js["message"]["masks"]['links']:
+                del js["message"]["masks"]['links']['escChr']
+
+        if 'inputs' in js["message"]["masks"]:
+            if 'ctlChr' in js["message"]["masks"]['inputs']:
+                del js["message"]["masks"]['inputs']['ctlChr']
+            if 'escChr' in js["message"]["masks"]['inputs']:
+                del js["message"]["masks"]['inputs']['escChr']
 
     logger.info(js)
     return js
@@ -102,16 +117,29 @@ def occupy(book_list):
 
         if int(book_config["date"][:2]) < int(time.strftime("%d", time.localtime())):
             logger.warning("请确认 [ config.book.json ] 中的日期 ...")
-            exit(0)
+            return
+
+        execute_instruction(sessionid, 'I')
+        execute_instruction(sessionid, 'I')
+        execute_instruction(sessionid, 'I')
 
         # 查航线
-        scan_cmd = 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '*' + book_config["comp"];
+        scan_cmd = 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"];
         ret, msg = execute_instruction(sessionid, scan_cmd)
         if ret == False:
             continue
 
-        if 'text' in msg and 'DEPARTED' in msg["text"] :
+        if 'text' not in msg:
+            logger.warning('刷票失败')
+            return
+
+        if 'DEPARTED' in msg["text"] :
             logger.warning("请确认是否航班已经过期 ...")
+            return
+
+        if 'SYSTEM ERROR' in msg["text"]:
+            logger.warning('掉线重新登录')
+            myflag.set_flag_relogin(True)
             return
 
         attrlist = msg["masks"]["special"]["attrList"]
@@ -196,6 +224,9 @@ def occupy(book_list):
                             logger.warning('占票成功')
                             myflag.set_flag_occupied(True)
 
+                            if base_config["manual"] == True:
+                                return
+
                             ret, msg = auto_book(sessionid)
                             if ret == True:
                                 return
@@ -208,7 +239,7 @@ def occupy(book_list):
                             break
 
 
-                        # 不可候补状态，执行快速预订
+                        # 候补关闭，执行快速预订
                         elif status == 'C' :
                             # logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 不可候补，执行快速预订 : " + attrlist[space_location]["text"])
                             logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 不可候补, 执行快速预订")
@@ -230,22 +261,35 @@ def occupy(book_list):
                                     logger.warning('占票失败')
                                     continue
 
-                                # HS
                                 if 'text' not in msg :
                                     logger.warning('占票失败')
                                     break
+
+                                if 'SYSTEM ERROR' in msg["text"] :
+                                    logger.warning('掉线重新登录')
+                                    myflag.set_flag_relogin(True)
+                                    return
 
                                 if '*0 AVAIL/WL CLOSED*' in msg["text"] :
                                     logger.warning('票面关闭中')
                                     continue
 
+                                if '*SELL RESTRICTED*' in msg["text"]:
+                                    logger.warning('票面禁止销售')
+                                    continue
+
                                 if 'HL' in msg["text"] or \
                                         'LL' in msg["text"] :
+                                    logger.warning(msg['text'])
                                     break
 
+                                # HS
                                 if 'HS' in msg["text"]:
                                     logger.warning('占票成功')
                                     myflag.set_flag_occupied(True)
+
+                                    if base_config["manual"] == True:
+                                        return
 
                                     ret, msg = auto_book(sessionid)
                                     if ret == True:
@@ -274,6 +318,9 @@ def munual_book(sessionid):
 
         if cmd.strip('') == '' :
             continue
+
+        if cmd == "loop":
+            break
 
         if cmd == "exit":
             exit(0)
@@ -320,6 +367,8 @@ def munual_book(sessionid):
             logger.warning("存档 : " + name + '-' + id)
             myfile.save(name + '-' + id, text)
             logger.warning('订票存档成功 !!!')
+
+    return True
 
 def auto_book(sessionid):
     # 客户姓名
@@ -385,33 +434,38 @@ if __name__ == '__main__':
 
     branch_size = base_config["branch_size"]
 
-    ret, sessionid = login()
-    if ret == False:
-        exit(0)
-
-    execute_instruction(sessionid, 'I')
-    execute_instruction(sessionid, 'I')
-    execute_instruction(sessionid, 'I')
-
     for book_config in book_config_list :
 
-        if limit() == True:
-            exit(0)
+        while True :
+            if limit() == True:
+                exit(0)
 
-        book_list = []
-        for i in range(branch_size):
-            book_list.append({"sessionid" : sessionid, "config" : book_config })
+            myflag.set_flag_relogin(False)
+            myflag.set_flag_occupied(False)
 
-        pool = threadpool.ThreadPool(branch_size)
-        reqs = threadpool.makeRequests(occupy, book_list)
-        for req in reqs:
-            pool.putRequest(req)
-            time.sleep(1 / branch_size)
-        pool.wait()
+            ret, sessionid = login()
+            if ret == False:
+                exit(0)
 
-        if myflag.get_flag_occupied() == False:
-            exit(0)
+            book_list = []
+            for i in range(branch_size):
+                book_list.append({"sessionid" : sessionid, "config" : book_config })
 
-        if base_config["manual"] == True:
-            munual_book(sessionid)
-            exit(0)
+            pool = threadpool.ThreadPool(branch_size)
+            reqs = threadpool.makeRequests(occupy, book_list)
+            for req in reqs:
+                pool.putRequest(req)
+                time.sleep(1 / branch_size)
+            pool.wait()
+
+            if myflag.get_flag_relogin() == True:
+                continue
+
+            if myflag.get_flag_occupied() == False:
+                break
+
+            if base_config["manual"] == True:
+                if munual_book(sessionid) == True :
+                    break
+
+                exit(0)
