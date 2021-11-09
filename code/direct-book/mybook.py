@@ -7,6 +7,7 @@ import threadpool
 from mylog import *
 import myflag
 import myfile
+import json
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
@@ -21,85 +22,52 @@ if ret == False :
 
 
 def limit():
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-8 00:00', '%Y-%m-%d %H:%M'):
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-12 00:00', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
     return False
+
+def netaccess(js, key) :
+    try:
+        response = requests.post(book_url, json=js, timeout=100)
+        logger.info(response.text)
+    except requests.exceptions.ReadTimeout as e:
+        logger.warning('网络错误 : ' + str(e))
+        return False, {}
+
+    try:
+        thejson = response.json()
+    except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        logger.warning('-------------------------------\n' + response.text)
+        return False, {}
+
+    msg = thejson[key]
+    if thejson["success"] == False:
+        return False, msg
+
+    return True
 
 # 登录
 def login():
     ret, config = myfile.get_config("config.login.json")
     if ret == False :
-        return False, {}
+        logger.warning('请确认登录配置文件 [ config.login.json ] 是否存在 ...')
+        exit(0)
 
     while True :
-        try:
-            response = requests.post(login_url, json=config, timeout=10)
-        except :
-            # logger.warning('登录超时，重新登录 ...')
-            continue
+        ret, sessionid = netaccess(config, "sessionid")
+        if ret == False :
+            logger.warning('登录失败, 请检查登录配置文件 [ config.login.json ] ...')
+            exit(0)
 
-        break
-
-    resjson = response.json()
-    if resjson["success"] == True:
         logger.warning('登录成功')
-        return True, resjson['sessionId']
-    else:
-        logger.warning('登录失败, 请检查登录配置文件 [ config.login.json ] ...')
-        return False, ''
-
-def dofilter(js) :
-    if "addOns" in js :
-        del js["aaa"]
-
-    if "syncData" in js :
-        del js["syncData"]
-
-    if "enablePageDown" in js :
-        del js["enablePageDown"]
-
-    if "masks" in js["message"]:
-        if 'special' in js["message"]["masks"] :
-            if 'ctlChr' in js["message"]["masks"]['special']:
-                del js["message"]["masks"]['special']['ctlChr']
-            if 'escChr' in js["message"]["masks"]['special']:
-                del js["message"]["masks"]['special']['escChr']
-
-        if 'links' in js["message"]["masks"]:
-            if 'ctlChr' in js["message"]["masks"]['links']:
-                del js["message"]["masks"]['links']['ctlChr']
-            if 'escChr' in js["message"]["masks"]['links']:
-                del js["message"]["masks"]['links']['escChr']
-
-        if 'inputs' in js["message"]["masks"]:
-            if 'ctlChr' in js["message"]["masks"]['inputs']:
-                del js["message"]["masks"]['inputs']['ctlChr']
-            if 'escChr' in js["message"]["masks"]['inputs']:
-                del js["message"]["masks"]['inputs']['escChr']
-
-    logger.info(js)
-    return js
+        return sessionid
 
 def execute_instruction(sessionid, arg):
     logger.warning("命令 = " + arg)
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
-    try :
-        response = requests.post(book_url, json=cmd, timeout=10)
-    except :
-        logger.warning('指令执行请求超时 ...')
-        return False, {}
-
-    simple = dofilter(response.json())
-    msg = simple["message"]
-    if simple["success"] == False:
-        return False, msg
-
-    # msg = response.json()["message"]
-    # if response.json()["success"] == False:
-    #     return False, msg
-
-    return True, msg
+    return netaccess(cmd, "message")
 
 # 占票
 def occupy(book_list):
@@ -137,7 +105,8 @@ def occupy(book_list):
             logger.warning("请确认是否航班已经过期 ...")
             return
 
-        if 'SYSTEM ERROR' in msg["text"]:
+        if 'SYSTEM ERROR' in msg["text"] \
+                or 'Session does not exist' in msg["text"]:
             logger.warning('掉线重新登录')
             myflag.set_flag_relogin(True)
             return
@@ -265,7 +234,8 @@ def occupy(book_list):
                                     logger.warning('占票失败')
                                     break
 
-                                if 'SYSTEM ERROR' in msg["text"] :
+                                if 'SYSTEM ERROR' in msg["text"] \
+                                        or 'Session does not exist' in msg["text"]:
                                     logger.warning('掉线重新登录')
                                     myflag.set_flag_relogin(True)
                                     return
@@ -443,9 +413,7 @@ if __name__ == '__main__':
             myflag.set_flag_relogin(False)
             myflag.set_flag_occupied(False)
 
-            ret, sessionid = login()
-            if ret == False:
-                exit(0)
+            sessionid = login()
 
             book_list = []
             for i in range(branch_size):
