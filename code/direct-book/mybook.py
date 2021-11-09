@@ -27,9 +27,9 @@ def limit():
         return True
     return False
 
-def netaccess(js, key) :
+def netaccess(url, js, key) :
     try:
-        response = requests.post(book_url, json=js, timeout=100)
+        response = requests.post(url, json=js, timeout=100)
         logger.info(response.text)
     except requests.exceptions.ReadTimeout as e:
         logger.warning('网络错误 : ' + str(e))
@@ -42,11 +42,13 @@ def netaccess(js, key) :
         logger.warning('-------------------------------\n' + response.text)
         return False, {}
 
-    msg = thejson[key]
     if thejson["success"] == False:
-        return False, msg
+        return False, {}
 
-    return True
+    if key not in thejson :
+        return False, {}
+
+    return True, thejson[key]
 
 # 登录
 def login():
@@ -56,7 +58,7 @@ def login():
         exit(0)
 
     while True :
-        ret, sessionid = netaccess(config, "sessionid")
+        ret, sessionid = netaccess(login_url, config, "sessionId")
         if ret == False :
             logger.warning('登录失败, 请检查登录配置文件 [ config.login.json ] ...')
             exit(0)
@@ -67,7 +69,7 @@ def login():
 def execute_instruction(sessionid, arg):
     logger.warning("命令 = " + arg)
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
-    return netaccess(cmd, "message")
+    return netaccess(book_url, cmd, "message")
 
 # 占票
 def occupy(book_list):
