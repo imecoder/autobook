@@ -53,7 +53,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="mode">
+        <widget class="QComboBox" name="comboBoxMode">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -117,7 +117,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="manual">
+        <widget class="QComboBox" name="comboBoxManual">
          <property name="minimumSize">
           <size>
            <width>80</width>
@@ -181,7 +181,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="branch_size">
+        <widget class="QLineEdit" name="lineEditBranchSize">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -283,7 +283,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_20">
+              <widget class="QLineEdit" name="lineEditDate">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -364,7 +364,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_24">
+              <widget class="QLineEdit" name="lineEditFrom">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -445,7 +445,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_25">
+              <widget class="QLineEdit" name="lineEditTo">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -526,7 +526,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_26">
+              <widget class="QLineEdit" name="lineEditComp">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -607,7 +607,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_27">
+              <widget class="QLineEdit" name="lineEditFlight">
                <property name="minimumSize">
                 <size>
                  <width>60</width>
@@ -688,7 +688,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_29">
+              <widget class="QLineEdit" name="lineEditUser">
                <property name="minimumSize">
                 <size>
                  <width>120</width>
@@ -769,7 +769,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_28">
+              <widget class="QLineEdit" name="lineEditContact">
                <property name="minimumSize">
                 <size>
                  <width>120</width>
@@ -840,7 +840,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="pushButtonBookAdd">
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -872,7 +872,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_9">
+           <widget class="QPushButton" name="pushButtonBookModify">
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -904,7 +904,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_10">
+           <widget class="QPushButton" name="pushButtonBookDelete">
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -960,16 +960,104 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="font">
-       <font>
-        <family>Agency FB</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>保存</string>
-      </property>
+     <widget class="QWidget" name="widget_4" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <spacer name="horizontalSpacer_19">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonRead">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>读取</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_20">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonSave">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>保存</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_21">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
