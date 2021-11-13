@@ -1,5 +1,5 @@
 {
-    "branch_size" : 1,
-    "mode" : 0,
-    "manual" : false
+    "branch_size" : 2,
+    "mode" : 1,
+    "manual" : true
 }

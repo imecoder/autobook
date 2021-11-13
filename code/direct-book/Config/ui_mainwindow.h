@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.2.1
+** Created by: Qt User Interface Compiler version 5.12.10
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -20,7 +20,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QTableView>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -34,13 +34,13 @@ public:
     QGroupBox *groupBox;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
-    QComboBox *mode;
+    QComboBox *comboBoxMode;
     QSpacerItem *horizontalSpacer;
     QLabel *label_2;
-    QComboBox *manual;
+    QComboBox *comboBoxManual;
     QSpacerItem *horizontalSpacer_2;
     QLabel *label_3;
-    QLineEdit *branch_size;
+    QLineEdit *lineEditBranchSize;
     QSpacerItem *horizontalSpacer_3;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_2;
@@ -49,50 +49,61 @@ public:
     QWidget *widget_2;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_20;
-    QLineEdit *lineEdit_20;
+    QLineEdit *lineEditDate;
     QSpacerItem *horizontalSpacer_8;
     QWidget *widget_3;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_24;
-    QLineEdit *lineEdit_24;
+    QLineEdit *lineEditFrom;
     QSpacerItem *horizontalSpacer_10;
     QWidget *widget_6;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label_25;
-    QLineEdit *lineEdit_25;
+    QLineEdit *lineEditTo;
     QSpacerItem *horizontalSpacer_11;
     QWidget *widget_7;
     QHBoxLayout *horizontalLayout_11;
     QLabel *label_26;
-    QLineEdit *lineEdit_26;
+    QLineEdit *lineEditComp;
     QSpacerItem *horizontalSpacer_13;
     QWidget *widget_8;
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_27;
-    QLineEdit *lineEdit_27;
+    QLineEdit *lineEditFlight;
+    QSpacerItem *horizontalSpacer_22;
+    QWidget *widget_11;
+    QHBoxLayout *horizontalLayout_13;
+    QLabel *label_30;
+    QLineEdit *lineEditSpace;
     QSpacerItem *horizontalSpacer_12;
     QWidget *widget_10;
     QHBoxLayout *horizontalLayout_15;
     QLabel *label_29;
-    QLineEdit *lineEdit_29;
+    QLineEdit *lineEditUser;
     QSpacerItem *horizontalSpacer_18;
     QWidget *widget_9;
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_28;
-    QLineEdit *lineEdit_28;
+    QLineEdit *lineEditContact;
     QWidget *widget;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_14;
-    QPushButton *pushButton_8;
+    QPushButton *pushButtonBookAdd;
     QSpacerItem *horizontalSpacer_15;
-    QPushButton *pushButton_9;
+    QPushButton *pushButtonBookModify;
     QSpacerItem *horizontalSpacer_16;
-    QPushButton *pushButton_10;
+    QPushButton *pushButtonBookDelete;
     QSpacerItem *horizontalSpacer_17;
     QGroupBox *groupBox_9;
     QVBoxLayout *verticalLayout_3;
-    QTableView *tableView;
-    QPushButton *pushButton_4;
+    QTableWidget *tableWidgetBookList;
+    QWidget *widget_4;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_19;
+    QPushButton *pushButtonRead;
+    QSpacerItem *horizontalSpacer_20;
+    QPushButton *pushButtonSave;
+    QSpacerItem *horizontalSpacer_21;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -111,7 +122,7 @@ public:
         sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
         groupBox->setSizePolicy(sizePolicy);
         QFont font;
-        font.setFamilies({QString::fromUtf8("Agency FB")});
+        font.setFamily(QString::fromUtf8("Agency FB"));
         font.setPointSize(10);
         groupBox->setFont(font);
         horizontalLayout = new QHBoxLayout(groupBox);
@@ -123,14 +134,14 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        mode = new QComboBox(groupBox);
-        mode->addItem(QString());
-        mode->addItem(QString());
-        mode->setObjectName(QString::fromUtf8("mode"));
-        mode->setMinimumSize(QSize(200, 30));
-        mode->setFont(font);
+        comboBoxMode = new QComboBox(groupBox);
+        comboBoxMode->addItem(QString());
+        comboBoxMode->addItem(QString());
+        comboBoxMode->setObjectName(QString::fromUtf8("comboBoxMode"));
+        comboBoxMode->setMinimumSize(QSize(200, 30));
+        comboBoxMode->setFont(font);
 
-        horizontalLayout->addWidget(mode);
+        horizontalLayout->addWidget(comboBoxMode);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -143,14 +154,14 @@ public:
 
         horizontalLayout->addWidget(label_2);
 
-        manual = new QComboBox(groupBox);
-        manual->addItem(QString());
-        manual->addItem(QString());
-        manual->setObjectName(QString::fromUtf8("manual"));
-        manual->setMinimumSize(QSize(80, 30));
-        manual->setFont(font);
+        comboBoxManual = new QComboBox(groupBox);
+        comboBoxManual->addItem(QString());
+        comboBoxManual->addItem(QString());
+        comboBoxManual->setObjectName(QString::fromUtf8("comboBoxManual"));
+        comboBoxManual->setMinimumSize(QSize(80, 30));
+        comboBoxManual->setFont(font);
 
-        horizontalLayout->addWidget(manual);
+        horizontalLayout->addWidget(comboBoxManual);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -163,12 +174,12 @@ public:
 
         horizontalLayout->addWidget(label_3);
 
-        branch_size = new QLineEdit(groupBox);
-        branch_size->setObjectName(QString::fromUtf8("branch_size"));
-        branch_size->setMinimumSize(QSize(100, 30));
-        branch_size->setFont(font);
+        lineEditBranchSize = new QLineEdit(groupBox);
+        lineEditBranchSize->setObjectName(QString::fromUtf8("lineEditBranchSize"));
+        lineEditBranchSize->setMinimumSize(QSize(100, 30));
+        lineEditBranchSize->setFont(font);
 
-        horizontalLayout->addWidget(branch_size);
+        horizontalLayout->addWidget(lineEditBranchSize);
 
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -201,13 +212,13 @@ public:
 
         horizontalLayout_4->addWidget(label_20);
 
-        lineEdit_20 = new QLineEdit(widget_2);
-        lineEdit_20->setObjectName(QString::fromUtf8("lineEdit_20"));
-        lineEdit_20->setMinimumSize(QSize(60, 30));
-        lineEdit_20->setMaximumSize(QSize(80, 16777215));
-        lineEdit_20->setFont(font);
+        lineEditDate = new QLineEdit(widget_2);
+        lineEditDate->setObjectName(QString::fromUtf8("lineEditDate"));
+        lineEditDate->setMinimumSize(QSize(60, 30));
+        lineEditDate->setMaximumSize(QSize(80, 16777215));
+        lineEditDate->setFont(font);
 
-        horizontalLayout_4->addWidget(lineEdit_20);
+        horizontalLayout_4->addWidget(lineEditDate);
 
 
         horizontalLayout_2->addWidget(widget_2);
@@ -229,13 +240,13 @@ public:
 
         horizontalLayout_9->addWidget(label_24);
 
-        lineEdit_24 = new QLineEdit(widget_3);
-        lineEdit_24->setObjectName(QString::fromUtf8("lineEdit_24"));
-        lineEdit_24->setMinimumSize(QSize(60, 30));
-        lineEdit_24->setMaximumSize(QSize(60, 16777215));
-        lineEdit_24->setFont(font);
+        lineEditFrom = new QLineEdit(widget_3);
+        lineEditFrom->setObjectName(QString::fromUtf8("lineEditFrom"));
+        lineEditFrom->setMinimumSize(QSize(60, 30));
+        lineEditFrom->setMaximumSize(QSize(60, 16777215));
+        lineEditFrom->setFont(font);
 
-        horizontalLayout_9->addWidget(lineEdit_24);
+        horizontalLayout_9->addWidget(lineEditFrom);
 
 
         horizontalLayout_2->addWidget(widget_3);
@@ -257,13 +268,13 @@ public:
 
         horizontalLayout_10->addWidget(label_25);
 
-        lineEdit_25 = new QLineEdit(widget_6);
-        lineEdit_25->setObjectName(QString::fromUtf8("lineEdit_25"));
-        lineEdit_25->setMinimumSize(QSize(60, 30));
-        lineEdit_25->setMaximumSize(QSize(60, 16777215));
-        lineEdit_25->setFont(font);
+        lineEditTo = new QLineEdit(widget_6);
+        lineEditTo->setObjectName(QString::fromUtf8("lineEditTo"));
+        lineEditTo->setMinimumSize(QSize(60, 30));
+        lineEditTo->setMaximumSize(QSize(60, 16777215));
+        lineEditTo->setFont(font);
 
-        horizontalLayout_10->addWidget(lineEdit_25);
+        horizontalLayout_10->addWidget(lineEditTo);
 
 
         horizontalLayout_2->addWidget(widget_6);
@@ -285,13 +296,13 @@ public:
 
         horizontalLayout_11->addWidget(label_26);
 
-        lineEdit_26 = new QLineEdit(widget_7);
-        lineEdit_26->setObjectName(QString::fromUtf8("lineEdit_26"));
-        lineEdit_26->setMinimumSize(QSize(60, 30));
-        lineEdit_26->setMaximumSize(QSize(60, 16777215));
-        lineEdit_26->setFont(font);
+        lineEditComp = new QLineEdit(widget_7);
+        lineEditComp->setObjectName(QString::fromUtf8("lineEditComp"));
+        lineEditComp->setMinimumSize(QSize(60, 30));
+        lineEditComp->setMaximumSize(QSize(60, 16777215));
+        lineEditComp->setFont(font);
 
-        horizontalLayout_11->addWidget(lineEdit_26);
+        horizontalLayout_11->addWidget(lineEditComp);
 
 
         horizontalLayout_2->addWidget(widget_7);
@@ -313,16 +324,44 @@ public:
 
         horizontalLayout_12->addWidget(label_27);
 
-        lineEdit_27 = new QLineEdit(widget_8);
-        lineEdit_27->setObjectName(QString::fromUtf8("lineEdit_27"));
-        lineEdit_27->setMinimumSize(QSize(60, 30));
-        lineEdit_27->setMaximumSize(QSize(60, 16777215));
-        lineEdit_27->setFont(font);
+        lineEditFlight = new QLineEdit(widget_8);
+        lineEditFlight->setObjectName(QString::fromUtf8("lineEditFlight"));
+        lineEditFlight->setMinimumSize(QSize(60, 30));
+        lineEditFlight->setMaximumSize(QSize(60, 16777215));
+        lineEditFlight->setFont(font);
 
-        horizontalLayout_12->addWidget(lineEdit_27);
+        horizontalLayout_12->addWidget(lineEditFlight);
 
 
         horizontalLayout_2->addWidget(widget_8);
+
+        horizontalSpacer_22 = new QSpacerItem(22, 27, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_22);
+
+        widget_11 = new QWidget(widget_15);
+        widget_11->setObjectName(QString::fromUtf8("widget_11"));
+        horizontalLayout_13 = new QHBoxLayout(widget_11);
+        horizontalLayout_13->setSpacing(0);
+        horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
+        horizontalLayout_13->setContentsMargins(0, 5, 0, 0);
+        label_30 = new QLabel(widget_11);
+        label_30->setObjectName(QString::fromUtf8("label_30"));
+        label_30->setMinimumSize(QSize(38, 30));
+        label_30->setFont(font);
+
+        horizontalLayout_13->addWidget(label_30);
+
+        lineEditSpace = new QLineEdit(widget_11);
+        lineEditSpace->setObjectName(QString::fromUtf8("lineEditSpace"));
+        lineEditSpace->setMinimumSize(QSize(40, 30));
+        lineEditSpace->setMaximumSize(QSize(40, 16777215));
+        lineEditSpace->setFont(font);
+
+        horizontalLayout_13->addWidget(lineEditSpace);
+
+
+        horizontalLayout_2->addWidget(widget_11);
 
         horizontalSpacer_12 = new QSpacerItem(22, 27, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -341,13 +380,13 @@ public:
 
         horizontalLayout_15->addWidget(label_29);
 
-        lineEdit_29 = new QLineEdit(widget_10);
-        lineEdit_29->setObjectName(QString::fromUtf8("lineEdit_29"));
-        lineEdit_29->setMinimumSize(QSize(120, 30));
-        lineEdit_29->setMaximumSize(QSize(120, 16777215));
-        lineEdit_29->setFont(font);
+        lineEditUser = new QLineEdit(widget_10);
+        lineEditUser->setObjectName(QString::fromUtf8("lineEditUser"));
+        lineEditUser->setMinimumSize(QSize(120, 30));
+        lineEditUser->setMaximumSize(QSize(120, 16777215));
+        lineEditUser->setFont(font);
 
-        horizontalLayout_15->addWidget(lineEdit_29);
+        horizontalLayout_15->addWidget(lineEditUser);
 
 
         horizontalLayout_2->addWidget(widget_10);
@@ -369,13 +408,13 @@ public:
 
         horizontalLayout_14->addWidget(label_28);
 
-        lineEdit_28 = new QLineEdit(widget_9);
-        lineEdit_28->setObjectName(QString::fromUtf8("lineEdit_28"));
-        lineEdit_28->setMinimumSize(QSize(120, 30));
-        lineEdit_28->setMaximumSize(QSize(120, 16777215));
-        lineEdit_28->setFont(font);
+        lineEditContact = new QLineEdit(widget_9);
+        lineEditContact->setObjectName(QString::fromUtf8("lineEditContact"));
+        lineEditContact->setMinimumSize(QSize(120, 30));
+        lineEditContact->setMaximumSize(QSize(120, 16777215));
+        lineEditContact->setFont(font);
 
-        horizontalLayout_14->addWidget(lineEdit_28);
+        horizontalLayout_14->addWidget(lineEditContact);
 
 
         horizontalLayout_2->addWidget(widget_9);
@@ -394,31 +433,31 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer_14);
 
-        pushButton_8 = new QPushButton(widget);
-        pushButton_8->setObjectName(QString::fromUtf8("pushButton_8"));
-        pushButton_8->setMinimumSize(QSize(300, 30));
+        pushButtonBookAdd = new QPushButton(widget);
+        pushButtonBookAdd->setObjectName(QString::fromUtf8("pushButtonBookAdd"));
+        pushButtonBookAdd->setMinimumSize(QSize(300, 30));
 
-        horizontalLayout_3->addWidget(pushButton_8);
+        horizontalLayout_3->addWidget(pushButtonBookAdd);
 
         horizontalSpacer_15 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_15);
 
-        pushButton_9 = new QPushButton(widget);
-        pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
-        pushButton_9->setMinimumSize(QSize(300, 30));
+        pushButtonBookModify = new QPushButton(widget);
+        pushButtonBookModify->setObjectName(QString::fromUtf8("pushButtonBookModify"));
+        pushButtonBookModify->setMinimumSize(QSize(300, 30));
 
-        horizontalLayout_3->addWidget(pushButton_9);
+        horizontalLayout_3->addWidget(pushButtonBookModify);
 
         horizontalSpacer_16 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_16);
 
-        pushButton_10 = new QPushButton(widget);
-        pushButton_10->setObjectName(QString::fromUtf8("pushButton_10"));
-        pushButton_10->setMinimumSize(QSize(300, 30));
+        pushButtonBookDelete = new QPushButton(widget);
+        pushButtonBookDelete->setObjectName(QString::fromUtf8("pushButtonBookDelete"));
+        pushButtonBookDelete->setMinimumSize(QSize(300, 30));
 
-        horizontalLayout_3->addWidget(pushButton_10);
+        horizontalLayout_3->addWidget(pushButtonBookDelete);
 
         horizontalSpacer_17 = new QSpacerItem(52, 27, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -435,19 +474,64 @@ public:
         groupBox_9->setFont(font);
         verticalLayout_3 = new QVBoxLayout(groupBox_9);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        tableView = new QTableView(groupBox_9);
-        tableView->setObjectName(QString::fromUtf8("tableView"));
+        tableWidgetBookList = new QTableWidget(groupBox_9);
+        if (tableWidgetBookList->columnCount() < 8)
+            tableWidgetBookList->setColumnCount(8);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(5, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(6, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        tableWidgetBookList->setHorizontalHeaderItem(7, __qtablewidgetitem7);
+        tableWidgetBookList->setObjectName(QString::fromUtf8("tableWidgetBookList"));
 
-        verticalLayout_3->addWidget(tableView);
+        verticalLayout_3->addWidget(tableWidgetBookList);
 
 
         verticalLayout->addWidget(groupBox_9);
 
-        pushButton_4 = new QPushButton(centralwidget);
-        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setFont(font);
+        widget_4 = new QWidget(centralwidget);
+        widget_4->setObjectName(QString::fromUtf8("widget_4"));
+        horizontalLayout_5 = new QHBoxLayout(widget_4);
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalSpacer_19 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        verticalLayout->addWidget(pushButton_4);
+        horizontalLayout_5->addItem(horizontalSpacer_19);
+
+        pushButtonRead = new QPushButton(widget_4);
+        pushButtonRead->setObjectName(QString::fromUtf8("pushButtonRead"));
+        pushButtonRead->setMinimumSize(QSize(200, 0));
+        pushButtonRead->setFont(font);
+
+        horizontalLayout_5->addWidget(pushButtonRead);
+
+        horizontalSpacer_20 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_20);
+
+        pushButtonSave = new QPushButton(widget_4);
+        pushButtonSave->setObjectName(QString::fromUtf8("pushButtonSave"));
+        pushButtonSave->setMinimumSize(QSize(200, 0));
+        pushButtonSave->setFont(font);
+
+        horizontalLayout_5->addWidget(pushButtonSave);
+
+        horizontalSpacer_21 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_21);
+
+
+        verticalLayout->addWidget(widget_4);
 
         MainWindow->setCentralWidget(centralwidget);
 
@@ -458,30 +542,48 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("MainWindow", "\345\237\272\346\234\254\351\205\215\347\275\256", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "\346\250\241\345\274\217", nullptr));
-        mode->setItemText(0, QCoreApplication::translate("MainWindow", "1. \345\210\267\347\245\250+\345\215\240\347\245\250+\345\277\253\351\200\237\351\242\204\345\256\232", nullptr));
-        mode->setItemText(1, QCoreApplication::translate("MainWindow", "2. \345\210\267\347\245\250+\345\215\240\347\245\250", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        groupBox->setTitle(QApplication::translate("MainWindow", "\345\237\272\346\234\254\351\205\215\347\275\256", nullptr));
+        label->setText(QApplication::translate("MainWindow", "\346\250\241\345\274\217", nullptr));
+        comboBoxMode->setItemText(0, QApplication::translate("MainWindow", "1. \345\210\267\347\245\250+\345\215\240\347\245\250+\345\277\253\351\200\237\351\242\204\345\256\232", nullptr));
+        comboBoxMode->setItemText(1, QApplication::translate("MainWindow", "2. \345\210\267\347\245\250+\345\215\240\347\245\250", nullptr));
 
-        label_2->setText(QCoreApplication::translate("MainWindow", "\346\211\213/\350\207\252\345\212\250", nullptr));
-        manual->setItemText(0, QCoreApplication::translate("MainWindow", "\350\207\252\345\212\250", nullptr));
-        manual->setItemText(1, QCoreApplication::translate("MainWindow", "\346\211\213\345\212\250", nullptr));
+        label_2->setText(QApplication::translate("MainWindow", "\346\211\213/\350\207\252\345\212\250", nullptr));
+        comboBoxManual->setItemText(0, QApplication::translate("MainWindow", "\350\207\252\345\212\250", nullptr));
+        comboBoxManual->setItemText(1, QApplication::translate("MainWindow", "\346\211\213\345\212\250", nullptr));
 
-        label_3->setText(QCoreApplication::translate("MainWindow", "\345\210\206\346\224\257\346\225\260", nullptr));
-        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256\350\256\242\347\245\250", nullptr));
-        label_20->setText(QCoreApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
-        label_24->setText(QCoreApplication::translate("MainWindow", "\350\265\267\345\247\213", nullptr));
-        label_25->setText(QCoreApplication::translate("MainWindow", "\347\273\210\347\202\271", nullptr));
-        label_26->setText(QCoreApplication::translate("MainWindow", "\350\210\252\345\217\270", nullptr));
-        label_27->setText(QCoreApplication::translate("MainWindow", "\350\210\252\347\217\255", nullptr));
-        label_29->setText(QCoreApplication::translate("MainWindow", "\347\224\250\346\210\267", nullptr));
-        label_28->setText(QCoreApplication::translate("MainWindow", "\350\201\224\347\263\273\346\226\271\345\274\217", nullptr));
-        pushButton_8->setText(QCoreApplication::translate("MainWindow", "\346\267\273\345\212\240", nullptr));
-        pushButton_9->setText(QCoreApplication::translate("MainWindow", "\344\277\256\346\224\271", nullptr));
-        pushButton_10->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244", nullptr));
-        groupBox_9->setTitle(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256\345\210\227\350\241\250", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
+        label_3->setText(QApplication::translate("MainWindow", "\345\210\206\346\224\257\346\225\260", nullptr));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "\351\205\215\347\275\256\350\256\242\347\245\250", nullptr));
+        label_20->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
+        label_24->setText(QApplication::translate("MainWindow", "\350\265\267\345\247\213", nullptr));
+        label_25->setText(QApplication::translate("MainWindow", "\347\273\210\347\202\271", nullptr));
+        label_26->setText(QApplication::translate("MainWindow", "\350\210\252\345\217\270", nullptr));
+        label_27->setText(QApplication::translate("MainWindow", "\350\210\252\347\217\255", nullptr));
+        label_30->setText(QApplication::translate("MainWindow", "\344\273\223\344\275\215", nullptr));
+        label_29->setText(QApplication::translate("MainWindow", "\347\224\250\346\210\267", nullptr));
+        label_28->setText(QApplication::translate("MainWindow", "\350\201\224\347\263\273\346\226\271\345\274\217", nullptr));
+        pushButtonBookAdd->setText(QApplication::translate("MainWindow", "\346\267\273\345\212\240", nullptr));
+        pushButtonBookModify->setText(QApplication::translate("MainWindow", "\344\277\256\346\224\271", nullptr));
+        pushButtonBookDelete->setText(QApplication::translate("MainWindow", "\345\210\240\351\231\244", nullptr));
+        groupBox_9->setTitle(QApplication::translate("MainWindow", "\351\205\215\347\275\256\345\210\227\350\241\250", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableWidgetBookList->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidgetBookList->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\345\210\227", nullptr));
+        QTableWidgetItem *___qtablewidgetitem2 = tableWidgetBookList->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "\347\233\256\347\232\204", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = tableWidgetBookList->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\345\210\227", nullptr));
+        QTableWidgetItem *___qtablewidgetitem4 = tableWidgetBookList->horizontalHeaderItem(4);
+        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "\350\210\252\345\217\270", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = tableWidgetBookList->horizontalHeaderItem(5);
+        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "\350\210\252\347\217\255", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = tableWidgetBookList->horizontalHeaderItem(6);
+        ___qtablewidgetitem6->setText(QApplication::translate("MainWindow", "\344\273\223\344\275\215", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = tableWidgetBookList->horizontalHeaderItem(7);
+        ___qtablewidgetitem7->setText(QApplication::translate("MainWindow", "\350\201\224\347\263\273\346\226\271\345\274\217", nullptr));
+        pushButtonRead->setText(QApplication::translate("MainWindow", "\350\257\273\345\217\226", nullptr));
+        pushButtonSave->setText(QApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
     } // retranslateUi
 
 };

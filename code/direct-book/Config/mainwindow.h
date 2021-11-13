@@ -26,7 +26,17 @@ private slots:
 
     void on_pushButtonBookDelete_clicked();
 
+    void on_tableWidgetBookList_clicked(int row,int column);
+
 private:
     Ui::MainWindow *ui;
+
+
+    void readBase();
+    void readBook();
+    void clearTableWidgetBookList() ;
+    void fillTableWidgetBookList(const string& name="");
+
+
 };
 #endif // MAINWINDOW_H
