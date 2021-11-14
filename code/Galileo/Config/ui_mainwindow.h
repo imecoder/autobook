@@ -122,8 +122,8 @@ public:
         sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
         groupBox->setSizePolicy(sizePolicy);
         QFont font;
-        font.setFamily(QString::fromUtf8("Agency FB"));
-        font.setPointSize(10);
+        font.setFamily(QString::fromUtf8("Microsoft YaHei UI"));
+        font.setPointSize(9);
         groupBox->setFont(font);
         horizontalLayout = new QHBoxLayout(groupBox);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
@@ -196,7 +196,10 @@ public:
         widget_15 = new QWidget(groupBox_2);
         widget_15->setObjectName(QString::fromUtf8("widget_15"));
         widget_15->setMaximumSize(QSize(16777215, 16777215));
-        widget_15->setFont(font);
+        QFont font1;
+        font1.setFamily(QString::fromUtf8("Agency FB"));
+        font1.setPointSize(10);
+        widget_15->setFont(font1);
         horizontalLayout_2 = new QHBoxLayout(widget_15);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         widget_2 = new QWidget(widget_15);
@@ -410,8 +413,8 @@ public:
 
         lineEditContact = new QLineEdit(widget_9);
         lineEditContact->setObjectName(QString::fromUtf8("lineEditContact"));
-        lineEditContact->setMinimumSize(QSize(120, 30));
-        lineEditContact->setMaximumSize(QSize(120, 16777215));
+        lineEditContact->setMinimumSize(QSize(180, 30));
+        lineEditContact->setMaximumSize(QSize(180, 16777215));
         lineEditContact->setFont(font);
 
         horizontalLayout_14->addWidget(lineEditContact);
@@ -436,6 +439,7 @@ public:
         pushButtonBookAdd = new QPushButton(widget);
         pushButtonBookAdd->setObjectName(QString::fromUtf8("pushButtonBookAdd"));
         pushButtonBookAdd->setMinimumSize(QSize(300, 30));
+        pushButtonBookAdd->setFont(font);
 
         horizontalLayout_3->addWidget(pushButtonBookAdd);
 
@@ -446,6 +450,7 @@ public:
         pushButtonBookModify = new QPushButton(widget);
         pushButtonBookModify->setObjectName(QString::fromUtf8("pushButtonBookModify"));
         pushButtonBookModify->setMinimumSize(QSize(300, 30));
+        pushButtonBookModify->setFont(font);
 
         horizontalLayout_3->addWidget(pushButtonBookModify);
 
@@ -456,6 +461,7 @@ public:
         pushButtonBookDelete = new QPushButton(widget);
         pushButtonBookDelete->setObjectName(QString::fromUtf8("pushButtonBookDelete"));
         pushButtonBookDelete->setMinimumSize(QSize(300, 30));
+        pushButtonBookDelete->setFont(font);
 
         horizontalLayout_3->addWidget(pushButtonBookDelete);
 
@@ -477,23 +483,34 @@ public:
         tableWidgetBookList = new QTableWidget(groupBox_9);
         if (tableWidgetBookList->columnCount() < 8)
             tableWidgetBookList->setColumnCount(8);
+        QFont font2;
+        font2.setPointSize(9);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        __qtablewidgetitem->setFont(font2);
         tableWidgetBookList->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        __qtablewidgetitem1->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        __qtablewidgetitem2->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        __qtablewidgetitem3->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        __qtablewidgetitem4->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        __qtablewidgetitem5->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        __qtablewidgetitem6->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(6, __qtablewidgetitem6);
         QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        __qtablewidgetitem7->setFont(font);
         tableWidgetBookList->setHorizontalHeaderItem(7, __qtablewidgetitem7);
         tableWidgetBookList->setObjectName(QString::fromUtf8("tableWidgetBookList"));
+        tableWidgetBookList->setFont(font);
 
         verticalLayout_3->addWidget(tableWidgetBookList);
 
@@ -542,11 +559,11 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\350\207\252\345\212\250\350\256\242\347\245\250\351\205\215\347\275\256", nullptr));
         groupBox->setTitle(QApplication::translate("MainWindow", "\345\237\272\346\234\254\351\205\215\347\275\256", nullptr));
         label->setText(QApplication::translate("MainWindow", "\346\250\241\345\274\217", nullptr));
-        comboBoxMode->setItemText(0, QApplication::translate("MainWindow", "1. \345\210\267\347\245\250+\345\215\240\347\245\250+\345\277\253\351\200\237\351\242\204\345\256\232", nullptr));
-        comboBoxMode->setItemText(1, QApplication::translate("MainWindow", "2. \345\210\267\347\245\250+\345\215\240\347\245\250", nullptr));
+        comboBoxMode->setItemText(0, QApplication::translate("MainWindow", "\345\210\267\347\245\250+\345\215\240\347\245\250", nullptr));
+        comboBoxMode->setItemText(1, QApplication::translate("MainWindow", "\345\210\267\347\245\250+\345\215\240\347\245\250+\345\277\253\351\200\237\351\242\204\345\256\232", nullptr));
 
         label_2->setText(QApplication::translate("MainWindow", "\346\211\213/\350\207\252\345\212\250", nullptr));
         comboBoxManual->setItemText(0, QApplication::translate("MainWindow", "\350\207\252\345\212\250", nullptr));
@@ -569,17 +586,17 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableWidgetBookList->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidgetBookList->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\345\210\227", nullptr));
+        ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "\350\265\267\345\247\213", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tableWidgetBookList->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "\347\233\256\347\232\204", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = tableWidgetBookList->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "\346\226\260\345\273\272\345\210\227", nullptr));
+        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "\350\210\252\345\217\270", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = tableWidgetBookList->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "\350\210\252\345\217\270", nullptr));
+        ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "\350\210\252\347\217\255", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidgetBookList->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "\350\210\252\347\217\255", nullptr));
+        ___qtablewidgetitem5->setText(QApplication::translate("MainWindow", "\344\273\223\344\275\215", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = tableWidgetBookList->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QApplication::translate("MainWindow", "\344\273\223\344\275\215", nullptr));
+        ___qtablewidgetitem6->setText(QApplication::translate("MainWindow", "\347\224\250\346\210\267", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = tableWidgetBookList->horizontalHeaderItem(7);
         ___qtablewidgetitem7->setText(QApplication::translate("MainWindow", "\350\201\224\347\263\273\346\226\271\345\274\217", nullptr));
         pushButtonRead->setText(QApplication::translate("MainWindow", "\350\257\273\345\217\226", nullptr));

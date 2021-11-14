@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,12 +31,20 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
+    QJsonObject jsonBaseConfig;
+    QJsonArray jsonBookConfig;
+    int currentRow;
 
     void readBase();
+    void writeBase();
     void readBook();
-    void clearTableWidgetBookList() ;
-    void fillTableWidgetBookList(const string& name="");
+    void writeBook();
+
+    void fillBaseConfig();
+    void clearBookConfig();
+    void fillBookConfig();
+    void clearTableWidgetBookList();
+    void fillTableWidgetBookList();
 
 
 };

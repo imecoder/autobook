@@ -108,14 +108,10 @@ Makefile: Config.pro C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/win32-g++/qmake.
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bluetooth.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bluetooth_private.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bootstrap_private.pri \
-		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_charts.pri \
-		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_charts_private.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_concurrent.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_concurrent_private.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_core.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_core_private.pri \
-		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_datavisualization.pri \
-		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_datavisualization_private.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_dbus.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_dbus_private.pri \
 		C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_designer.pri \
@@ -288,14 +284,10 @@ C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_axserver_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bluetooth.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bluetooth_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_bootstrap_private.pri:
-C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_charts.pri:
-C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_charts_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_concurrent.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_concurrent_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_core.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_core_private.pri:
-C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_datavisualization.pri:
-C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_datavisualization_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_dbus.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_dbus_private.pri:
 C:/Qt/Qt5.12.10/5.12.10/mingw73_64/mkspecs/modules/qt_lib_designer.pri:

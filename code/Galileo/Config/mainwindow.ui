@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>自动订票配置</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -25,8 +25,8 @@
       </property>
       <property name="font">
        <font>
-        <family>Agency FB</family>
-        <pointsize>10</pointsize>
+        <family>Microsoft YaHei UI</family>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="title">
@@ -43,8 +43,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -62,18 +62,18 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <item>
           <property name="text">
-           <string>1. 刷票+占票+快速预定</string>
+           <string>刷票+占票</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>2. 刷票+占票</string>
+           <string>刷票+占票+快速预定</string>
           </property>
          </item>
         </widget>
@@ -107,8 +107,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -126,8 +126,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <item>
@@ -171,8 +171,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -190,8 +190,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
         </widget>
@@ -222,8 +222,8 @@
      <widget class="QGroupBox" name="groupBox_2">
       <property name="font">
        <font>
-        <family>Agency FB</family>
-        <pointsize>10</pointsize>
+        <family>Microsoft YaHei UI</family>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="title">
@@ -273,8 +273,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -298,8 +298,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -354,8 +354,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -379,8 +379,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -435,8 +435,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -460,8 +460,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -516,8 +516,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -541,8 +541,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -597,8 +597,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -622,8 +622,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -678,8 +678,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -703,8 +703,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -759,8 +759,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -784,8 +784,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -840,8 +840,8 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -853,20 +853,20 @@
               <widget class="QLineEdit" name="lineEditContact">
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>120</width>
+                 <width>180</width>
                  <height>16777215</height>
                 </size>
                </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
               </widget>
@@ -928,6 +928,12 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>添加</string>
             </property>
@@ -960,6 +966,12 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>修改</string>
             </property>
@@ -991,6 +1003,12 @@
               <width>300</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>删除</string>
@@ -1026,8 +1044,8 @@
      <widget class="QGroupBox" name="groupBox_9">
       <property name="font">
        <font>
-        <family>Agency FB</family>
-        <pointsize>10</pointsize>
+        <family>Microsoft YaHei UI</family>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="title">
@@ -1036,44 +1054,97 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QTableWidget" name="tableWidgetBookList">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
          <column>
           <property name="text">
            <string>日期</string>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
          </column>
          <column>
           <property name="text">
-           <string>新建列</string>
+           <string>起始</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
           </property>
          </column>
          <column>
           <property name="text">
            <string>目的</string>
           </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>新建列</string>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
           </property>
          </column>
          <column>
           <property name="text">
            <string>航司</string>
           </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>航班</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
           </property>
          </column>
          <column>
           <property name="text">
            <string>仓位</string>
           </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>用户</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>联系方式</string>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft YaHei UI</family>
+            <pointsize>9</pointsize>
+           </font>
           </property>
          </column>
         </widget>
@@ -1113,8 +1184,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
@@ -1151,8 +1222,8 @@
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>10</pointsize>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>9</pointsize>
           </font>
          </property>
          <property name="text">
