@@ -22,7 +22,9 @@ if ret == False :
 
 
 def limit():
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-12 00:00', '%Y-%m-%d %H:%M'):
+    # 2021-11-20 00:00 此处分发给员工时， 可以自行修改， 修改后编译即可
+    # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-20 00:00', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
     return False
@@ -52,15 +54,19 @@ def netaccess(url, js, key) :
 
 # 登录
 def login():
-    ret, config = myfile.get_config("config.login.json")
-    if ret == False :
-        logger.warning('请确认登录配置文件 [ config.login.json ] 是否存在 ...')
-        exit(0)
+    # 此处分发给员工时， 可以自行修改， 修改后编译即可
+    # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
+    login_config = {
+        "son" : "Z7LJ2/WX",
+        "pcc" : "7LJ2",
+        "pwd": "APPLES12",
+        "gds": "Galileo"
+    }
 
     while True :
-        ret, sessionid = netaccess(login_url, config, "sessionId")
+        ret, sessionid = netaccess(login_url, login_config, "sessionId")
         if ret == False :
-            logger.warning('登录失败, 请检查登录配置文件 [ config.login.json ] ...')
+            logger.warning('登录失败, 请确认您的登录账户信息 ...')
             exit(0)
 
         logger.warning('登录成功')
@@ -88,10 +94,6 @@ def occupy(book_list):
         if int(book_config["date"][:2]) < int(time.strftime("%d", time.localtime())):
             logger.warning("请确认 [ config.book.json ] 中的日期 ...")
             return
-
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
 
         # 查航线
         scan_cmd = 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"];
@@ -414,6 +416,10 @@ if __name__ == '__main__':
 
             myflag.set_flag_relogin(False)
             myflag.set_flag_occupied(False)
+
+            execute_instruction(sessionid, "I")
+            execute_instruction(sessionid, "I")
+            execute_instruction(sessionid, "I")
 
             sessionid = login()
 
