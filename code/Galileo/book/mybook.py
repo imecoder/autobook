@@ -70,6 +70,11 @@ def login():
             exit(0)
 
         logger.warning('登录成功')
+
+        execute_instruction(sessionid, "I")
+        execute_instruction(sessionid, "I")
+        execute_instruction(sessionid, "I")
+
         return sessionid
 
 def execute_instruction(sessionid, arg):
@@ -211,9 +216,11 @@ def occupy(book_list):
                             logger.warning('\n\n' + msg)
                             break
 
+                        if base_config["mode"] == 0:    # 刷票+占票模式
+                            break
 
                         # 候补关闭，执行快速预订
-                        elif status == 'C' :
+                        if status == 'C' :
                             # logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 不可候补，执行快速预订 : " + attrlist[space_location]["text"])
                             logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 不可候补, 执行快速预订")
 
@@ -417,9 +424,6 @@ if __name__ == '__main__':
             myflag.set_flag_relogin(False)
             myflag.set_flag_occupied(False)
 
-            execute_instruction(sessionid, "I")
-            execute_instruction(sessionid, "I")
-            execute_instruction(sessionid, "I")
 
             sessionid = login()
 

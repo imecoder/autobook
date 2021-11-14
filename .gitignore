@@ -9,3 +9,8 @@ dist
 *.zip
 *.spec
 *.7z
+*.tar.gz
+*.qmake*
+*pro.user*
+*Makefile*
+*debug*
