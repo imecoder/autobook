@@ -56,12 +56,9 @@ def netaccess(url, js, key) :
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    login_config = {
-        "son" : "Z7LJ2/WX",
-        "pcc" : "7LJ2",
-        "pwd": "APPLES12",
-        "gds": "Galileo"
-    }
+    login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "APPLES12", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
 
     while True :
         ret, sessionid = netaccess(login_url, login_config, "sessionId")
@@ -96,15 +93,16 @@ def occupy(book_list):
             logger.warning("其他刷票分支已占票, 当前刷票分支退出.")
             return
 
-        if int(book_config["date"][:2]) < int(time.strftime("%d", time.localtime())):
-            logger.warning("请确认 [ config.book.json ] 中的日期 ...")
-            return
-
         # 查航线
         scan_cmd = 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"];
         ret, msg = execute_instruction(sessionid, scan_cmd)
         if ret == False:
-            continue
+            myflag.set_flag_relogin(True)
+            if 'text' not in msg:
+                logger.warning('刷票失败')
+            else:
+                logger.warning('发现错误 : ' + msg["text"])
+            return
 
         if 'text' not in msg:
             logger.warning('刷票失败')
@@ -417,13 +415,14 @@ if __name__ == '__main__':
 
     for book_config in book_config_list :
 
+        logger.warning('\n\n开始订票为 : ' + json.dumps(book_config))
+
         while True :
             if limit() == True:
                 exit(0)
 
             myflag.set_flag_relogin(False)
             myflag.set_flag_occupied(False)
-
 
             sessionid = login()
 
@@ -449,3 +448,7 @@ if __name__ == '__main__':
                     break
 
                 exit(0)
+
+            break
+
+    logger.warning('程序退出 ...\n\n')
