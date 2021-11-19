@@ -24,7 +24,7 @@ if ret == False :
 def limit():
     # 2021-11-20 00:00 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-20 00:00', '%Y-%m-%d %H:%M'):
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-30 00:00', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
     return False
@@ -56,7 +56,7 @@ def netaccess(url, js, key) :
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "APPLES12", "gds": "Galileo"}
+    login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
 
@@ -91,6 +91,10 @@ def occupy(book_list):
 
         if myflag.get_flag_occupied() == True:
             logger.warning("其他刷票分支已占票, 当前刷票分支退出.")
+            return
+
+        if myflag.get_flag_relogin() == True:
+            logger.warning("其他刷票分支出错, 当前刷票分支退出.")
             return
 
         # 查航线

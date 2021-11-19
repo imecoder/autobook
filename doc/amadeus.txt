@@ -4,7 +4,7 @@ https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp?SITE=LOGIN
 ID:        LOSN82312
 密码：     Tut@2020
 
-一次性密码   XJUVY7
+一次性密码   ATVRFY
 
 AN02DECLOSFRA/ALH
 AN固定指令
