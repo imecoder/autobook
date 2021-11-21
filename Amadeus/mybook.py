@@ -10,8 +10,6 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException, JavascriptException
 
 website = 'https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp?SITE=LOGINURL&LANGUAGE=GB'
-# website = 'D://mywork//autobook//Amadeus//test.html'
-
 
 ret, base_config = myfile.get_config("config.base.json")
 if ret == False :
