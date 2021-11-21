@@ -55,7 +55,7 @@ def wait_element(element, string, times) :
             pass
 
         logger.warning(string + ' 加载完成')
-        return
+        return True
 
     for i in range(times) :
         if wait_fun(element, string) == True :
@@ -63,6 +63,7 @@ def wait_element(element, string, times) :
             break
 
     logger.warning(string + ' 未能加载完成')
+    return False
 
 
 def login() :
@@ -82,31 +83,30 @@ def login() :
     browser.find_element_by_xpath(element).clear()
     browser.find_element_by_xpath(element).send_keys('Tut@2020')
 
+def start_cmd_page() :
+    logger.warning('启动命令页面 ...')
 
-def start_cmd_page(size) :
-    logger.warning('启动 ' + str(size) + ' 个命令页面 ...')
-
-    new_cmdpage_element = "//*[@id='etoolbar_toolbarSection_newcommandpagebtn_id']"
+    new_cmdpage_element = '//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]'
     wait_element(new_cmdpage_element, '新命令页按钮', 0)
+    browser.find_element_by_xpath(new_cmdpage_element).click()
 
-    for i in range(size) :
-        time.sleep(1)
-        browser.find_element_by_xpath(new_cmdpage_element).click()
+    cmdpage_element = '//*[@id="etaskmgr_taskBar"]/ul[2]/li[3]'
+    wait_element(cmdpage_element, '命令页 1', 0)
 
-        cmdline_element = "//*[@id='cryptics" + str(i+1) + "_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput']"
-        wait_element(cmdline_element, '命令页'+str(i+1), 0)
+    cmdline_element = '//*[@id="cryptics1_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput"]'
+    wait_element(cmdline_element, '命令行 ', 0)
 
-    logger.warning('全部命令页面加载完成')
-
+    logger.warning('命令页面加载完成')
 
 
-def execute_instruction(page, cmd):
+
+def execute_instruction(cmd):
     try :
-        page_element = '//*[@id="etaskmgr_taskBar"]/ul[2]/li['+ str(page+2) +']'
-        browser.find_element_by_xpath(page_element).click()
-
-        cmdline_element = "//*[@id='cryptics" + str(page) + "_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput']"
-        wait_element(cmdline_element, '命令页'+str(page), 0)
+        # cmdpage_element = '//*[@id="etaskmgr_taskBar"]/ul[2]/li[3]'
+        # browser.find_element_by_xpath(cmdpage_element).click()
+        #
+        cmdline_element = "//*[@id='cryptics1_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput']"
+        # wait_element(cmdline_element, '命令页 1', 0)
         browser.find_element_by_xpath(cmdline_element).send_keys(cmd, Keys.ENTER)
 
     except JavascriptException as e :
@@ -115,21 +115,6 @@ def execute_instruction(page, cmd):
 
 if __name__ == '__main__':
 
-    branch_size = base_config["branch_size"]
-
     login()
-    start_cmd_page(branch_size)
-    execute_instruction(1, "AN02DECLOSFRA/ALH")
-    execute_instruction(2, "AN02DECLOSFRA/ALH")
-    #
-    # book_list = []
-    # for i in range(branch_size):
-    #     book_list.append({"sessionid": sessionid, "config": book_config})
-    #
-    # pool = threadpool.ThreadPool(branch_size)
-    # reqs = threadpool.makeRequests(occupy, book_list)
-    # for req in reqs:
-    #     pool.putRequest(req)
-    #     time.sleep(1 / branch_size)
-    # pool.wait()
-
+    start_cmd_page()
+    execute_instruction("AN02DECLOSFRA/ALH")
