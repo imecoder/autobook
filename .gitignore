@@ -5,7 +5,6 @@ build*
 venv
 test*
 log*
-dist
 *.zip
 *.spec
 *.7z
@@ -14,4 +13,5 @@ dist
 *pro.user*
 *Makefile*
 *debug*
+*release*
 tmp*

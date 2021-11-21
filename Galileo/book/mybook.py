@@ -8,6 +8,7 @@ from mylog import *
 import myflag
 import myfile
 import json
+from tkinter import messagebox
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
@@ -32,7 +33,8 @@ def limit():
 def netaccess(url, js, key) :
     try:
         response = requests.post(url, json=js, timeout=100)
-        logger.info(response.text)
+        if base_config["debug"] :
+            logger.info(response.text)
     except requests.exceptions.ReadTimeout as e:
         logger.warning('网络错误 : ' + str(e))
         return False, {}
@@ -41,7 +43,7 @@ def netaccess(url, js, key) :
         thejson = response.json()
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
-        logger.warning('-------------------------------\n' + response.text)
+        # logger.warning('-------------------------------\n' + response.text)
         return False, {}
 
     if thejson["success"] == False:
@@ -56,9 +58,10 @@ def netaccess(url, js, key) :
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
+    login_config = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
 
     while True :
         ret, sessionid = netaccess(login_url, login_config, "sessionId")

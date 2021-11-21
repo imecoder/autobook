@@ -55,6 +55,9 @@ void MainWindow::writeBase() {
         jsonBaseConfig["manual"] = false ;
     else jsonBaseConfig["manual"] = true ;
     jsonBaseConfig["branch_size"] = ui->lineEditBranchSize->text().toInt();
+    if ( ui->comboBoxDebug->currentIndex() == 0 )
+        jsonBaseConfig["debug"] = true ;
+    else jsonBaseConfig["debug"] = false ;
 
     QJsonDocument document ;
     document.setObject(jsonBaseConfig);
@@ -112,6 +115,10 @@ void MainWindow::fillBaseConfig() {
         ui->comboBoxManual->setCurrentIndex(0);
     else
         ui->comboBoxManual->setCurrentIndex(1);
+    if (jsonBaseConfig["debug"].toBool() )
+        ui->comboBoxDebug->setCurrentIndex(0);
+    else
+        ui->comboBoxDebug->setCurrentIndex(1);
 }
 
 
