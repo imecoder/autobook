@@ -38,8 +38,6 @@ def limit():
     return False
 
 def wait_fun(element, string) :
-    time.sleep(1)
-
     try:
         logger.warning('element = ' + element)
         browser.find_element_by_xpath(element)
@@ -51,7 +49,8 @@ def wait_fun(element, string) :
 
 def wait_element(element, string, times) :
     if times == 0 :
-        while not wait_fun(element, string):
+        while wait_fun(element, string) == False:
+            time.sleep(1)
             pass
 
         logger.warning(string + ' 加载完成')
@@ -60,7 +59,9 @@ def wait_element(element, string, times) :
     for i in range(times) :
         if wait_fun(element, string) == True :
             logger.warning(string + ' 加载完成')
-            break
+            return True
+
+        time.sleep(1)
 
     logger.warning(string + ' 未能加载完成')
     return False
@@ -68,33 +69,42 @@ def wait_element(element, string, times) :
 
 def login() :
 
-    element = '//*[@id="w1_firstInput"]/span/input'
-    wait_element(element, '登录页面', 0)
-    browser.find_element_by_xpath(element).clear()
-    browser.find_element_by_xpath(element).send_keys('WXIAONAN')
+    while True :
+        element = '//*[@id="w1_firstInput"]/span/input'
+        wait_element(element, '登录页面', 0)
+        browser.find_element_by_xpath(element).clear()
+        browser.find_element_by_xpath(element).send_keys('WXIAONAN')
 
-    element = '//*[@id="w1_officeId"]/span/input'
-    wait_element(element, '登录页面', 0)
-    browser.find_element_by_xpath(element).clear()
-    browser.find_element_by_xpath(element).send_keys('LOSN82312')
+        element = '//*[@id="w1_officeId"]/span/input'
+        wait_element(element, '登录页面', 0)
+        browser.find_element_by_xpath(element).clear()
+        browser.find_element_by_xpath(element).send_keys('LOSN82312')
 
-    element = '//*[@id="w1_passwordInput"]/span/input'
-    wait_element(element, '登录页面', 0)
-    browser.find_element_by_xpath(element).clear()
-    browser.find_element_by_xpath(element).send_keys('Tut@2020')
+        element = '//*[@id="w1_passwordInput"]/span/input'
+        wait_element(element, '登录页面', 0)
+        browser.find_element_by_xpath(element).clear()
+        browser.find_element_by_xpath(element).send_keys('Tut@2020')
 
-def start_cmd_page() :
-    logger.warning('启动命令页面 ...')
+        time.sleep(10)
 
-    new_cmdpage_element = '//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]'
-    wait_element(new_cmdpage_element, '新命令页按钮', 0)
-    browser.find_element_by_xpath(new_cmdpage_element).click()
+        element = '//*[@id="w6"]/button'
+        wait_element(element, '登录页面', 0)
+        browser.find_element_by_xpath(element).click()
 
-    cmdpage_element = '//*[@id="etaskmgr_taskBar"]/ul[2]/li[3]'
-    wait_element(cmdpage_element, '命令页 1', 0)
+        element = '//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]'
+        if wait_element(element, '新命令页按钮', 10) == True :
+            break
 
-    cmdline_element = '//*[@id="cryptics1_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput"]'
-    wait_element(cmdline_element, '命令行 ', 0)
+
+def start_terminal() :
+    element = '//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]'
+    browser.find_element_by_xpath(element).click()
+
+    element = '//*[@id="etaskmgr_taskBar"]/ul[2]/li[3]'
+    wait_element(element, '命令页 1', 0)
+
+    element = '//*[@id="cryptics1_cmd_shellbridge_shellWindow_top_left_modeString_cmdPromptInput"]'
+    wait_element(element, '命令行 ', 0)
 
     logger.warning('命令页面加载完成')
 
@@ -116,5 +126,42 @@ def execute_instruction(cmd):
 if __name__ == '__main__':
 
     login()
-    start_cmd_page()
+    start_terminal()
     execute_instruction("AN02DECLOSFRA/ALH")
+
+    for book_config in book_config_list :
+
+        logger.warning('\n\n开始订票为 : ' + json.dumps(book_config))
+
+        while True :
+            if limit() == True:
+                exit(0)
+
+            login()
+
+            book_list = []
+            for i in range(branch_size):
+                book_list.append({"sessionid" : sessionid, "config" : book_config })
+
+            pool = threadpool.ThreadPool(branch_size)
+            reqs = threadpool.makeRequests(occupy, book_list)
+            for req in reqs:
+                pool.putRequest(req)
+                time.sleep(1 / branch_size)
+            pool.wait()
+
+            if myflag.get_flag_relogin() == True:
+                continue
+
+            if myflag.get_flag_occupied() == False:
+                break
+
+            if base_config["manual"] == True:
+                if munual_book(sessionid) == True :
+                    break
+
+                exit(0)
+
+            break
+
+    logger.warning('程序退出 ...\n\n')
