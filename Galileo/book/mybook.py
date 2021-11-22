@@ -1,14 +1,15 @@
 #!/usr/bin/python
-# -*- coding: UTF-8 -*-
 
 import time
 import requests
 import threadpool
+import urllib3
+
 from mylog import *
 import myflag
 import myfile
 import json
-from tkinter import messagebox
+import os
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
@@ -23,7 +24,7 @@ if ret == False :
 
 
 def limit():
-    # 2021-11-20 00:00 此处分发给员工时， 可以自行修改， 修改后编译即可
+    # 2021-11-20 00:00 我是
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
     if datetime.datetime.now() > datetime.datetime.strptime('2021-11-30 00:00', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
@@ -36,6 +37,9 @@ def netaccess(url, js, key) :
         if base_config["debug"] :
             logger.info(response.text)
     except requests.exceptions.ReadTimeout as e:
+        logger.warning('网络错误 : ' + str(e))
+        return False, {}
+    except urllib3.exceptions.ReadTimeoutError as e:
         logger.warning('网络错误 : ' + str(e))
         return False, {}
 
@@ -63,11 +67,16 @@ def login():
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
     login_config = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
 
+    logger.warning('')
+    logger.warning('')
+    logger.warning('登录账户 = ' + json.dumps(login_config))
+
     while True :
         ret, sessionid = netaccess(login_url, login_config, "sessionId")
         if ret == False :
             logger.warning('登录失败, 请确认您的登录账户信息 ...')
-            exit(0)
+            time.sleep(3)
+            continue
 
         logger.warning('登录成功')
 
@@ -353,6 +362,7 @@ def munual_book(sessionid):
             logger.warning("存档 : " + name + '-' + id)
             myfile.save(name + '-' + id, text)
             logger.warning('订票存档成功 !!!')
+            os.system(r"start /b BookInfo.exe")
 
     return True
 
@@ -408,6 +418,7 @@ def auto_book(sessionid):
     logger.warning("存档 : " + name + '-' + id)
     myfile.save(name + '-' + id, msg["text"])
     logger.warning('订票存档成功 !!!')
+    os.system(r"start /b BookInfo.exe")
 
     execute_instruction(sessionid, "I")
     execute_instruction(sessionid, "I")
@@ -422,7 +433,9 @@ if __name__ == '__main__':
 
     for book_config in book_config_list :
 
-        logger.warning('\n\n开始订票为 : ' + json.dumps(book_config))
+        logger.warning('')
+        logger.warning('')
+        logger.warning('开始订票 = ' + json.dumps(book_config))
 
         while True :
             if limit() == True:
@@ -458,4 +471,6 @@ if __name__ == '__main__':
 
             break
 
-    logger.warning('程序退出 ...\n\n')
+    logger.warning('程序退出 ...')
+    logger.warning('')
+    logger.warning('')
