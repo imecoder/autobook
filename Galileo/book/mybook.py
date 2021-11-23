@@ -65,7 +65,11 @@ def login():
     # login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
-    login_config = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/PX", "pcc": "7LJ2", "pwd": "FRUITS01", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/YJ", "pcc": "7LJ2", "pwd": "FRUITS02", "gds": "Galileo"}
+    login_config = {"son": "Z7LJ2/SS", "pcc": "7LJ2", "pwd": "FRUITS03", "gds": "Galileo"}
+
 
     logger.warning('')
     logger.warning('')
@@ -291,6 +295,9 @@ def query_space(attrlist, book_space_list, line_start_location, line_end_locatio
 
             logger.warning('找到航班 [' + book_comp + book_flight + ']的座舱[' + book_space + status + ']')
             break
+
+    return space_list
+
 
 
 def all_N(space_list, line_end_location, book_comp, book_flight) :
