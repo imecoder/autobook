@@ -5,7 +5,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.PENG/GUANGWEI"
     },
@@ -15,7 +15,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.LIU/FUMEI"
     },
@@ -25,7 +25,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.LEI/KAIZHOU"
     },
@@ -35,7 +35,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.HUANG/JINCHAO"
     },
@@ -45,7 +45,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.HUANG/BAOPING"
     },
@@ -55,7 +55,7 @@
         "date": "26NOV",
         "flight": "786",
         "from": "FRA",
-        "space": "Y",
+        "space": ["Y", "C", "J", "G"],
         "to": "TAO",
         "user": "N.CAI/JUN"
     }
