@@ -1,10 +1,5 @@
 民航订票系统
 
-伽利略 gds 官网
-
-    https://www.provab.com/galileo-gds-system.html
-
-
 借鉴的网站
 http://webagentapp.tts.com
 
