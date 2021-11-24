@@ -39,3 +39,16 @@ RFPEI固定
 ER固定
 ----------
 完毕
+
+
+
+快速预定指令
+
+SS KL1229 J 26NOV AMSCDG NN1
+
+SS 固定
+KL1229 航班号
+J 仓位
+26NOV日期
+AMSCDG 城市代码对
+NN1    NN固定，1代表数量
