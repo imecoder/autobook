@@ -3,9 +3,9 @@
         "comp": "LH",
         "contact": "APLOS08039943766",
         "date": "02DEC",
-        "flight": "1223",
+        "flight": "567",
         "from": "LOS",
-        "space": "J",
+        "space": ["J","Y","C","D"],
         "to": "FRA",
         "user": "NM1PEI/XUTONG"
     }
