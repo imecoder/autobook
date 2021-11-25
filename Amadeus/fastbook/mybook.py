@@ -231,10 +231,10 @@ def autobook(book_user, book_contact) :
     if analysis(element.text) == False :
         return False
 
-
+    name = book_user.strip('NM1').replace('/', '')
     id = element.text.split('\n')[1][-6:]
-    logger.warning("存档 : " + book_user + '-' + id)
-    myfile.save(book_user + '-' + id, element.text)
+    logger.warning("存档 : " + name + '-' + id)
+    myfile.save(name + '-' + id, element.text)
     logger.warning('订票存档成功 !!!')
     os.system(r"start /b BookInfo.exe")
 
