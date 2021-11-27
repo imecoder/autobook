@@ -26,7 +26,8 @@ if ret == False :
 try :
     options = webdriver.ChromeOptions()
     options.add_experimental_option("debuggerAddress", "127.0.0.1:6001")
-    browser = webdriver.Chrome(options=options)
+    # browser = webdriver.Chrome(options=options)
+    browser = webdriver.Chrome()
     browser.get(website)
     logger.warning('title = ' + browser.title)
 except WebDriverException as e :
@@ -78,27 +79,27 @@ def wait_element(xpath, prompt, times=0) :
 
 def login() :
 
-    while True :
-        _, element = wait_element('//*[@id="w1_firstInput"]/span/input', '登录页面')
-        element.clear()
-        element.send_keys('WXIAONAN')
+    # while True :
+    _, element = wait_element('//*[@id="w2_firstInput"]/span/input', '登录页面')
+    element.clear()
+    element.send_keys('WXIAONAN')
 
-        _, element = wait_element('//*[@id="w1_officeId"]/span/input', '登录页面')
-        element.clear()
-        element.send_keys('LOSN82312')
+    _, element = wait_element('//*[@id="w2_officeId"]/span/input', '登录页面')
+    element.clear()
+    element.send_keys('LOSN82312')
 
-        _, element = wait_element('//*[@id="w1_passwordInput"]/span/input', '登录页面')
-        element.clear()
-        element.send_keys('Tut@2020')
+    _, element = wait_element('//*[@id="w2_passwordInput"]/span/input', '登录页面')
+    element.clear()
+    element.send_keys('Tut@2020')
 
-        time.sleep(10)
-
-        _, element = wait_element('//*[@id="w6"]/button', '登录页面')
-        element.click()
-
-        ret, element = wait_element('//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]', '新命令页按钮', 10)
-        if ret == True :
-            break
+        # time.sleep(10)
+        #
+        # _, element = wait_element('//*[@id="w6"]/button', '登录页面')
+        # element.click()
+        #
+        # ret, element = wait_element('//button[@id="etoolbar_toolbarSection_newcommandpagebtn_id"]', '新命令页按钮', 10)
+        # if ret == True :
+        #     break
 
 
 def start_terminal() :
@@ -242,6 +243,9 @@ def deal_ticket(book_comp, book_flight, space_location, book_space, line) :
 
 
 if __name__ == '__main__':
+
+    login()
+    exit(0)
 
     myflag.set_flag_relogin(True)
 
