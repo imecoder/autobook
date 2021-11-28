@@ -10,16 +10,27 @@ import myflag
 import myfile
 import json
 import os
-from urllib import parse
+
 
 login_url = 'https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp?SITE=LOGINURL&LANGUAGE=GB'
+cookies_base = 'JSID=false; visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; nlbi_1658442=zOG2Z9FO2nwxLqMpy0qGMAAAAACMxjNv/fYSxRZ41V9iuEFt; nlbi_1658442_2147483646=V+ZhLzIJWSMR+Yhfy0qGMAAAAABKJ5LuiS9iRVoFmWrbRSZb; incap_ses_1511_1658442=x2qPOb6nvXzeYxMxpib4FPMIoWEAAAAAbtV2UNbxknyV4e+5t35sBw; incap_ses_460_2643603=8vk6bxe9PFRPL8WKC0BiBvMIoWEAAAAA//KVNU61gZfID0Ydho4Ntg'
+headers_base = {
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
+    'pragma': 'no-cache',
+    'cache-control': 'no-cache',
+    'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
+}
 
 ret, base_config = myfile.get_config('config.base.json')
-if ret == False :
+if ret == False:
     exit(0)
 
 ret, book_config_list = myfile.get_config('config.book.json')
-if ret == False :
+if ret == False:
     exit(0)
 
 
@@ -31,32 +42,46 @@ def limit():
         return True
     return False
 
-def netget(url, querystring, payload='') :
+
+def netget(url, params, headers=headers_base, payload=''):
     try:
-        if base_config['debug'] :
+        if base_config['debug']:
             logger.warning('url = ' + url)
 
-        headers = {
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
-            'pragma': 'no-cache',
-            'cache-control': 'no-cache',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'script',
-            'sec-fetch-mode': 'no-cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-            'cookie': 'JSID = false;visid_incap_2643603 = DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il;visid_incap_1658442 = OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd;nlbi_1658442 = zOG2Z9FO2nwxLqMpy0qGMAAAAACMxjNv/fYSxRZ41V9iuEFt;nlbi_1658442_2147483646 = V+ZhLzIJWSMR+Yhfy0qGMAAAAABKJ5LuiS9iRVoFmWrbRSZb;incap_ses_1511_1658442 = x2qPOb6nvXzeYxMxpib4FPMIoWEAAAAAbtV2UNbxknyV4e+5t35sBw;incap_ses_460_2643603 = 8vk6bxe9PFRPL8WKC0BiBvMIoWEAAAAA//KVNU61gZfID0Ydho4Ntg'
-        }
-
-        logger.warning('querystring = ' + json.dumps(querystring))
+        logger.warning('params = ' + json.dumps(params))
         logger.warning('payload = ' + payload)
+        logger.warning('headers = ' + json.dumps(headers))
 
-        response = requests.get(url, data=payload, headers=headers, params=querystring, timeout=100)
+        response = requests.get(url=url, params=params, headers=headers, data=payload, timeout=100)
 
         if base_config['debug']:
+            logger.info(response.raw.headers)
+            logger.info('response.text >>>\n' + response.text + '\n')
+
+    except requests.exceptions.ReadTimeout as e:
+        logger.warning('网络超时 : ' + str(e))
+        return False
+    except urllib3.exceptions.ReadTimeoutError as e:
+        logger.warning('网络超时 : ' + str(e))
+        return False
+
+    return True, response
+
+
+def netoption(url, params, headers=headers_base, payload=''):
+    try:
+        if base_config['debug']:
+            logger.warning('url = ' + url)
+
+        logger.warning('params = ' + json.dumps(params))
+        logger.warning('payload = ' + payload)
+        logger.warning('headers = ' + json.dumps(headers))
+
+        response = requests.get(url=url, params=params, headers=headers, data=payload, timeout=100)
+
+        if base_config['debug']:
+            logger.info('response.headers >>>\n')
+            logger.info(response.raw.headers)
             logger.info('response.text >>>\n' + response.text)
 
     except requests.exceptions.ReadTimeout as e:
@@ -66,37 +91,22 @@ def netget(url, querystring, payload='') :
         logger.warning('网络超时 : ' + str(e))
         return False
 
-    return True, response.text
+    return True, response
 
 
-def netoption(url, querystring, payload='') :
+def netpost(url, params, headers=headers_base, payload=''):
     try:
-        if base_config['debug'] :
+        if base_config['debug']:
             logger.warning('url = ' + url)
 
-        headers = {
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
-            'pragma': 'no-cache',
-            'access-control-request-headers': 'x-requested-with',
-            'access-control-request-method': 'POST',
-            'cache-control': 'no-cache',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'script',
-            'sec-fetch-mode': 'no-cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-            'cookie': 'JSID = false;visid_incap_2643603 = DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il;visid_incap_1658442 = OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd;nlbi_1658442 = zOG2Z9FO2nwxLqMpy0qGMAAAAACMxjNv/fYSxRZ41V9iuEFt;nlbi_1658442_2147483646 = V+ZhLzIJWSMR+Yhfy0qGMAAAAABKJ5LuiS9iRVoFmWrbRSZb;incap_ses_1511_1658442 = x2qPOb6nvXzeYxMxpib4FPMIoWEAAAAAbtV2UNbxknyV4e+5t35sBw;incap_ses_460_2643603 = 8vk6bxe9PFRPL8WKC0BiBvMIoWEAAAAA//KVNU61gZfID0Ydho4Ntg'
-        }
-
-        logger.warning('querystring = ' + json.dumps(querystring))
+        logger.warning('params = ' + json.dumps(params))
         logger.warning('payload = ' + payload)
+        logger.warning('headers = ' + json.dumps(headers))
 
-        response = requests.get(url, data=payload, headers=headers, params=querystring, timeout=100)
-
+        response = requests.post(url=url, params=params, headers=headers, data=payload, timeout=100)
         if base_config['debug']:
+            logger.info('response.headers >>>\n')
+            logger.info(response.raw.headers)
             logger.info('response.text >>>\n' + response.text)
 
     except requests.exceptions.ReadTimeout as e:
@@ -106,75 +116,43 @@ def netoption(url, querystring, payload='') :
         logger.warning('网络超时 : ' + str(e))
         return False
 
-    return True, response.text
+    return True, response
 
 
-
-def netpost(url, querystring, payload='') :
-    try:
-        if base_config['debug'] :
-            logger.warning('url = ' + url)
-
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'accept-encoding': 'gzip, deflate, br',
-            'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
-            'pragma': 'no-cache',
-            'cache-control': 'no-cache',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'script',
-            'sec-fetch-mode': 'no-cors',
-            'sec-fetch-site': 'same-origin',
-            'x-requested-with': 'XMLHttpRequest',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
-            'cookie': 'JSID = false;visid_incap_2643603 = DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il;visid_incap_1658442 = OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd;nlbi_1658442 = zOG2Z9FO2nwxLqMpy0qGMAAAAACMxjNv/fYSxRZ41V9iuEFt;nlbi_1658442_2147483646 = V+ZhLzIJWSMR+Yhfy0qGMAAAAABKJ5LuiS9iRVoFmWrbRSZb;incap_ses_1511_1658442 = x2qPOb6nvXzeYxMxpib4FPMIoWEAAAAAbtV2UNbxknyV4e+5t35sBw;incap_ses_460_2643603 = 8vk6bxe9PFRPL8WKC0BiBvMIoWEAAAAA//KVNU61gZfID0Ydho4Ntg'
-        }
-
-        logger.warning('querystring = ' + json.dumps(querystring))
-        logger.warning('payload = ' + payload)
-
-        response = requests.post(url, data=payload, headers=headers, params=querystring, timeout=100)
-        if base_config['debug']:
-            logger.info('response.text >>>\n' + response.text)
-
-    except requests.exceptions.ReadTimeout as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False
-    except urllib3.exceptions.ReadTimeoutError as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False
-
-    return True, response.text
-
-
-
-def loginjsp_sessionid() :
-
+def loginjsp_sessionid():
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp'
 
-    querystring = {
+    params = {
         'SITE': 'LOGINURL',
         'LANGUAGE': 'GB',
         'event': 'LOGIN_LOGOUT'
     }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'document'
+    headers['sec-fetch-mode'] = 'navigate'
+    headers['sec-fetch-site'] = 'none'
+    headers['sec-fetch-user'] = '?1'
+    headers['upgrade-insecure-requests'] = '1'
+    # headers['cookies'] = cookies_base
 
-    ret, text = netget(url, querystring)
-    if ret == False :
+    ret, response = netget(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    if 'aria.modules.RequestMgr.session.id' not in text :
+    if 'aria.modules.RequestMgr.session.id' not in response.text:
         logger.warning('获取sessionid失败')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
+    # response.raw.headers.getlist('Set-Cookie')
 
-    lines = text.split('\n')
-    for line in lines :
-        if 'aria.modules.RequestMgr.session.id' in line :
+    lines = response.text.split('\n')
+    for line in lines:
+        if 'aria.modules.RequestMgr.session.id' in line:
             sessionid = line.strip(' ').strip('aria.modules.RequestMgr.session.id = ').strip(';').strip('"')
             break
 
@@ -183,30 +161,38 @@ def loginjsp_sessionid() :
     return True, sessionid
 
 
-def init_model(sessionid) :
+def init_model(sessionid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.sellingplatformconnect.amadeus.com/LoginService/apfplus/modules/usermanagement/init;jsessionid=' + sessionid
-    querystring = {
+
+    params = {
         'LANGUAGE': 'GB',
         'SITE': 'LOGINURL'
     }
-
+    headers = headers_base.copy()
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
     payload = 'data=' + json.dumps({
         'supportMode': False,
         'loginPagePath': '/LoginService/login.jsp'
     })
 
-    ret, text = netpost(url, querystring, payload)
-    if ret == False :
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    lines = text.split('\n')
-    data=''
-    for line in lines :
-        if 'switchOfficeAllowed' in line :
+    lines = response.text.split('\n')
+    data = ''
+    for line in lines:
+        if 'switchOfficeAllowed' in line:
             data = line
             break
 
@@ -214,6 +200,7 @@ def init_model(sessionid) :
         model = json.loads(data)['model']
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
     logger.warning('clpUrl = ' + model['clpUrl'])
@@ -224,33 +211,37 @@ def init_model(sessionid) :
     return True, model
 
 
-
-
-def initWelcome() :
+def initWelcome():
     pass
 
 
-
-
-def embedUiLess_lid() :
+def embedUiLess_lid():
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/embedUiLess'
-    querystring = {'v': '1.1'}
 
-    ret, text = netget(url, querystring)
-    if ret == False :
+    params = {'v': '1.1'}
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'script'
+    headers['sec-fetch-mode'] = 'no-cors'
+    headers['sec-fetch-site'] = 'same-site'
+    # headers['cookies'] = cookies_base
+
+    ret, response = netget(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    if 'window._clp_lid' not in text :
+    if 'window._clp_lid' not in response.text:
         logger.warning('获取lid失败')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    lines = text.split('\n')
-    for line in lines :
-        if 'window._clp_lid' in line :
+    lines = response.text.split('\n')
+    for line in lines:
+        if 'window._clp_lid' in line:
             lid = line.strip(' ').strip('window._clp_lid = ').strip(';').strip('"')
             break
 
@@ -259,55 +250,80 @@ def embedUiLess_lid() :
     return True, lid
 
 
-def aptjs() :
+def aptjs():
     pass
 
 
-def init_option_post(model, lid) :
-
+def init_option_post(model, lid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/init'
 
-    querystring = {
+    params = {
         'service': 'SECO',
         'nonce': model['nonce']
     }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['access-control-request-headers'] = 'x-requested-with'
+    headers['access-control-request-method'] = 'POST'
 
-    ret, text = netoption(url, querystring)
-    if ret == False :
+    ret, response = netoption(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    payload = 'data=' + json.dumps({'configurationToken': model['configToken']}) + '&lid=' + lid
+    del headers['access-control-request-headers']
+    del headers['access-control-request-method']
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
+    payload = 'data=' + \
+              json.dumps({
+                  'configurationToken': model['configToken']
+              }) + \
+              '&lid=' + lid
 
-    ret, text = netpost(url, querystring, payload)
-    if ret == False :
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
     return True
 
 
-
-
-
-def identify_option_post_accessToken(model, lid) :
+def identify_option_post_accessToken(model, lid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/identify'
 
-    querystring = {
+    params = {
         'service': 'SECO',
         'nonce': model['nonce']
     }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['access-control-request-headers'] = 'x-requested-with'
+    headers['access-control-request-method'] = 'POST'
 
-    # ret, text = netoption(url, querystring)
-    # if ret == False :
-    #     return False
+    ret, response = netoption(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
+    del headers['access-control-request-headers']
+    del headers['access-control-request-method']
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
     payload = 'data=' + \
               json.dumps({
                   'configurationToken': model['configToken'],
@@ -318,15 +334,16 @@ def identify_option_post_accessToken(model, lid) :
               }) + \
               '&lid=' + lid
 
-    ret, text = netpost(url, querystring, payload)
-    if ret == False :
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-
     try:
-        accessToken = json.loads(text)['accessToken']
+        accessToken = json.loads(response.text)['accessToken']
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
     logger.warning('accessToken = ' + accessToken)
@@ -334,592 +351,486 @@ def identify_option_post_accessToken(model, lid) :
     return True, accessToken
 
 
-
-def authenticate_option_post(model, lid, accessToken, oneTimePassword) :
+def authenticate_option_post(model, lid, accessToken, oneTimePassword=''):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
-
     url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/authenticate'
 
-    querystring = {
+    params = {
         'service': 'SECO',
         'nonce': model['nonce']
     }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['access-control-request-headers'] = 'x-requested-with'
+    headers['access-control-request-method'] = 'POST'
 
-    # ret, text = netoption(url, querystring)
-    # if ret == False :
-    #     return False
+    ret, response = netoption(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-    # oneTimePassword ：GPKFQL
+    del headers['access-control-request-headers']
+    del headers['access-control-request-method']
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base + ';accessToken_SECO=' + accessToken
     payload = 'data=' + \
               json.dumps({
-                  'configurationToken':model['configToken'],
-                  'accessToken':accessToken,
-                  'authenticationFactors':{
-                      'password':'Tut@2020',
-                      # 'oneTimePassword': oneTimePassword,
-                      'uba':'{}'
+                  'configurationToken': model['configToken'],
+                  'accessToken': accessToken,
+                  'authenticationFactors': {
+                      'password': 'Tut@2020',
+                      'oneTimePassword': oneTimePassword,
+                      'uba': '{}'
                   },
-                  'language':'zh_cn',
-                  'authMode':'HOS'
+                  'language': 'zh_cn',
+                  'authMode': 'HOS'
               }) + \
               '&lid=' + lid
 
-    querystring = {'service': 'SECO', 'nonce': '8dIix1PU1kdYGQ9w'}
-
-    ret, text = netpost(url, querystring, payload)
-    if ret == False :
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
     try:
-        responseStatus = json.loads(text)['responseStatus']
+        responsejson = json.loads(response.text)
+        responseStatus = json.dumps(responsejson['responseStatus'])
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    logger.warning('responseStatus = \n' + json.dumps(responseStatus))
+    logger.warning('responseStatus >>> ' + responseStatus)
+    logger.warning('accessToken >>> ' + accessToken)
 
-    return True
-
-
-
-
-
-
-
-
-
-
-def execute_instruction(sessionid, arg):
-    logger.warning('命令 = ' + arg)
-    cmd = {'sessionId': sessionid, 'command': arg, 'allowEnhanced': True}
-    return netpost(book_url, cmd, 'message')
-
-def query_airline(book_date, book_from, book_to, book_comp) :
-    scan_cmd = 'A' + book_date + book_from + book_to + '/' + book_comp
-    ret, msg = execute_instruction(sessionid, scan_cmd)
-    if ret == False:
-        myflag.set_flag_relogin(True)
-        if 'text' not in msg:
-            logger.warning('刷票失败')
-        else:
-            logger.warning('发现错误 : ' + msg['text'])
-        return False, []
-
-    if 'text' not in msg:
-        logger.warning('刷票失败')
-        return False, []
-
-    if 'DEPARTED' in msg['text']:
-        logger.warning('请确认是否航班已经过期 ...')
-        return False, []
-
-    if 'SYSTEM ERROR' in msg['text'] \
-            or 'Session does not exist' in msg['text']:
-        logger.warning('掉线重新登录')
-        myflag.set_flag_relogin(True)
-        return False, []
-
-    attrlist = msg['masks']['special']['attrList']
-    return True, attrlist
-
-def query_flight(attrlist, book_comp, book_flight) :
-    # 查找 book_comp, book_flight
-    comp_flight_location = len(attrlist)
-    for i in range(len(attrlist)):
-        # logger.warning(str(i) + ' ' + attrlist[i]['text'] + attrlist[i+1]['text'])
-        if 'text' in attrlist[i] \
-                and attrlist[i]['text'] == book_comp \
-                and 'text' in attrlist[i + 1] \
-                and attrlist[i + 1]['text'].strip() == book_flight:
-            comp_flight_location = i
-            break
-
-    if comp_flight_location >= len(attrlist):
-        logger.warning('未找到航班 [' + book_comp + book_flight + ']')
-        return False, 0, 0
-
-    line = attrlist[comp_flight_location - 8]['text']
-    # logger.warning('comp_flight_location = %d' % comp_flight_location )
-    logger.warning('找到航班 [' + book_comp + book_flight + ']，位于行 [' + line + ']')
-    return True, line, comp_flight_location
-
-def query_space_end_location(attrlist, line, comp_flight_location) :
-    lineplus = str(int(line) + 1)
-    lineplus_start_location = comp_flight_location
-    for i in range(comp_flight_location, len(attrlist)):
-        if 'text' in attrlist[i] and attrlist[i]['text'] == lineplus:
-            lineplus_start_location = i
-            break
-
-    end_location = len(attrlist)
-    if lineplus_start_location < len(attrlist):
-        # logger.warning('lineplus_start_location = %d' % lineplus_start_location)
-        # logger.warning('找到第二个航班')
-        end_location = lineplus_start_location - 1
-
-    return end_location
-
-def deal_ticket(attrlist, book_comp, book_flight, space_location, book_space, line) :
-
-    # logger.warning('space_location = %d' % space_location )
-    # logger.warning('text = ' + attrlist[space_location]['text'])
-
-    logger.warning('航班 [' + book_comp + book_flight + '] 有票 : ' + attrlist[space_location]['text'])
-
-    occupy_cmd = '01' + book_space + line
-    ret, msg = execute_instruction(sessionid, occupy_cmd)
-    if ret == False:
-        logger.warning('占票失败')
+    if responseStatus != '[]' :
+        logger.warning(sys._getframe().f_code.co_name + ' 验证登录失败')
         return False
 
-    if 'text' not in msg:
-        logger.warning('占票失败')
+    try:
+        accessToken = responsejson['accessToken']
+    except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    if 'HL' in msg['text'] or \
-            'LL' in msg['text']:
-        logger.warning('占票失败')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        return False
+    return True, accessToken
 
-    if 'HS' not in msg['text']:
-        logger.warning('占票失败')
-        return False
 
-    # HS
-
-    logger.warning('占票成功')
-    myflag.set_flag_occupied(True)
-
-    if base_config['manual'] == True:
-        return True
-
-    ret, msg = auto_book(sessionid)
-    if ret == True:
-        return True
-
-    if msg == '':
-        logger.warning('请检查订票配置文件 [ config.book.json ] ...')
-        return False
-
+def login_sessionid_site(model, accessToken):
     logger.warning('')
     logger.warning('')
-    logger.warning(msg)
-    return False
+    logger.warning(sys._getframe().f_code.co_name)
 
-def quick_booking(book_comp, book_flight, book_space, book_date, book_from, book_to) :
-    logger.warning('航班 [' + book_comp + book_flight + '] 不可候补, 执行快速预订')
+    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/init/login'
 
-    while True:
-        quick_booking_cmd = 'N ' + book_comp + book_flight + ' ' + book_space + ' ' + book_date + ' ' + book_from + book_to + ' NN1'
-        ret, msg = execute_instruction(sessionid, quick_booking_cmd)
-        if ret == False:
-            logger.warning('占票失败')
-            continue
+    params = {
+        'SITE': 'LOGINURL',
+        'LANGUAGE': 'CN',
+        'refreshOnError': 'true'
+    }
 
-        if 'text' not in msg:
-            logger.warning('占票失败')
-            return False
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'document'
+    headers['sec-fetch-mode'] = 'navigate'
+    headers['sec-fetch-site'] = 'same-site'
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['sec-fetch-user'] = '?1'
+    headers['upgrade-insecure-requests'] = '1'
+    # headers['cookies'] = cookies_base
+    payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
+        'configToken'] + '&NONCE=' + model['nonce']
 
-        if 'SYSTEM ERROR' in msg['text'] \
-                or 'Session does not exist' in msg['text']:
-            logger.warning('掉线重新登录')
-            myflag.set_flag_relogin(True)
-            return False
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-        if '*0 AVAIL/WL CLOSED*' in msg['text']:
-            logger.warning('票面关闭中')
-            continue
-
-        if '*SELL RESTRICTED*' in msg['text']:
-            logger.warning('票面禁止销售')
-            continue
-
-        if 'HL' in msg['text'] or \
-                'LL' in msg['text']:
-            logger.warning(msg['text'])
-            return False
-
-        # HS
-        if 'HS' in msg['text']:
-            logger.warning('占票成功')
-            myflag.set_flag_occupied(True)
-
-            if base_config['manual'] == True:
-                return True
-
-            ret, msg = auto_book(sessionid)
-            if ret == True:
-                return True
-
-            if msg == '':
-                logger.warning('请检查订票配置文件 [ config.book.json ] ...')
-                return False
-
-            logger.warning('')
-            logger.warning('')
-            logger.warning(msg)
-            return False
-
-    return True
-
-def query_space(attrlist, book_space_list, line_start_location, line_end_location, book_comp, book_flight) :
-    space_list = {}
-
-    # 枚举所有的座舱类型
-    for book_space in book_space_list:
-
-        space_list[book_space] = {
-            'location': line_end_location,
-            'status': 'N'
-        }
-
-        # 查找座舱所在位置, 以及座舱的状态
-        for i in range(line_start_location, line_end_location):
-
-            if 'extended' not in attrlist[i]:
-                continue
-
-            if 'bic' not in attrlist[i]['extended']:
-                continue
-
-            if attrlist[i]['extended']['bic'] != book_space:
-                continue
-
-            space_list[book_space]['location'] = i
-            status = attrlist[i]['extended']['status']
-            space_list[book_space]['status'] = status
-
-            logger.warning('找到航班 [' + book_comp + book_flight + ']的座舱[' + book_space + status + ']')
+    lines = response.text.split('\n')
+    for line in lines:
+        if 'aria.modules.RequestMgr.session' in line:
+            sessionid = line.split("aria.modules.RequestMgr.session = {id:'")[1].split("',paramName:'jsessionId'};")[0]
             break
 
-    return space_list
+    logger.warning('newsessionid = ' + sessionid)
+
+    return True, sessionid, 'J0CCJ0CC'
 
 
+def UMCreateSessionKey_ENC(sessionid, site ):
+    logger.warning('')
+    logger.warning('')
+    logger.warning(sys._getframe().f_code.co_name)
 
-def all_N(space_list, line_end_location, book_comp, book_flight) :
+    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=' + sessionid
 
-    for book_space in space_list:
-        location = space_list[book_space]['location']
-        status = space_list[book_space]['status']
-        if location != line_end_location and status != 'N':
-            return False
+    params = {
+        "flowExKey": "e5s1",
+        "tabType": "CMD",
+        "persoUpdateDateInMillis": "undefined",
+        "initialAction": "createCMD",
+        "LANGUAGE": "CN",
+        "SITE": site,
+        "aria.target": "body",
+        "aria.panelId": "1"
+    }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
 
-        logger.warning('找到航班 [' + book_comp + book_flight + ']的座舱类型[' + book_space + status + ']')
+    ret, response = netget(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-    return True
+    if '{"ENC":"' not in response.text:
+        logger.warning('获取 ENC 失败')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-
-
-
-# 占票
-def occupy(book_list):
-    sessionid = book_list['sessionid']
-    book_config = book_list['config']
-
-    book_date = book_config['date']
-    book_from = book_config['from']
-    book_to = book_config['to']
-    book_comp = book_config['comp']
-    book_flight = book_config['flight']
-    book_space_list = book_config['space']
-
-    while True:
-        # logger.warning(sessionid)
-
-        if limit() == True:
-            return
-
-        if myflag.get_flag_occupied() == True:
-            logger.warning('其他刷票分支已占票, 当前刷票分支退出.')
-            return
-
-        if myflag.get_flag_relogin() == True:
-            logger.warning('其他刷票分支出错, 当前刷票分支退出.')
-            return
-
-        # 查询匹配的航线
-        ret, attrlist = query_airline(book_date, book_from, book_to, book_comp)
-        if ret == False :
-            return
-
-        # 查询匹配的航班
-        ret, line, comp_flight_location = query_flight(attrlist, book_comp, book_flight)
-        if ret == False :
-            return
-
-        # 航班行的开始位置
-        line_start_location = comp_flight_location+2
-
-        # 查找匹配的航班结束的位置，即text: line + 1 位置
-        line_end_location = query_space_end_location(attrlist, line, comp_flight_location)
-
-        # 查找 book_space_list 的位置, 及状态
-        space_list = query_space(attrlist, book_space_list, line_start_location, line_end_location, book_comp, book_flight)
-
-        # 如果所有仓位状态都是N，重新循环刷票
-        if all_N(space_list, line_end_location, book_comp, book_flight) == True :
-            continue
-
-        # 处理所有的占座及订座
-
-        # 处理有座状态
-        has_ticket = False
-        for book_space in space_list:
-            location = space_list[book_space]['location']
-            status = space_list[book_space]['status']
-            if location == line_end_location or status == 'N' :
-                continue
-
-            # 有位置, 立即占票及订票
-            if status >= '1' and status <= '9':
-                has_ticket = True
-                ret = deal_ticket(attrlist, book_comp, book_flight, line_end_location, book_space, line)
-                if ret == True :
-                    return
-
-                # 有位置， 但占票或订票失败，此时应当重新去刷票
-                break # ------------------------
-
-
-        # 有位置的情况下， 但未能占票或订票成功，重新去刷票
-        if has_ticket == True :
-            continue
-
-        # 刷票+占票模式，不进行快速预定，重新去刷票
-        if base_config['mode'] == 0:
-            continue
-
-        # 刷票+占票+快速预定模式下，处理带有C状态的票
-        for book_space in space_list:
-            location = space_list[book_space]['location']
-            status = space_list[book_space]['status']
-            if location == line_end_location or status == 'N':
-                continue
-
-            # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
-            if status == 'C' :
-                ret = quick_booking(book_comp, book_flight, book_space, book_date, book_from, book_to)
-                if ret == True :
-                    return
-
-                if myflag.get_flag_relogin() == True :
-                    return
-
-                break
-
-        # 候补状态，L, 0 等等重新刷票
-
-
-
-def munual_book(sessionid):
-    logger.warning('进入命令行, 进行手动订票...')
-    while True:
-        cmd = input('\n> ')
-
-        if cmd.strip('') == '' :
-            continue
-
-        if cmd == 'loop':
+    lines = response.text.split('\n')
+    for line in lines:
+        if '{"ENC":"' in line:
+            thejson = json.loads(line.strip(' '))
+            ENC = thejson['ENC']
+            ENCT = thejson['ENCT']
             break
 
-        if cmd == 'exit':
-            exit(0)
+    logger.warning('ENC = ' + ENC)
+    logger.warning('ENCT = ' + ENCT)
 
-        ret, msg = execute_instruction(sessionid, cmd)
-        if ret == False:
-            logger.warning(msg)
-            continue
-
-        text = msg['text']
-        print()
-        print(text)
-        print(flush=True)
+    return True, ENC, ENCT
 
 
-        if 'UNABLE - DUPLICATE SEGMENT' in text:
-            logger.warning('前期占票命令已经执行...')
-            continue
+def loginNewSession_login_sessionid_contextid(ENC, ENCT, site):
+    logger.warning('')
+    logger.warning('')
+    logger.warning(sys._getframe().f_code.co_name)
 
-        if 'INVALID NAME - DUPLICATE ITEM' in text:
-            logger.warning('前期客户姓名命令已经执行...')
-            continue
+    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/loginNewSession.UM/login'
 
-        if 'SINGLE ITEM FIELD' in text and 'R.PEI' in text:
-            logger.warning('前期R.PEI命令已经执行...')
-            continue
+    params = {
+        "LANGUAGE": ["CN", "CN"],
+        site: "",
+        "persoUpdateDateInMillis": "undefined",
+        "MARKETS": "OID_losn82312",
+        "initialAction": "createCMD",
+        "tabType": "CMD",
+        "aria.target": "body.main.s1",
+        "aria.sprefix": "s1",
+        "ENC": ENC,
+        "ENCT": ENCT,
+        "SITE": site,
+        "aria.panelId": "4"
+    }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
 
-        if 'SINGLE ITEM FIELD' in text and 'T.T*' in text:
-            logger.warning('前期T.T*命令已经执行...')
-            continue
+    ret, response = netget(url=url, params=params, headers=headers)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-        if cmd == 'ER':
-            if 'SELL OPTION HAS EXPIRED - CHECK ITINERARY' in text :
-                continue
+    if '<aria-response jsessionid=' not in response.text:
+        logger.warning('获取新的 jsessionid 失败')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
-            if 'NEED RECEIVED' in text:
-                continue
+    newsessionid = ''
+    contextId = ''
+    lines = response.text.split('\n')
+    for line in lines:
+        if '<aria-response jsessionid=' in line:
+            newsessionid = line.split('<aria-response jsessionid="')[1].split('" viewSetId="')[0]
+            contextId = line.split('"dcxid":"')[1].split('","speedModeActivated":')[0]
+            break
 
-            if 'MODIFY BOOKING' in text:
-                continue
+    logger.warning('newsessionid = ' + newsessionid)
+    logger.warning('contextId = ' + contextId)
 
-            name = book_config['user'].strip('N.').replace('/','')
-            id = text.split('\n')[0].split('/')[0]
-            logger.warning('存档 : ' + name + '-' + id)
-            myfile.save(name + '-' + id, text)
-            logger.warning('订票存档成功 !!!')
-            os.system(r'start /b BookInfo.exe')
+    return True, newsessionid, contextId
+
+
+def cryptic_execute_instruction(newsessionid, contextId, command, site):
+    logger.warning('')
+    logger.warning('')
+    logger.warning(sys._getframe().f_code.co_name)
+
+    url = '"https://www.booking1.sellingplatformconnect.amadeus.com/cryptic/apfplus/modules/cryptic/cryptic'
+
+    params = {
+        "LANGUAGE": "CN",
+        "SITE": site,
+        "OCTX": "OID_losn82312"
+    }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
+    headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers['x-requested-with'] = 'XMLHttpRequest'
+    # headers['cookies'] = cookies_base
+    payload = 'data=' + \
+              json.dumps({
+                  "jSessionId": newsessionid,
+                  "contextId": contextId,
+                  "userId": "WXIAONAN",
+                  "organization": "NMC-NIGERI",
+                  "officeId": "LOSN82312",
+                  "gds": "AMADEUS",
+                  "isStatelessCloneRequired": False,
+                  "tasks": [
+                      {
+                          "type": "CRY",
+                          "command": {
+                              "command": command,
+                              "prohibitedList": "SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"
+                          }
+                      },
+                      {
+                          "type": "PAR",
+                          "parserType": "screens.ScreenTypeParser"
+                      },
+                      {
+                          "type": "PAR",
+                          "parserType": "screens.ScreenTypeParser"
+                      },
+                      {
+                          "type": "ACT",
+                          "actionType": "speedmode.SpeedModeAction",
+                          "args": {
+                              "argsType": "speedmode.SpeedModeActionArgs",
+                              "obj": {}
+                          }
+                      },
+                      {
+                          "type": "PAR",
+                          "parserType": "pnr.PnrParser"
+                      }
+                  ]
+              })
+
+    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    try:
+        result = json.loads(response.text)['model']['output']['crypticResponse']['response']
+    except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    logger.warning('response = ' + result )
+
+    if 'HK1' not in result :
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    return True, result
+
+
+
+def rt(sessionid, contextId, book_comp, book_flight, book_space, book_date, book_from, book_to):
+    logger.warning('查询航班 [' + book_comp + book_flight + '] 执行快速预订结果')
+
+    ret, msg = cryptic_execute_instruction(sessionid, contextId, 'RT')
+    if ret == False:
+        logger.warning('未查到快速预定成功的结果')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    if book_comp+book_flight+' '+book_space+' '+book_date not in msg or \
+        book_from+book_to not in msg :
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
 
     return True
+
+
+def quick_prebook(sessionid, contextId, book_comp, book_flight, book_space, book_date, book_from, book_to):
+    logger.warning('航班 [' + book_comp + book_flight + '] 执行快速预订')
+
+    quick_booking_cmd = 'SS ' + book_comp + book_flight + ' ' + book_space + ' ' + book_date + ' ' + book_from + book_to + ' NN1'
+    ret, msg = cryptic_execute_instruction(sessionid, contextId, quick_booking_cmd)
+    if ret == False:
+        logger.warning('快速预定失败')
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    if book_comp+book_flight+' '+book_space+' '+book_date not in msg or \
+        book_from+book_to not in msg :
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    return True
+
+
 
 def auto_book(sessionid):
     # 客户姓名
-    ret, msg = execute_instruction(sessionid, book_config['user'])
-    if ret == False :
+    ret, msg = cryptic_execute_instruction(sessionid, 'NM1'+book_config['user'])
+    if ret == False:
         logger.warning(msg)
         return False
 
-    if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg['text']:
-        logger.warning('前期客户姓名命令已经执行...')
-
+    if book_config['user'] not in msg :
+        logger.warning('AP'+book_config['user'] + ' 运行失败')
+        return False
 
     # 客户联系方式
-    ret, msg = execute_instruction(sessionid, book_config['contact'])
-    if ret == False :
-        logger.warning(msg)
-        return False
-
-    if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg['text']:
-        logger.warning('前期客户电话命令已经执行...')
-
-    # R.PEI
-    ret, msg = execute_instruction(sessionid, 'R.PEI')
+    ret, msg = cryptic_execute_instruction(sessionid, 'AP'+book_config['contact'])
     if ret == False:
         logger.warning(msg)
+        logger.warning('AP'+book_config['contact'] + ' 运行失败')
         return False
 
-    if 'text' in msg and 'SINGLE ITEM FIELD' in msg['text']:
-        logger.warning('前期R.PEI命令已经执行...')
+    if book_config['user'] not in msg :
+        logger.warning('AP'+book_config['contact'] + ' 运行失败')
+        return False
 
-    # T.T*
-    ret, msg = execute_instruction(sessionid, 'T.T*')
+    # TKTL/
+    ret, msg = cryptic_execute_instruction(sessionid, 'TKTL/'+book_config['date'])
     if ret == False:
         logger.warning(msg)
+        logger.warning('TKTL/'+book_config['date'] + ' 运行失败')
         return False
 
-    if 'text' in msg and 'SINGLE ITEM FIELD' in msg['text']:
-        logger.warning('前期T.T*命令已经执行...')
+    # RFPEI
+    ret, msg = cryptic_execute_instruction(sessionid, 'RFPEI')
+    if ret == False:
+        logger.warning(msg)
+        logger.warning('RFPEI 运行失败')
+        return False
+
 
     # ER
-    ret, msg = execute_instruction(sessionid, 'ER')
+    ret, msg = cryptic_execute_instruction(sessionid, 'ER')
     if ret == False:
         logger.warning(msg)
+        logger.warning('ER 运行失败')
         return False
 
-<<<<<<< HEAD
-    if 'HK' not in msg['text']:
-        return False, msg['text']
-
-    name = book_config['user'].strip('N.').replace('/','')
+    name = book_config['user'].strip('N.').replace('/', '')
     id = msg['text'].split('\n')[0].split('/')[0]
     logger.warning('存档 : ' + name + '-' + id)
     myfile.save(name + '-' + id, msg['text'])
-=======
-    name = book_user.strip('NM1').replace('/', '')
-    id = element.text.split('\n')[1][-6:]
-    logger.warning("存档 : " + name + '-' + id)
-    myfile.save(name + '-' + id, element.text)
->>>>>>> 754209fdbe28b0b28e0ff4b196119387d9adf987
     logger.warning('订票存档成功 !!!')
     os.system(r'start /b BookInfo.exe')
 
-    execute_instruction(sessionid, 'I')
-    execute_instruction(sessionid, 'I')
-    execute_instruction(sessionid, 'I')
+    cryptic_execute_instruction(sessionid, 'I')
+    cryptic_execute_instruction(sessionid, 'I')
+    cryptic_execute_instruction(sessionid, 'I')
 
-    return True, ''
+    return True
 
 
-def main() :
+def login() :
+
+    model = {}
+    lid = ''
+    oneTimePassword = ''
+    accessToken = ''
+
+    if myflag.get_flag_relogin() == False :
+
+        ret, sessionid = loginjsp_sessionid()
+        if ret == False:
+            exit(-1)
+
+        ret, model = init_model(sessionid)
+        if ret == False:
+            exit(-1)
+
+        ret, lid = embedUiLess_lid()
+        if ret == False:
+            exit(-1)
+
+        ret = init_option_post(model, lid)
+        if ret == False:
+            exit(-1)
+
+        ret, accessToken = identify_option_post_accessToken(model, lid)
+        if ret == False:
+            exit(-1)
+
+        while True:
+            oneTimePassword = input('\noneTimePassword > ')
+
+            if oneTimePassword.strip('') != '':
+                break
+
+    ret, newAccessToken = authenticate_option_post(model, lid, accessToken, oneTimePassword.strip(' '))
+    if ret == False:
+        exit(-1)
+
+    return model, newAccessToken
+
+def main():
     pass
+
 
 if __name__ == '__main__':
 
-    ret, sessionid = loginjsp_sessionid()
-    if ret == False :
-        exit(-1)
-
-    ret, model = init_model(sessionid)
-    if ret == False :
-        exit(-1)
-
-    ret, lid = embedUiLess_lid()
-    if ret == False :
-        exit(-1)
-
-    ret = init_option_post(model, lid)
-    if ret == False :
-        exit(-1)
-
-    ret, accessToken = identify_option_post_accessToken(model, lid)
-    if ret == False :
-        exit(-1)
-    #
-    # while True :
-    #     oneTimePassword = input('\noneTimePassword > ')
-    #
-    #     if oneTimePassword.strip('') != '':
-    #         break
-
-    oneTimePassword =''
-    ret = authenticate_option_post(model, lid, accessToken, oneTimePassword)
-    if ret == False :
-        exit(-1)
-
-    exit(0)
 
     branch_size = base_config['branch_size']
 
-    for book_config in book_config_list :
+    for book_config in book_config_list:
 
         logger.warning('')
         logger.warning('')
         logger.warning('开始订票 = ' + json.dumps(book_config))
 
-        while True :
+        while True:
             if limit() == True:
                 exit(0)
 
             myflag.set_flag_relogin(False)
             myflag.set_flag_occupied(False)
 
-            sessionid = login()
+            model, accessToken = login()
 
-            book_list = []
-            for i in range(branch_size):
-                book_list.append({'sessionid' : sessionid, 'config' : book_config })
+            ret, sessionid, site = login_sessionid_site(model, accessToken)
+            if ret == False :
+                continue
 
-            pool = threadpool.ThreadPool(branch_size)
-            reqs = threadpool.makeRequests(occupy, book_list)
-            for req in reqs:
-                pool.putRequest(req)
-                time.sleep(1 / branch_size)
-            pool.wait()
+            ret, ENC, ENCT = UMCreateSessionKey_ENC(sessionid, site)
+            if ret == False :
+                continue
+
+            ret, sessionid, contextId = loginNewSession_login_sessionid_contextid(ENC, ENCT)
+            if ret == False :
+                continue
+
+            ret = rt(sessionid, contextId, book_comp, book_flight, book_space, book_date, book_from, book_to)
+            if ret == False :
+                continue
+
+            ret = quick_prebook(sessionid, contextId, book_comp, book_flight, book_space, book_date, book_from, book_to)
+            if ret == False :
+                continue
+
+            auto_book(sessionid)
 
             if myflag.get_flag_relogin() == True:
                 continue
 
             if myflag.get_flag_occupied() == False:
                 break
-
-            if base_config['manual'] == True:
-                if munual_book(sessionid) == True :
-                    break
 
                 exit(0)
 
