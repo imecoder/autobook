@@ -92,6 +92,8 @@ def login() :
     element.clear()
     element.send_keys('Tut@2020')
 
+    exit()
+
         # time.sleep(10)
         #
         # _, element = wait_element('//*[@id="w6"]/button', '登录页面')
