@@ -73,7 +73,7 @@ def login():
 
     logger.warning('')
     logger.warning('')
-    logger.warning('登录账户 = ' + json.dumps(login_config))
+    logger.warning('登录账户 = ' + json.dumps(login_config['son']))
 
     while True :
         ret, sessionid = netaccess(login_url, login_config, "sessionId")
