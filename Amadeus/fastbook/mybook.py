@@ -12,26 +12,6 @@ import json
 import os
 
 
-login_url = 'https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp?SITE=LOGINURL&LANGUAGE=GB'
-
-cookies_incap_ses_636_2643603 = 'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-cookies_visid_incap_1943992 = 'visid_incap_1943992=L3jfGEbERZ2pGmu1e+58M8EejWEAAAAAQUIPAAAAAAD6gqJ5YVvMa7sgZ7VLH2pX; '
-cookies_lss_loc_id = 'lss_loc_id=AB18C4C9837457E8DA92D0FB479DD25EC60F281A6B28B7452E15D6A97CFD36D4; '
-
-cookies_70f2_key = '70f276b919ac6ed3c8047ca07019200a='
-cookies_prxCookie_key = 'prxCookie=!'
-
-
-# cookies = (
-#     'JSID=false;'
-#     'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il;'
-#     'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd;'
-#     '_ga=GA1.2.208667559.1638024099'
-#     'nlbi_1658442=zOG2Z9FO2nwxLqMpy0qGMAAAAACMxjNv/fYSxRZ41V9iuEFt;'
-#     'nlbi_1658442_2147483646=V+ZhLzIJWSMR+Yhfy0qGMAAAAABKJ5LuiS9iRVoFmWrbRSZb;'
-#     'incap_ses_1511_1658442=x2qPOb6nvXzeYxMxpib4FPMIoWEAAAAAbtV2UNbxknyV4e+5t35sBw;'
-#     'incap_ses_460_2643603=8vk6bxe9PFRPL8WKC0BiBvMIoWEAAAAA//KVNU61gZfID0Ydho4Ntg'
-# )
 headers_base = {
     'accept-encoding': 'gzip, deflate, br',
     'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
@@ -58,7 +38,7 @@ if ret == False:
 def limit():
     # 2021-11-20 00:00 我是
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-11-30 00:00', '%Y-%m-%d %H:%M'):
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-12-30 00:00', '%Y-%m-%d %H:%M'):
         logger.warning('试用期限已到...')
         return True
     return False
@@ -89,6 +69,8 @@ def netget(url, params, headers=headers_base, payload=''):
         logger.warning('网络超时 : ' + str(e))
         return False, ''
 
+    logger.warning(response.raw.headers.getlist('Set-Cookie'))
+
     return True, response
 
 
@@ -115,6 +97,8 @@ def netoption(url, params, headers=headers_base, payload=''):
         logger.warning('网络超时 : ' + str(e))
         return False, ''
 
+    logger.warning(response.raw.headers.getlist('Set-Cookie'))
+
     return True, response
 
 
@@ -139,6 +123,8 @@ def netpost(url, params, headers=headers_base, payload=''):
     except urllib3.exceptions.ReadTimeoutError as e:
         logger.warning('网络超时 : ' + str(e))
         return False, ''
+
+    logger.warning(response.raw.headers.getlist('Set-Cookie'))
 
     return True, response
 
@@ -166,17 +152,12 @@ def main_page_loginjsp():
         'SITE': 'LOGINURL',
         'LANGUAGE': 'GB'
     }
-    # headers = headers_base.copy()
-    # headers['sec-fetch-dest'] = 'document'
-    # headers['sec-fetch-mode'] = 'navigate'
-    # headers['sec-fetch-site'] = 'none'
-    # headers['sec-fetch-user'] = '?1'
-    # headers['upgrade-insecure-requests'] = '1'
-    # headers['cookies'] = (
-    #     'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-    #     'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-    #     '_ga=GA1.2.208667559.1638024099; '
-    # )
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'document'
+    headers['sec-fetch-mode'] = 'navigate'
+    headers['sec-fetch-site'] = 'none'
+    headers['sec-fetch-user'] = '?1'
+    headers['upgrade-insecure-requests'] = '1'
 
     ret, response = netget(url=url, params=params)
     if ret == False:
@@ -196,15 +177,10 @@ def main_page_loginjsp():
 
     logger.warning('sessionid = ' + sessionid)
 
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning('set_cookies = ')
-    logger.warning(set_cookies)
-    cookies_prxCookie_value = find_cookie(set_cookies, cookies_prxCookie_key, 'path=')
-
-    return True, sessionid, cookies_prxCookie_value
+    return True, sessionid
 
 
-def main_page_XMLRequestHandler(cookies_prxCookie_value):
+def main_page_XMLRequestHandler():
 
     logger.warning('')
     logger.warning('')
@@ -219,33 +195,17 @@ def main_page_XMLRequestHandler(cookies_prxCookie_value):
     headers['sec-fetch-mode'] = 'cors'
     headers['sec-fetch-site'] = 'same-origin'
     headers['x-requested-with'] = 'XMLHttpRequest'
-    headers['cookies'] = (
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        '70f276b919ac6ed3c8047ca07019200a=a6300a65565dea32689c2d7b36df2492; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-    )
-    headers['cookies'] = headers['cookies'] + \
-                         cookies_prxCookie_key + cookies_prxCookie_value
 
     ret, response = netget(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
 
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
-    cookies_prxCookie_value = find_cookie(set_cookies, cookies_prxCookie_key, 'path=')
 
-    return True, cookies_prxCookie_value
+    return True
 
 
-
-
-
-def main_page_init(sessionid, cookies_prxCookie_value):
+def main_page_init(sessionid):
 
     logger.warning('')
     logger.warning('')
@@ -263,17 +223,6 @@ def main_page_init(sessionid, cookies_prxCookie_value):
     headers['sec-fetch-mode'] = 'cors'
     headers['sec-fetch-site'] = 'same-origin'
     headers['x-requested-with'] = 'XMLHttpRequest'
-    headers['cookies'] = (
-        'lss_loc_id=AB18C4C9837457E8DA92D0FB479DD25EC60F281A6B28B7452E15D6A97CFD36D4; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        '70f276b919ac6ed3c8047ca07019200a=a6300a65565dea32689c2d7b36df2492; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-    )
-    headers['cookies'] = headers['cookies'] + \
-                         cookies_prxCookie_key + cookies_prxCookie_value
 
     payload = 'data=' + json.dumps({
         'supportMode': False,
@@ -304,11 +253,7 @@ def main_page_init(sessionid, cookies_prxCookie_value):
     logger.warning('sessionToken = ' + model['sessionToken'])
     logger.warning('configToken = ' + model['configToken'])
 
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
-    cookies_prxCookie_value = find_cookie(set_cookies, cookies_prxCookie_key, 'path=')
-
-    return True, model, cookies_prxCookie_value
+    return True, model
 
 
 def main_page_embedUiLess():
@@ -324,22 +269,6 @@ def main_page_embedUiLess():
     headers['sec-fetch-dest'] = 'script'
     headers['sec-fetch-mode'] = 'no-cors'
     headers['sec-fetch-site'] = 'same-site'
-
-    headers['cookies'] = (
-        'visid_incap_1943992=L3jfGEbERZ2pGmu1e+58M8EejWEAAAAAQUIPAAAAAAD6gqJ5YVvMa7sgZ7VLH2pX; '
-        'lss_loc_id=453F2C3A6B6EDA69956B2B9BF55D6A71C3E0ABFD7641A10AB368B19071A5AEC4; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'nlbi_1943992=Wk3GOVMN0yjy1mYj+eFteAAAAADszxj+XlF/EbtmX98ayjCo; '
-        'accessToken_SECO=95bXQhhCVqKPX4Q6R7jJtA; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-        'accessToken_AAM=5lLBj39k6botopHikaSEAw; '
-        'sso_t=eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwieDV1Ijoic3NvX2ludHJhX2Vudi53d3cuYWNjb3VudHMuYW1hZGV1cy5jb20ifQ.kYjzWCUVOyOc_ktKQA1NTyE9o1eqshaeTAL6mISjuvrb49UqcjpHQ25Zkwh5PWJEQR2PUKyop3kAODCLsUS3ZCLcu0qZHQ3Rj40T-4PCh90gSTWhQJoAAyxPWD4pwvCVudLKzT7oN5M5Sxx6dh5HRGVM426OQ7O9MhfKtHBPhNSyCKybGfIBWXmymfFE8R7WW6rZBFyj-jjjX-wAP6Usfiu7vW7kN8gUeuIWDxeNMjUwPRc2WcE_GEkQBok9_TGaHHFEKAhbotjovUknOXSwDD4trycYJqYaHo4sAuvR-dSvCrIDI7i5DnD4DqDP62xjG3YABg_aV44nk7W3R4HQuA.z__ZGjbmtGgXhPpTW-qrDw.XCl5-Ex2yqoI1AbXequkvZDcZN08iEfX24VMuR75HpmfdY387qXLdtu-ZkUpGD7LD43PA62zqNEnRTroS142PcGbfmEGZiRbgYHDHxmk7EFllcHAVm1d8wAqZ7Og4-jhdu4mFSQWT3xveJGOZ7Eku4RFMoa_d95e8wZUXrg2fpLE4G8xeelkF-77EdxnqwaAKspOQ5f4GKLGZs1Ne0cxGsbJ5edfwG9-X6LmwEathvyPtNdNn0otwbDkGrkUdYOgHD4P8oKx3FbahDUgak36DEGh1pIT7TssMte7QZo5VDuLuIYDcTmYJjsJQ4Kj1M7tqCS0rE7FuzGj5-DUq5OcKs57jyXj6igFGC5K1TgfebvjYXgprvmlwTBNuvDcTB7HDu7HKAF-WOc_7d945jvhPxxmg4OCu5Ki0cjBIDXuhawjBbWYdLB1WS6hMkEuGlycN1ZIRk73LzVmwRsDNFLXgdT228KoPsfBsnwP-VTe1ZyR-YBpUysWBjxFm8RLdLgzLnMmHvKHJ70UmDD4BOUVdUuYYuj14ZH73Q0nyzJhMigQBWKS_USatKnP4_GWEJh0iWoGMcj9UMvrJEar1we3kVEgiTu_WUazKJD9crlxEQUkZYDgDQt2UaAUA5MoOmDj4lJ0y4mDbIIuAgagqpdhiDYe2J0c5NaD8vfyBdQbhvSYqq6qd46VMQUnj20ztAxjoFifE8hN-VgA4VPN2SD9IoRdhIXwYknpr3kx6Mzhij8fyt9qcp5Ue5eI4r4NyBPnl-bXWwzKXhKIUMdR-aK71f4Tb-8I7igxdsNZ5kXUKwF-_AoAkjZ_l7MNsUJZ9c7fdDeb3-Buvv7on1aMIn6-wBcpDLvNvsNFOkO_QLO4vWgAHNvhhluC7Ef6T2SMH5h6Jlpe0PTzdh_hBm8JKImEY_l350YEWrmo3uRoAtEiFV3TQReEtJuwCF8FPj42nwZ-Z4uyP57by8PG-tKD7sGyv3RTX3RYR4HndmNQqO9b7FQZW989EkrEgJnSyk_IgdiUNPpu4vodup42N7420c6dHR4ZRCb-w1fuUBReMxkW4cRDiSgYkQUxfqBvkrwg3UwXWJDsdxAuriUOdrFk0eA1_mxQC4VwiGQ9OymTVA2HWKk.USMORIpSqtdwIvOcKEpK-4VmJAi4-lbA_VVgaOBPE6Q; '
-        'accessToken_ASH=EkSmNpPRDF-oE_yhVZdCWA; '
-        'incap_ses_407_1943992=borEDEcrhEUtSBTngfSlBVFVpGEAAAAAHjH3UjK6xRKfNDZu2zK8dQ==; '
-    )
 
     ret, response = netget(url=url, params=params, headers=headers)
     if ret == False:
@@ -364,7 +293,7 @@ def main_page_embedUiLess():
     return True, lid
 
 
-def login_page_init(model, lid):
+def auth_page_init_option(model, lid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
@@ -387,27 +316,25 @@ def login_page_init(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
-    del headers['access-control-request-headers']
-    del headers['access-control-request-method']
+    return True
+
+def auth_page_init_post(model, lid):
+    logger.warning('')
+    logger.warning('')
+    logger.warning(sys._getframe().f_code.co_name)
+
+    url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/init'
+
+    params = {
+        'service': 'SECO',
+        'nonce': model['nonce']
+    }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
     headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     headers['x-requested-with'] = 'XMLHttpRequest'
-
-
-    headers['cookies'] = (
-        'visid_incap_1943992=L3jfGEbERZ2pGmu1e+58M8EejWEAAAAAQUIPAAAAAAD6gqJ5YVvMa7sgZ7VLH2pX; '
-        'lss_loc_id=453F2C3A6B6EDA69956B2B9BF55D6A71C3E0ABFD7641A10AB368B19071A5AEC4; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'nlbi_1943992=Wk3GOVMN0yjy1mYj+eFteAAAAADszxj+XlF/EbtmX98ayjCo; '
-        'accessToken_SECO=95bXQhhCVqKPX4Q6R7jJtA; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-        'accessToken_AAM=5lLBj39k6botopHikaSEAw; '
-        'sso_t=eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwieDV1Ijoic3NvX2ludHJhX2Vudi53d3cuYWNjb3VudHMuYW1hZGV1cy5jb20ifQ.kYjzWCUVOyOc_ktKQA1NTyE9o1eqshaeTAL6mISjuvrb49UqcjpHQ25Zkwh5PWJEQR2PUKyop3kAODCLsUS3ZCLcu0qZHQ3Rj40T-4PCh90gSTWhQJoAAyxPWD4pwvCVudLKzT7oN5M5Sxx6dh5HRGVM426OQ7O9MhfKtHBPhNSyCKybGfIBWXmymfFE8R7WW6rZBFyj-jjjX-wAP6Usfiu7vW7kN8gUeuIWDxeNMjUwPRc2WcE_GEkQBok9_TGaHHFEKAhbotjovUknOXSwDD4trycYJqYaHo4sAuvR-dSvCrIDI7i5DnD4DqDP62xjG3YABg_aV44nk7W3R4HQuA.z__ZGjbmtGgXhPpTW-qrDw.XCl5-Ex2yqoI1AbXequkvZDcZN08iEfX24VMuR75HpmfdY387qXLdtu-ZkUpGD7LD43PA62zqNEnRTroS142PcGbfmEGZiRbgYHDHxmk7EFllcHAVm1d8wAqZ7Og4-jhdu4mFSQWT3xveJGOZ7Eku4RFMoa_d95e8wZUXrg2fpLE4G8xeelkF-77EdxnqwaAKspOQ5f4GKLGZs1Ne0cxGsbJ5edfwG9-X6LmwEathvyPtNdNn0otwbDkGrkUdYOgHD4P8oKx3FbahDUgak36DEGh1pIT7TssMte7QZo5VDuLuIYDcTmYJjsJQ4Kj1M7tqCS0rE7FuzGj5-DUq5OcKs57jyXj6igFGC5K1TgfebvjYXgprvmlwTBNuvDcTB7HDu7HKAF-WOc_7d945jvhPxxmg4OCu5Ki0cjBIDXuhawjBbWYdLB1WS6hMkEuGlycN1ZIRk73LzVmwRsDNFLXgdT228KoPsfBsnwP-VTe1ZyR-YBpUysWBjxFm8RLdLgzLnMmHvKHJ70UmDD4BOUVdUuYYuj14ZH73Q0nyzJhMigQBWKS_USatKnP4_GWEJh0iWoGMcj9UMvrJEar1we3kVEgiTu_WUazKJD9crlxEQUkZYDgDQt2UaAUA5MoOmDj4lJ0y4mDbIIuAgagqpdhiDYe2J0c5NaD8vfyBdQbhvSYqq6qd46VMQUnj20ztAxjoFifE8hN-VgA4VPN2SD9IoRdhIXwYknpr3kx6Mzhij8fyt9qcp5Ue5eI4r4NyBPnl-bXWwzKXhKIUMdR-aK71f4Tb-8I7igxdsNZ5kXUKwF-_AoAkjZ_l7MNsUJZ9c7fdDeb3-Buvv7on1aMIn6-wBcpDLvNvsNFOkO_QLO4vWgAHNvhhluC7Ef6T2SMH5h6Jlpe0PTzdh_hBm8JKImEY_l350YEWrmo3uRoAtEiFV3TQReEtJuwCF8FPj42nwZ-Z4uyP57by8PG-tKD7sGyv3RTX3RYR4HndmNQqO9b7FQZW989EkrEgJnSyk_IgdiUNPpu4vodup42N7420c6dHR4ZRCb-w1fuUBReMxkW4cRDiSgYkQUxfqBvkrwg3UwXWJDsdxAuriUOdrFk0eA1_mxQC4VwiGQ9OymTVA2HWKk.USMORIpSqtdwIvOcKEpK-4VmJAi4-lbA_VVgaOBPE6Q; '
-        'accessToken_ASH=EkSmNpPRDF-oE_yhVZdCWA; '
-        'incap_ses_407_1943992=borEDEcrhEUtSBTngfSlBVFVpGEAAAAAHjH3UjK6xRKfNDZu2zK8dQ==; '
-    )
 
     payload = 'data=' + \
               json.dumps({
@@ -426,7 +353,7 @@ def login_page_init(model, lid):
     return True
 
 
-def login_page_indentify(model, lid):
+def auth_page_indentify_option(model, lid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
@@ -449,28 +376,29 @@ def login_page_indentify(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
 
-    del headers['access-control-request-headers']
-    del headers['access-control-request-method']
+
+    return True
+
+
+
+
+def auth_page_indentify_post(model, lid):
+    logger.warning('')
+    logger.warning('')
+    logger.warning(sys._getframe().f_code.co_name)
+
+    url = 'https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/identify'
+
+    params = {
+        'service': 'SECO',
+        'nonce': model['nonce']
+    }
+    headers = headers_base.copy()
+    headers['sec-fetch-dest'] = 'empty'
+    headers['sec-fetch-mode'] = 'cors'
+    headers['sec-fetch-site'] = 'same-origin'
     headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     headers['x-requested-with'] = 'XMLHttpRequest'
-
-
-    headers['cookies'] = (
-        'visid_incap_1943992=L3jfGEbERZ2pGmu1e+58M8EejWEAAAAAQUIPAAAAAAD6gqJ5YVvMa7sgZ7VLH2pX; '
-        'lss_loc_id=453F2C3A6B6EDA69956B2B9BF55D6A71C3E0ABFD7641A10AB368B19071A5AEC4; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'nlbi_1943992=Wk3GOVMN0yjy1mYj+eFteAAAAADszxj+XlF/EbtmX98ayjCo; '
-        'accessToken_SECO=95bXQhhCVqKPX4Q6R7jJtA; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-        'accessToken_AAM=5lLBj39k6botopHikaSEAw; '
-        'sso_t=eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwieDV1Ijoic3NvX2ludHJhX2Vudi53d3cuYWNjb3VudHMuYW1hZGV1cy5jb20ifQ.kYjzWCUVOyOc_ktKQA1NTyE9o1eqshaeTAL6mISjuvrb49UqcjpHQ25Zkwh5PWJEQR2PUKyop3kAODCLsUS3ZCLcu0qZHQ3Rj40T-4PCh90gSTWhQJoAAyxPWD4pwvCVudLKzT7oN5M5Sxx6dh5HRGVM426OQ7O9MhfKtHBPhNSyCKybGfIBWXmymfFE8R7WW6rZBFyj-jjjX-wAP6Usfiu7vW7kN8gUeuIWDxeNMjUwPRc2WcE_GEkQBok9_TGaHHFEKAhbotjovUknOXSwDD4trycYJqYaHo4sAuvR-dSvCrIDI7i5DnD4DqDP62xjG3YABg_aV44nk7W3R4HQuA.z__ZGjbmtGgXhPpTW-qrDw.XCl5-Ex2yqoI1AbXequkvZDcZN08iEfX24VMuR75HpmfdY387qXLdtu-ZkUpGD7LD43PA62zqNEnRTroS142PcGbfmEGZiRbgYHDHxmk7EFllcHAVm1d8wAqZ7Og4-jhdu4mFSQWT3xveJGOZ7Eku4RFMoa_d95e8wZUXrg2fpLE4G8xeelkF-77EdxnqwaAKspOQ5f4GKLGZs1Ne0cxGsbJ5edfwG9-X6LmwEathvyPtNdNn0otwbDkGrkUdYOgHD4P8oKx3FbahDUgak36DEGh1pIT7TssMte7QZo5VDuLuIYDcTmYJjsJQ4Kj1M7tqCS0rE7FuzGj5-DUq5OcKs57jyXj6igFGC5K1TgfebvjYXgprvmlwTBNuvDcTB7HDu7HKAF-WOc_7d945jvhPxxmg4OCu5Ki0cjBIDXuhawjBbWYdLB1WS6hMkEuGlycN1ZIRk73LzVmwRsDNFLXgdT228KoPsfBsnwP-VTe1ZyR-YBpUysWBjxFm8RLdLgzLnMmHvKHJ70UmDD4BOUVdUuYYuj14ZH73Q0nyzJhMigQBWKS_USatKnP4_GWEJh0iWoGMcj9UMvrJEar1we3kVEgiTu_WUazKJD9crlxEQUkZYDgDQt2UaAUA5MoOmDj4lJ0y4mDbIIuAgagqpdhiDYe2J0c5NaD8vfyBdQbhvSYqq6qd46VMQUnj20ztAxjoFifE8hN-VgA4VPN2SD9IoRdhIXwYknpr3kx6Mzhij8fyt9qcp5Ue5eI4r4NyBPnl-bXWwzKXhKIUMdR-aK71f4Tb-8I7igxdsNZ5kXUKwF-_AoAkjZ_l7MNsUJZ9c7fdDeb3-Buvv7on1aMIn6-wBcpDLvNvsNFOkO_QLO4vWgAHNvhhluC7Ef6T2SMH5h6Jlpe0PTzdh_hBm8JKImEY_l350YEWrmo3uRoAtEiFV3TQReEtJuwCF8FPj42nwZ-Z4uyP57by8PG-tKD7sGyv3RTX3RYR4HndmNQqO9b7FQZW989EkrEgJnSyk_IgdiUNPpu4vodup42N7420c6dHR4ZRCb-w1fuUBReMxkW4cRDiSgYkQUxfqBvkrwg3UwXWJDsdxAuriUOdrFk0eA1_mxQC4VwiGQ9OymTVA2HWKk.USMORIpSqtdwIvOcKEpK-4VmJAi4-lbA_VVgaOBPE6Q; '
-        'accessToken_ASH=EkSmNpPRDF-oE_yhVZdCWA; '
-        'incap_ses_407_1943992=borEDEcrhEUtSBTngfSlBVFVpGEAAAAAHjH3UjK6xRKfNDZu2zK8dQ==; '
-    )
-
 
     payload = 'data=' + \
               json.dumps({
@@ -495,13 +423,13 @@ def login_page_indentify(model, lid):
         return False, ''
 
     logger.warning('accessToken = ' + accessToken)
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
 
     return True, accessToken
 
 
-def login_page_authenticate(model, lid, accessToken, oneTimePassword=''):
+
+
+def auth_page_authenticate(model, lid, accessToken, oneTimePassword=''):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
@@ -516,37 +444,10 @@ def login_page_authenticate(model, lid, accessToken, oneTimePassword=''):
     headers['sec-fetch-dest'] = 'empty'
     headers['sec-fetch-mode'] = 'cors'
     headers['sec-fetch-site'] = 'same-origin'
-    headers['access-control-request-headers'] = 'x-requested-with'
-    headers['access-control-request-method'] = 'POST'
-
-    ret, response = netoption(url=url, params=params, headers=headers)
-    if ret == False:
-        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False, ''
-
-    del headers['access-control-request-headers']
-    del headers['access-control-request-method']
     headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     headers['x-requested-with'] = 'XMLHttpRequest'
 
-
-    headers['cookies'] = (
-        'visid_incap_1943992=L3jfGEbERZ2pGmu1e+58M8EejWEAAAAAQUIPAAAAAAD6gqJ5YVvMa7sgZ7VLH2pX; '
-        'lss_loc_id=453F2C3A6B6EDA69956B2B9BF55D6A71C3E0ABFD7641A10AB368B19071A5AEC4; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'nlbi_1943992=Wk3GOVMN0yjy1mYj+eFteAAAAADszxj+XlF/EbtmX98ayjCo; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-        'accessToken_AAM=5lLBj39k6botopHikaSEAw; '
-        'sso_t=eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwieDV1Ijoic3NvX2ludHJhX2Vudi53d3cuYWNjb3VudHMuYW1hZGV1cy5jb20ifQ.kYjzWCUVOyOc_ktKQA1NTyE9o1eqshaeTAL6mISjuvrb49UqcjpHQ25Zkwh5PWJEQR2PUKyop3kAODCLsUS3ZCLcu0qZHQ3Rj40T-4PCh90gSTWhQJoAAyxPWD4pwvCVudLKzT7oN5M5Sxx6dh5HRGVM426OQ7O9MhfKtHBPhNSyCKybGfIBWXmymfFE8R7WW6rZBFyj-jjjX-wAP6Usfiu7vW7kN8gUeuIWDxeNMjUwPRc2WcE_GEkQBok9_TGaHHFEKAhbotjovUknOXSwDD4trycYJqYaHo4sAuvR-dSvCrIDI7i5DnD4DqDP62xjG3YABg_aV44nk7W3R4HQuA.z__ZGjbmtGgXhPpTW-qrDw.XCl5-Ex2yqoI1AbXequkvZDcZN08iEfX24VMuR75HpmfdY387qXLdtu-ZkUpGD7LD43PA62zqNEnRTroS142PcGbfmEGZiRbgYHDHxmk7EFllcHAVm1d8wAqZ7Og4-jhdu4mFSQWT3xveJGOZ7Eku4RFMoa_d95e8wZUXrg2fpLE4G8xeelkF-77EdxnqwaAKspOQ5f4GKLGZs1Ne0cxGsbJ5edfwG9-X6LmwEathvyPtNdNn0otwbDkGrkUdYOgHD4P8oKx3FbahDUgak36DEGh1pIT7TssMte7QZo5VDuLuIYDcTmYJjsJQ4Kj1M7tqCS0rE7FuzGj5-DUq5OcKs57jyXj6igFGC5K1TgfebvjYXgprvmlwTBNuvDcTB7HDu7HKAF-WOc_7d945jvhPxxmg4OCu5Ki0cjBIDXuhawjBbWYdLB1WS6hMkEuGlycN1ZIRk73LzVmwRsDNFLXgdT228KoPsfBsnwP-VTe1ZyR-YBpUysWBjxFm8RLdLgzLnMmHvKHJ70UmDD4BOUVdUuYYuj14ZH73Q0nyzJhMigQBWKS_USatKnP4_GWEJh0iWoGMcj9UMvrJEar1we3kVEgiTu_WUazKJD9crlxEQUkZYDgDQt2UaAUA5MoOmDj4lJ0y4mDbIIuAgagqpdhiDYe2J0c5NaD8vfyBdQbhvSYqq6qd46VMQUnj20ztAxjoFifE8hN-VgA4VPN2SD9IoRdhIXwYknpr3kx6Mzhij8fyt9qcp5Ue5eI4r4NyBPnl-bXWwzKXhKIUMdR-aK71f4Tb-8I7igxdsNZ5kXUKwF-_AoAkjZ_l7MNsUJZ9c7fdDeb3-Buvv7on1aMIn6-wBcpDLvNvsNFOkO_QLO4vWgAHNvhhluC7Ef6T2SMH5h6Jlpe0PTzdh_hBm8JKImEY_l350YEWrmo3uRoAtEiFV3TQReEtJuwCF8FPj42nwZ-Z4uyP57by8PG-tKD7sGyv3RTX3RYR4HndmNQqO9b7FQZW989EkrEgJnSyk_IgdiUNPpu4vodup42N7420c6dHR4ZRCb-w1fuUBReMxkW4cRDiSgYkQUxfqBvkrwg3UwXWJDsdxAuriUOdrFk0eA1_mxQC4VwiGQ9OymTVA2HWKk.USMORIpSqtdwIvOcKEpK-4VmJAi4-lbA_VVgaOBPE6Q; '
-        'accessToken_ASH=EkSmNpPRDF-oE_yhVZdCWA; '
-        'accessToken_SECO=z27TUZPnQmA2O9niuZsiGA; '
-        'incap_ses_407_1943992=72JVHIcQ8BHXDyTngfSlBVZ6pGEAAAAAwmPcdAkE6Yq2x3LIa3ABgA==; '
-    )
-    headers['cookies'] = headers['cookies'] + \
-                         'accessToken_SECO=' + accessToken
+    headers['cookies'] = 'accessToken_SECO=' + accessToken
 
     payload = 'data=' + \
               json.dumps({
@@ -576,23 +477,21 @@ def login_page_authenticate(model, lid, accessToken, oneTimePassword=''):
         return False, ''
 
     logger.warning('responseStatus >>> ' + responseStatus)
-    logger.warning('accessToken >>> ' + accessToken)
 
     if responseStatus != '[]' :
         logger.warning(sys._getframe().f_code.co_name + ' 验证登录失败')
         return False, ''
 
     try:
-        accessToken = responsejson['accessToken']
+        newaccessToken = responsejson['accessToken']
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
 
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
+    logger.warning('newaccessToken >>> ' + newaccessToken)
 
-    return True, accessToken
+    return True, newaccessToken
 
 
 def user_page_login(model, accessToken):
@@ -616,21 +515,7 @@ def user_page_login(model, accessToken):
     headers['sec-fetch-user'] = '?1'
     headers['upgrade-insecure-requests'] = '1'
 
-    headers['cookies'] = (
-        'lss_loc_id=38215F612AB13F4247DB801C5DA977F44C332E4B3BD4158E147779BE6DB89E59; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        'aria_user_profile={"pref":{"LOGIN_TYPE":"STANDARD","OFFICE_ID":"LOSN82312","ACTIVE_OFFICE_ID":"LOSN82312","IS_GUEST_MODE":false,"AGENT_SIGN":"1012","AGENT_INITIALS":"WX","DUTY_CODE":"GS","USER_ALIAS":"WXIAONAN","ORGANIZATION":"NMC-NIGERI","FIRST_NAME":"WANG","LAST_NAME":"XIAONAN","PHONE_NUMBER":"+2348039943766","LANGUAGE_PREF":"EN","OCTX":"","ENABLE_CUST_NAME":false,"SERVICEMENU_AVAILABLE":true,"LIST_OFFICES":[{"officeId":"LOSN82312","customName":null}],"is_a_logout":"logout"},"firstName":"","lastName":"","gender":""}; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'um_jst=F7C91C446413AFD9E70F8AE640C6A377EFE0A7D5FB9D728616EFD0E4372DB81A; '
-        '455368185956a8f748fd35f7d905a930=570f002eacd14a580ae521c04c20db1a; '
-        'incap_ses_636_2643603=HD/RWxixLRlZJIiHDIfTCHYspGEAAAAAk2yP3ChNH/a3IkEN1YmHDA==; '
-        '5bb6f21dabcc922fce10d96f5b36a932=b1f53d8e647f6f1e166516aaa0ce93f5; '
-        'prxCookie=!CxNtAm9GbXP1GP3PUK3QNIFO+llyZ3bfYYuW8SSTatb5bYelGYPmhtI0W4cOmKmm++CWZOdoWx2ekp29EgCI95Z9YIeXmT/1cR/f29s=; '
-    )
-    headers['cookies'] = headers['cookies'] + \
-                         'accessToken_SECO=' + accessToken
+    headers['cookies'] = 'accessToken_SECO=' + accessToken
 
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
         'configToken'] + '&NONCE=' + model['nonce']
@@ -643,77 +528,24 @@ def user_page_login(model, accessToken):
     lines = response.text.split('\n')
     for line in lines:
         if 'aria.modules.RequestMgr.session' in line:
-            sessionid = line.split("aria.modules.RequestMgr.session = {id:'")[1].split("',paramName:'jsessionId'};")[0]
+            newsessionid = line.split("aria.modules.RequestMgr.session = {id:'")[1].split("',paramName:'jsessionId'};")[0]
             break
 
-    logger.warning('newsessionid = ' + sessionid)
+    logger.warning('newsessionid = ' + newsessionid)
 
     set_cookies = response.raw.headers.getlist('Set-Cookie')
     logger.warning(set_cookies)
 
-    return True, sessionid
+    return True, newsessionid
 
-def user_page_CreateMonoSession(sessionid ):
-    logger.warning('')
-    logger.warning('')
-    logger.warning(sys._getframe().f_code.co_name)
-
-    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/CreateMonoSession;jsessionid=' + sessionid
-
-    params = {
-        "flowExKey": "e5s1",
-        "initialAction": "createMain",
-        "aria.target": "body.main.main",
-        "aria.sprefix": "",
-        "noloader": "true",
-        "persoUpdateDateInMillis": "undefined",
-        "LANGUAGE": "CN",
-        "SITE": "J0CCJ0CC",
-        "aria.panelId": "1"
-    }
-
-    headers = headers_base.copy()
-    headers['sec-fetch-dest'] = 'empty'
-    headers['sec-fetch-mode'] = 'cors'
-    headers['sec-fetch-site'] = 'same-origin'
-    headers['x-requested-with'] = 'XMLHttpRequest'
-
-    headers['cookies'] = (
-        'lss_loc_id=38215F612AB13F4247DB801C5DA977F44C332E4B3BD4158E147779BE6DB89E59; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        'aria_user_profile={"pref":{"LOGIN_TYPE":"STANDARD","OFFICE_ID":"LOSN82312","ACTIVE_OFFICE_ID":"LOSN82312","IS_GUEST_MODE":false,"AGENT_SIGN":"1012","AGENT_INITIALS":"WX","DUTY_CODE":"GS","USER_ALIAS":"WXIAONAN","ORGANIZATION":"NMC-NIGERI","FIRST_NAME":"WANG","LAST_NAME":"XIAONAN","PHONE_NUMBER":"+2348039943766","LANGUAGE_PREF":"EN","OCTX":"","ENABLE_CUST_NAME":false,"SERVICEMENU_AVAILABLE":true,"LIST_OFFICES":[{"officeId":"LOSN82312","customName":null}],"is_a_logout":"logout"},"firstName":"","lastName":"","gender":""}; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'um_jst=F7C91C446413AFD9E70F8AE640C6A377EFE0A7D5FB9D728616EFD0E4372DB81A; '
-        '455368185956a8f748fd35f7d905a930=570f002eacd14a580ae521c04c20db1a; '
-        '5bb6f21dabcc922fce10d96f5b36a932=b1f53d8e647f6f1e166516aaa0ce93f5; '
-        'incap_ses_636_2643603=9c0/Im9e2x6YiwKIDIfTCMWIpGEAAAAAwIPrC/5vOD2BCVm0caQTSA==; '
-        'nlbi_1658442=Mqi0GQgH6XpvOMFey0qGMAAAAACM327zpocb1AY//I1KyMs/; '
-        'incap_ses_894_1658442=GCaGTItWnVb74uWXriBoDBWopGEAAAAAm4IemQ/4bZ+gAdtODCoYmg==; '
-        'prxCookie=!ScJ6m/pUJ/Fzy2/PUK3QNIFO+llyZ0mVnCJjdzF8RxoG72MFsDhkbq4zw/5VYvt6fgqSKX2G7LDV9AZn0JMPP0yZ8qygPlw7uVa7umo=; '
-    )
-
-
-    ret, response = netget(url=url, params=params, headers=headers)
-    if ret == False:
-        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False
-
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
-
-    return True
-
-
-def user_page_UMCreateSessionKey(sessionid ):
+def user_page_UMCreateSessionKey(sessionid):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
     url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=' + sessionid
 
-    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=' + sessionid + '?flowExKey=e5s1&&tabType=CMD&persoUpdateDateInMillis=undefined&initialAction=createCMD&LANGUAGE=CN&SITE=J0CCJ0CC&aria.target=body&aria.panelId=2'
+    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=' + sessionid + '?flowExKey=e5s1&&tabType=CMD&persoUpdateDateInMillis=undefined&initialAction=createCMD&LANGUAGE=CN&SITE=J0CCJ0CC&aria.target=body&aria.panelId=1'
     # params = {
     #     "flowExKey": "e5s1",
     #     "tabType": "CMD",
@@ -730,23 +562,6 @@ def user_page_UMCreateSessionKey(sessionid ):
     headers['sec-fetch-mode'] = 'cors'
     headers['sec-fetch-site'] = 'same-origin'
     headers['x-requested-with'] = 'XMLHttpRequest'
-
-    headers['cookies'] = (
-        'lss_loc_id=38215F612AB13F4247DB801C5DA977F44C332E4B3BD4158E147779BE6DB89E59; '
-        'visid_incap_2643603=DjOoKdUJQaS83l28R4BclZQgjWEAAAAAQUIPAAAAAADB3QNy7MQ4WzMSU1Iho2Il; '
-        'visid_incap_1658442=OR9nS+auQ36uz4lZTq3aepUgjWEAAAAAQUIPAAAAAACoWkGaU1onx+XRGOggqwmd; '
-        'aria_user_profile={"pref":{"LOGIN_TYPE":"STANDARD","OFFICE_ID":"LOSN82312","ACTIVE_OFFICE_ID":"LOSN82312","IS_GUEST_MODE":false,"AGENT_SIGN":"1012","AGENT_INITIALS":"WX","DUTY_CODE":"GS","USER_ALIAS":"WXIAONAN","ORGANIZATION":"NMC-NIGERI","FIRST_NAME":"WANG","LAST_NAME":"XIAONAN","PHONE_NUMBER":"+2348039943766","LANGUAGE_PREF":"EN","OCTX":"","ENABLE_CUST_NAME":false,"SERVICEMENU_AVAILABLE":true,"LIST_OFFICES":[{"officeId":"LOSN82312","customName":null}],"is_a_logout":"logout"},"firstName":"","lastName":"","gender":""}; '
-        '_ga=GA1.2.208667559.1638024099; '
-        'JSID=false; '
-        'um_jst=F7C91C446413AFD9E70F8AE640C6A377EFE0A7D5FB9D728616EFD0E4372DB81A; '
-        '455368185956a8f748fd35f7d905a930=570f002eacd14a580ae521c04c20db1a; '
-        '5bb6f21dabcc922fce10d96f5b36a932=b1f53d8e647f6f1e166516aaa0ce93f5; '
-        'incap_ses_636_2643603=9c0/Im9e2x6YiwKIDIfTCMWIpGEAAAAAwIPrC/5vOD2BCVm0caQTSA==; '
-        'nlbi_1658442=Wqv+dnf7ty6eFqtdy0qGMAAAAACHQftm454DOg/HhhAT8d3m; '
-        'incap_ses_894_1658442=N1NidIvB9jd1IMiXriBoDF+KpGEAAAAAoVbqrDKa9Kz3PXMh5wvsrA==; '
-        'prxCookie=!ovbFQ0+vHGTBUDbPUK3QNIFO+llyZ/D7z7UO0hqCoJ4EvKTXCpqBPlJ1eEHqg81ZtgUnqkZGsXWKHTPoFDztAJXho3fKM70d/D+5aYk=; '
-    )
-
 
     ret, response = netget(url=url, params=params, headers=headers)
     if ret == False:
@@ -768,8 +583,7 @@ def user_page_UMCreateSessionKey(sessionid ):
 
     logger.warning('ENC = ' + ENC)
     logger.warning('ENCT = ' + ENCT)
-    set_cookies = response.raw.headers.getlist('Set-Cookie')
-    logger.warning(set_cookies)
+
 
     return True, ENC, ENCT
 
@@ -844,12 +658,12 @@ def user_page_loginNewSession(ENC, ENCT):
     return True, newsessionid, contextId
 
 
-def shell_page_cryptic_execute_instruction(newsessionid, contextId, command, site):
+def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
 
-    url = '"https://www.booking1.sellingplatformconnect.amadeus.com/cryptic/apfplus/modules/cryptic/cryptic'
+    url = 'https://www.booking1.sellingplatformconnect.amadeus.com/cryptic/apfplus/modules/cryptic/cryptic'
 
     params = {
         "LANGUAGE": "CN",
@@ -1028,15 +842,15 @@ def login() :
 
     if myflag.get_flag_relogin() == False :
 
-        ret, sessionid, cookies_prxCookie_value = main_page_loginjsp()
+        ret, sessionid = main_page_loginjsp()
         if ret == False:
             exit(-1)
+        #
+        # ret = main_page_XMLRequestHandler()
+        # if ret == False:
+        #     exit(-1)
 
-        ret, cookies_prxCookie_value = main_page_XMLRequestHandler( cookies_prxCookie_value )
-        if ret == False:
-            exit(-1)
-
-        ret, model, cookies_prxCookie_value = main_page_init(sessionid, cookies_prxCookie_value)
+        ret, model = main_page_init(sessionid)
         if ret == False:
             exit(-1)
 
@@ -1044,22 +858,26 @@ def login() :
         if ret == False:
             exit(-1)
 
-        ret = login_page_init(model, lid)
+        ret = auth_page_init(model, lid)
         if ret == False:
             exit(-1)
 
-        ret, accessToken = login_page_indentify(model, lid)
+        ret, accessToken = auth_page_indentify(model, lid)
         if ret == False:
             exit(-1)
 
         while True:
             oneTimePassword = input('\noneTimePassword > ')
 
+            if oneTimePassword.strip('') == 'null':
+                oneTimePassword=''
+                break
+
             if oneTimePassword.strip('') != '':
                 break
 
     # oneTimePassword=''
-    ret, newAccessToken = login_page_authenticate(model, lid, accessToken, oneTimePassword.strip(' '))
+    ret, newAccessToken = auth_page_authenticate(model, lid, accessToken, oneTimePassword.strip(' '))
     if ret == False:
         exit(-1)
 
@@ -1102,9 +920,9 @@ if __name__ == '__main__':
             if ret == False :
                 continue
 
-            ret = user_page_CreateMonoSession(sessionid)
-            # if ret == False :
-            #     continue
+            # ret = user_page_CreateMonoSession(sessionid)
+            # # if ret == False :
+            # #     continue
 
 
             ret, ENC, ENCT = user_page_UMCreateSessionKey(sessionid)
