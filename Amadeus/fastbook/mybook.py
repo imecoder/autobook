@@ -11,30 +11,21 @@ import myfile
 import json
 import os
 
-
-headers_base = {
-    'accept-encoding': 'gzip, deflate, br',
-    'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7',
-    'pragma': 'no-cache',
-    'cache-control': 'no-cache',
-    'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
-}
-
-
 session = requests.session()
 
-ret, link_config = myfile.get_config('link.json')
+ret, cookie_config = myfile.read_json('cookie.json')
 if ret == False:
     exit(0)
 
-ret, base_config = myfile.get_config('config.base.json')
+ret, link_config = myfile.read_json('link.json')
 if ret == False:
     exit(0)
 
-ret, book_config_list = myfile.get_config('config.book.json')
+ret, base_config = myfile.read_json('config.base.json')
+if ret == False:
+    exit(0)
+
+ret, book_config_list = myfile.read_json('config.book.json')
 if ret == False:
     exit(0)
 
@@ -48,14 +39,14 @@ def limit():
     return False
 
 
-def netget(url, params, headers=headers_base, payload=''):
+def netget(url, params={}, headers={}, payload=''):
     try:
         if base_config['debug']:
             logger.warning('url = ' + url)
 
         logger.warning('params = ' + json.dumps(params))
-        logger.warning('payload = ' + payload)
         logger.warning('headers = ' + json.dumps(headers))
+        logger.warning('payload = ' + payload)
 
         response = session.get(url=url, params=params, headers=headers, data=payload, timeout=100)
 
@@ -78,14 +69,14 @@ def netget(url, params, headers=headers_base, payload=''):
     return True, response
 
 
-def netoption(url, params, headers=headers_base, payload=''):
+def netoption(url, params={}, headers={}, payload=''):
     try:
         if base_config['debug']:
             logger.warning('url = ' + url)
 
         logger.warning('params = ' + json.dumps(params))
-        logger.warning('payload = ' + payload)
         logger.warning('headers = ' + json.dumps(headers))
+        logger.warning('payload = ' + payload)
 
         response = session.get(url=url, params=params, headers=headers, data=payload, timeout=100)
 
@@ -106,14 +97,14 @@ def netoption(url, params, headers=headers_base, payload=''):
     return True, response
 
 
-def netpost(url, params, headers=headers_base, payload=''):
+def netpost(url, params={}, headers={}, payload=''):
     try:
         if base_config['debug']:
             logger.warning('url = ' + url)
 
         logger.warning('params = ' + json.dumps(params))
-        logger.warning('payload = ' + payload)
         logger.warning('headers = ' + json.dumps(headers))
+        logger.warning('payload = ' + payload)
 
         response = session.post(url=url, params=params, headers=headers, data=payload, timeout=100)
         if base_config['debug']:
@@ -144,30 +135,49 @@ def find_cookie(set_cookies, key, filter) :
     return '; '
 
 
-def get_link_url(name) :
-    return link_config[name]['url']
+def get_link_info(name) :
+    logger.warning('')
+    logger.warning('')
+    # logger.warning(name)
+
+    try:
+        # logger.warning(link_config[name]['url'])
+        # logger.warning(json.dumps(link_config[name]['params']))
+
+        headers = link_config['headers_base']
+        for key, value in link_config[name]['headers'].items() :
+            headers[key] = value
+        # logger.warning(json.dumps(headers))
+
+        if 'cookie_domain' in link_config[name] :
+            return link_config[name]['url'], link_config[name]['params'], headers, link_config[name]['cookie_domain']
+    except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        exit(0)
+
+    return link_config[name]['url'], link_config[name]['params'], headers, ''
+
+
+
+
 
 def main_page_loginjsp():
 
-    logger.warning('')
-    logger.warning('')
-    logger.warning(sys._getframe().f_code.co_name)
+    url, params, headers, cookie_domain = get_link_info(sys._getframe().f_code.co_name)
 
-    url = get_link_url(sys._getframe().f_code.co_name)
-    exit(0)
+    flag_has_cookie = False
+    ckey_70f2 = '70f276b919ac6ed3c8047ca07019200a'
+    prxCookie = 'prxCookie'
 
-    params = {
-        'SITE': 'LOGINURL',
-        'LANGUAGE': 'GB'
-    }
-    headers = headers_base.copy()
-    headers['sec-fetch-dest'] = 'document'
-    headers['sec-fetch-mode'] = 'navigate'
-    headers['sec-fetch-site'] = 'none'
-    headers['sec-fetch-user'] = '?1'
-    headers['upgrade-insecure-requests'] = '1'
+    if 'prxCookie' in cookie_config[cookie_domain] :
+        flag_has_cookie = True
 
-    ret, response = netget(url=url, params=params)
+    if flag_has_cookie == True :
+        headers['cookie'] = 'JSID=false; ' + \
+            ckey_70f2 + '=' + cookie_config[cookie_domain][ckey_70f2] + \
+            prxCookie + '=' + cookie_config[cookie_domain][prxCookie]
+
+    ret, response = netget(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -185,7 +195,22 @@ def main_page_loginjsp():
 
     logger.warning('sessionid = ' + sessionid)
 
-    return True, sessionid
+    cookies = response.raw.headers.getlist('Set-Cookie')
+    for c in cookies :
+        if ckey_70f2 in c :
+            ckey_70f2_value = c.split(ckey_70f2 + '=')[1].split('path=/;')[0]
+
+        if prxCookie in c :
+            prxCookie_value = c.split(prxCookie + '=')[1].split('path=/;')[0]
+
+    if flag_has_cookie == False :
+        cookie_config[cookie_domain][ckey_70f2] = ckey_70f2_value
+        cookie_config[cookie_domain][prxCookie] = prxCookie_value
+        ret = myfile.write_json('cookie.json', cookie_config)
+        if ret == False:
+            exit(0)
+
+    return True, sessionid, prxCookie_value
 
 
 def main_page_XMLRequestHandler():
@@ -656,7 +681,9 @@ def user_page_loginNewSession(ENC, ENCT):
     return True, newsessionid, contextId
 
 
-def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
+# def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
+def shell_page_cryptic_execute_instruction():
+
     logger.warning('')
     logger.warning('')
     logger.warning(sys._getframe().f_code.co_name)
@@ -665,55 +692,32 @@ def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
 
     params = {
         "LANGUAGE": "CN",
-        "SITE": site,
+        "SITE": 'J0CCJ0CC',
         "OCTX": "OID_losn82312"
     }
-    headers = headers_base.copy()
+    headers = {}
     headers['sec-fetch-dest'] = 'empty'
     headers['sec-fetch-mode'] = 'cors'
     headers['sec-fetch-site'] = 'same-origin'
     headers['content-type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     headers['x-requested-with'] = 'XMLHttpRequest'
-    # headers['cookies'] = cookies
-    payload = 'data=' + \
-              json.dumps({
-                  "jSessionId": newsessionid,
-                  "contextId": contextId,
-                  "userId": "WXIAONAN",
-                  "organization": "NMC-NIGERI",
-                  "officeId": "LOSN82312",
-                  "gds": "AMADEUS",
-                  "isStatelessCloneRequired": False,
-                  "tasks": [
-                      {
-                          "type": "CRY",
-                          "command": {
-                              "command": command,
-                              "prohibitedList": "SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"
-                          }
-                      },
-                      {
-                          "type": "PAR",
-                          "parserType": "screens.ScreenTypeParser"
-                      },
-                      {
-                          "type": "PAR",
-                          "parserType": "screens.ScreenTypeParser"
-                      },
-                      {
-                          "type": "ACT",
-                          "actionType": "speedmode.SpeedModeAction",
-                          "args": {
-                              "argsType": "speedmode.SpeedModeActionArgs",
-                              "obj": {}
-                          }
-                      },
-                      {
-                          "type": "PAR",
-                          "parserType": "pnr.PnrParser"
-                      }
-                  ]
-              })
+    headers['cookies'] = (
+        'JSESSIONID=oRKO9PfLM5Qv2KmbeVoK9pJW8QAzb2rD2Kx6CyVX.acs; '
+        'JSID=false; '
+        'um_jst=8C3E796CA1DCD59DC70BEBB6E5672CA85CA678F4B51228A5FE2C1209DADF6E4B; '
+        'lss_loc_id=79DC42CF5BB7BF088182EF773BAC6589AFEC0467E90490D434643D2FA4BD8110; '
+        'visid_incap_2643603=iHp0vwHFTFC1TOpdgjXMc7hRpmEAAAAAQUIPAAAAAAAIgJIATEgsk/7VrnxWBonK; '
+        'aria_user_profile={"pref":{"LOGIN_TYPE":"STANDARD","OFFICE_ID":"LOSN82312","ACTIVE_OFFICE_ID":"LOSN82312","IS_GUEST_MODE":false,"AGENT_SIGN":"1012","AGENT_INITIALS":"WX","DUTY_CODE":"GS","USER_ALIAS":"WXIAONAN","ORGANIZATION":"NMC-NIGERI","FIRST_NAME":"WANG","LAST_NAME":"XIAONAN","PHONE_NUMBER":"+2348039943766","LANGUAGE_PREF":"EN","OCTX":"","ENABLE_CUST_NAME":false,"SERVICEMENU_AVAILABLE":true,"LIST_OFFICES":[{"officeId":"LOSN82312","customName":null}],"is_a_logout":"logout"},"firstName":"","lastName":"","gender":""}; '
+        '674ce9d23b31b8a36605b73f0c2e841f=a99145dc04977b9c9327082dfb443dd9; '
+        'nlbi_1658442=ZNzCeCydP3Ia7Z08y0qGMAAAAADxjSgE2nAiHjjCFHFeTGV1; '
+        'visid_incap_1658442=HocagepUQbWG7mclGLhd+UDBpmEAAAAAQUIPAAAAAABtN653lEuEX4svWAbW0tGL; '
+        '455368185956a8f748fd35f7d905a930=841833e3acca1866c69464d98305225f; '
+        '5bb6f21dabcc922fce10d96f5b36a932=6125399e758c4d28a5a3ffe67cc94bf4; '
+        'incap_ses_636_2643603=aoSuT2Mvd1vW7GyKDIfTCEsEp2EAAAAACbnaBrKIDU+oIY3nFjRUDA==; '
+        'incap_ses_894_1658442=t6iDE/53uwxUsOeZriBoDEwEp2EAAAAAmLkyhn5PV33fJpgoCmww+Q==; '
+        'prxCookie=!Bg8juGbG+kPuGJHPUK3QNIFO+llyZyhEg1YEoiWeA/Q1Y8H+4f/yYjkuLQCb+pvN2lTqMgVcBZRIa9x+We0tlpkO+qgdbt3T1Ofi/iU='
+    )
+    payload = 'data={"jSessionId":"P5xQ0BWCMJWeO4jsxqXmxHZ0cEDXT9bwNIWBqDqs!1638335619670","contextId":"8c3e796ca1dce6ce9e46aeeeb53508f16aec49c7ec4662e8a77d425988fb3c7a","userId":"WXIAONAN","organization":"NMC-NIGERI","officeId":"LOSN82312","gds":"AMADEUS","isStatelessCloneRequired":false,"tasks":[{"type":"CRY","command":{"command":"AN02DECLOSFRA/ALH","prohibitedList":"SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"}},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"ACT","actionType":"speedmode.SpeedModeAction","args":{"argsType":"speedmode.SpeedModeActionArgs","obj":{}}},{"type":"PAR","parserType":"pnr.PnrParser"}]}'
 
     ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
@@ -723,6 +727,10 @@ def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
     try:
         result = json.loads(response.text)['model']['output']['crypticResponse']['response']
     except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False, ''
+    except KeyError as e :
         logger.warning('解析json失败 : ' + str(e))
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -886,7 +894,6 @@ def main():
 
 
 if __name__ == '__main__':
-
 
     branch_size = base_config['branch_size']
 

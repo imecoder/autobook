@@ -11,6 +11,7 @@
     },
     "main_page_loginjsp": {
         "url": "https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp",
+        "cookie_domain": "www.sellingplatformconnect.amadeus.com",
         "params": {
             "SITE": "LOGINURL",
             "LANGUAGE": "GB"

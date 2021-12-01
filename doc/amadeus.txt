@@ -6,6 +6,20 @@ ID:        LOSN82312
 
 一次性密码   ATVRFY
 
+-data -gif -png -css -prompt.js -svg -jpg -html -ttf -pdf -woff -cfm -7273017 -tpl -ico
+
+AN02DECLOSFRA/ALH
+SS1Y1
+NM1PEI/XUTONG
+APLOS08039943766
+TKTL/02DEC
+RFPEI
+ER
+
+
+SS KL1229 J 02DEC AMSCDG NN1
+
+
 
 AN02DECLOSFRA/ALH
 AN固定指令
@@ -44,7 +58,7 @@ ER固定
 
 快速预定指令
 
-SS KL1229 J 26NOV AMSCDG NN1
+SS KL1229 J 02DEC AMSCDG NN1
 
 SS 固定
 KL1229 航班号
@@ -52,3 +66,4 @@ J 仓位
 26NOV日期
 AMSCDG 城市代码对
 NN1    NN固定，1代表数量
+
