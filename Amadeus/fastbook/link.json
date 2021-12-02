@@ -32,7 +32,12 @@
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie"
+        ]
     },
     "main_page_init": {
         "url": "https://www.sellingplatformconnect.amadeus.com/LoginService/apfplus/modules/usermanagement/init;jsessionid=",
@@ -46,7 +51,12 @@
             "sec-fetch-site": "same-origin",
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie"
+        ]
     },
     "main_page_embedUiLess": {
         "url": "https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/embedUiLess",
@@ -57,7 +67,10 @@
             "sec-fetch-dest": "script",
             "sec-fetch-mode": "no-cors",
             "sec-fetch-site": "same-site"
-        }
+        },
+        "cookie": [
+            "JSID"
+        ]
     },
     "auth_page_init_option": {
         "url": "https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/init",
@@ -83,7 +96,13 @@
             "sec-fetch-site": "same-origin",
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "visid_incap_1943992",
+            "nlbi_1943992",
+            "incap_ses_407_1943992"
+        ]
     },
     "auth_page_indentify_option": {
         "url": "https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/identify",
@@ -109,7 +128,13 @@
             "sec-fetch-site": "same-origin",
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "visid_incap_1943992",
+            "nlbi_1943992",
+            "incap_ses_407_1943992"
+        ]
     },
     "auth_page_authenticate_option": {
         "url": "https://www.accounts.sellingplatformconnect.amadeus.com/LoginService/services/rs/auth2.0/authenticate",
@@ -135,7 +160,15 @@
             "sec-fetch-site": "same-origin",
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "visid_incap_1943992",
+            "nlbi_1943992",
+            "incap_ses_407_1943992",
+            "accessToken_SECO",
+            "lss_loc_id"
+        ]
     },
     "user_page_login": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/init/login",
@@ -151,7 +184,10 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1"
-        }
+        },
+        "cookie": [
+            "JSID"
+        ]
     },
     "user_page_UMCreateSessionKey": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=",
@@ -170,7 +206,16 @@
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "um_jst",
+            "455368185956a8f748fd35f7d905a930",
+            "prxCookie",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_636_2643603"
+        ]
     },
     "user_page_loginNewSession": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/loginNewSession.UM/login",
@@ -194,7 +239,16 @@
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "um_jst",
+            "455368185956a8f748fd35f7d905a930",
+            "prxCookie",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_636_2643603"
+        ]
     },
     "shell_page_cryptic_execute_instruction": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/cryptic/apfplus/modules/cryptic/cryptic",
@@ -209,6 +263,15 @@
             "sec-fetch-site": "same-origin",
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "um_jst",
+            "455368185956a8f748fd35f7d905a930",
+            "prxCookie",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_636_2643603"
+        ]
     }
 }
