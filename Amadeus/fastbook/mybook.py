@@ -4,14 +4,14 @@ import time
 import requests
 import threadpool
 import urllib3
+import json
+import os
 
 from mylog import *
 import mydb
 import myflag
 import myfile
-import json
-import os
-
+import mynet
 
 ret, link_config = myfile.read_json('link.json')
 if ret == False:
@@ -33,91 +33,6 @@ def limit():
         return True
     return False
 
-
-
-def netget(url, params={}, headers={}, payload=''):
-    try:
-        if base_config['debug']:
-            logger.warning('url = ' + url)
-
-        logger.warning('params = ' + json.dumps(params))
-        logger.warning('headers = ' + json.dumps(headers))
-        logger.warning('payload = ' + payload)
-
-        response = requests.get(url=url, params=params, headers=headers, data=payload, timeout=100)
-
-        if base_config['debug']:
-            logger.info(response.raw.headers)
-            logger.info('response.text >>>\n' + response.text + '\n')
-
-    except requests.exceptions.ReadTimeout as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-    except urllib3.exceptions.ReadTimeoutError as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-    except requests.exceptions.ConnectionError as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-
-    logger.warning(response.raw.headers.getlist('Set-Cookie'))
-
-    return True, response
-
-
-def netoption(url, params={}, headers={}, payload=''):
-    try:
-        if base_config['debug']:
-            logger.warning('url = ' + url)
-
-        logger.warning('params = ' + json.dumps(params))
-        logger.warning('headers = ' + json.dumps(headers))
-        logger.warning('payload = ' + payload)
-
-        response = requests.get(url=url, params=params, headers=headers, data=payload, timeout=100)
-
-        if base_config['debug']:
-            logger.info('response.headers >>>\n')
-            logger.info(response.raw.headers)
-            logger.info('response.text >>>\n' + response.text)
-
-    except requests.exceptions.ReadTimeout as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-    except urllib3.exceptions.ReadTimeoutError as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-
-    # logger.warning(response.raw.headers.getlist('Set-Cookie'))
-
-    return True, response
-
-
-def netpost(url, params={}, headers={}, payload=''):
-    try:
-        if base_config['debug']:
-            logger.warning('url = ' + url)
-
-        logger.warning('params = ' + json.dumps(params))
-        logger.warning('headers = ' + json.dumps(headers))
-        logger.warning('payload = ' + payload)
-
-        response = requests.post(url=url, params=params, headers=headers, data=payload, timeout=100)
-        if base_config['debug']:
-            logger.info('response.headers >>>\n')
-            logger.info(response.raw.headers)
-            logger.info('response.text >>>\n' + response.text)
-
-    except requests.exceptions.ReadTimeout as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-    except urllib3.exceptions.ReadTimeoutError as e:
-        logger.warning('网络超时 : ' + str(e))
-        return False, ''
-
-    # logger.warning(response.raw.headers.getlist('Set-Cookie'))
-
-    return True, response
 
 def get_link_info(name) :
     logger.warning('')
@@ -146,12 +61,26 @@ def get_link_info(name) :
 
 
 
+def find_cookie(set_cookies, key, filter) :
+    for coo in set_cookies:
+        if key in coo:
+            value = coo.split(key)[1].split(filter)[0]
+            logger.warning(key+value)
+            return value
+
+    logger.warning('未找到cookie : ' + key)
+    return '; '
+
+
+
+
+
 
 def main_page_loginjsp():
 
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = netget(url=url, params=params, headers=headers)
+    ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -178,7 +107,7 @@ def main_page_XMLRequestHandler():
 
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = netget(url=url, params=params, headers=headers)
+    ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -196,7 +125,7 @@ def main_page_init(sessionid):
         'loginPagePath': '/LoginService/login.jsp'
     })
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -227,7 +156,7 @@ def main_page_embedUiLess():
 
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = netget(url=url, params=params, headers=headers)
+    ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -254,7 +183,7 @@ def auth_page_init_option(model, lid):
 
     params['nonce']= model['nonce']
 
-    ret, response = netoption(url=url, params=params, headers=headers)
+    ret, response = mynet.option(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -272,7 +201,7 @@ def auth_page_init_post(model, lid):
               }) + \
               '&lid=' + lid
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -284,7 +213,7 @@ def auth_page_indentify_option(model, lid):
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
-    ret, response = netoption(url=url, params=params, headers=headers)
+    ret, response = mynet.option(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -309,7 +238,7 @@ def auth_page_indentify_post(model, lid):
               }) + \
               '&lid=' + lid
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -332,7 +261,7 @@ def auth_page_authenticate_option(model, lid, accessToken, oneTimePassword=''):
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
-    ret, response = netoption(url=url, params=params, headers=headers)
+    ret, response = mynet.option(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -359,7 +288,7 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
               }) + \
               '&lid=' + lid
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -399,7 +328,7 @@ def user_page_login(model, accessToken):
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
         'configToken'] + '&NONCE=' + model['nonce']
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -417,7 +346,7 @@ def user_page_login(model, accessToken):
 def user_page_UMCreateSessionKey(sessionid):
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = netget(url=url, params=params, headers=headers)
+    ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -447,7 +376,7 @@ def user_page_loginNewSession(ENC, ENCT):
     params['ENC'] = ENC
     params['aria.panelId'] = '2'
 
-    ret, response = netget(url=url, params=params, headers=headers)
+    ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -477,7 +406,7 @@ def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
     url, params, headers = get_link_info(sys._getframe().f_code.co_name)
     payload = 'data={"jSessionId":"P5xQ0BWCMJWeO4jsxqXmxHZ0cEDXT9bwNIWBqDqs!1638335619670","contextId":"8c3e796ca1dce6ce9e46aeeeb53508f16aec49c7ec4662e8a77d425988fb3c7a","userId":"WXIAONAN","organization":"NMC-NIGERI","officeId":"LOSN82312","gds":"AMADEUS","isStatelessCloneRequired":false,"tasks":[{"type":"CRY","command":{"command":"AN02DECLOSFRA/ALH","prohibitedList":"SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"}},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"ACT","actionType":"speedmode.SpeedModeAction","args":{"argsType":"speedmode.SpeedModeActionArgs","obj":{}}},{"type":"PAR","parserType":"pnr.PnrParser"}]}'
 
-    ret, response = netpost(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
