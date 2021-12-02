@@ -48,6 +48,8 @@ def get_link_info(name) :
             headers[key] = value
         # logger.warning(json.dumps(headers))
 
+        domain = link_config[name]['url'].split('https://')[1].split('/')[0]
+
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
         exit(0)
@@ -56,29 +58,25 @@ def get_link_info(name) :
         exit(0)
 
 
-    return link_config[name]['url'], link_config[name]['params'], headers
+    return link_config[name]['url'], link_config[name]['params'], headers, domain
 
 
 
 
-def find_cookie(set_cookies, key, filter) :
+def get_cookie(set_cookies) :
+    cookie = {}
     for coo in set_cookies:
-        if key in coo:
-            value = coo.split(key)[1].split(filter)[0]
-            logger.warning(key+value)
-            return value
+        key = coo.split(';')[0].split('=')[0]
+        value = coo.split(';')[0].split('=')[1]
+        cookie[key] = value
 
-    logger.warning('未找到cookie : ' + key)
-    return '; '
-
-
-
+    return cookie
 
 
 
 def main_page_loginjsp():
 
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
@@ -98,9 +96,10 @@ def main_page_loginjsp():
 
     logger.warning('sessionid = ' + sessionid)
 
-    response.raw.headers.getlist('Set-Cookie')
+    cookie = get_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
-    return True, newPrxCookie, sessionid
+    return True, cookie['prxCookie'], sessionid
 
 
 def main_page_XMLRequestHandler():
