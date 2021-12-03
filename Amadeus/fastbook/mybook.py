@@ -13,6 +13,10 @@ import myflag
 import myfile
 import mynet
 
+# mydb.clear_cookie()
+# exit()
+
+
 ret, link_config = myfile.read_json('link.json')
 if ret == False:
     exit(0)
@@ -37,18 +41,23 @@ def limit():
 def get_link_info(name) :
     logger.warning('')
     logger.warning('')
-    # logger.warning(name)
+    logger.warning(name)
 
     try:
         # logger.warning(link_config[name]['url'])
         # logger.warning(json.dumps(link_config[name]['params']))
 
+        domain = link_config[name]['url'].split('https://')[1].split('/')[0]
+
         headers = link_config['headers_base']
         for key, value in link_config[name]['headers'].items() :
             headers[key] = value
         # logger.warning(json.dumps(headers))
+        if 'cookie' in link_config[name] :
+            headers['cookie'] = ''
+            for key in link_config[name]['cookie']:
+                headers['cookie'] += (key + '=' + mydb.get_cookie(domain, key) + '; ')
 
-        domain = link_config[name]['url'].split('https://')[1].split('/')[0]
 
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
@@ -63,11 +72,12 @@ def get_link_info(name) :
 
 
 
-def get_cookie(set_cookies) :
+def get_response_cookie(set_cookies) :
     cookie = {}
     for coo in set_cookies:
-        key = coo.split(';')[0].split('=')[0]
-        value = coo.split(';')[0].split('=')[1]
+        data = coo.split(';')[0]
+        key = data.split('=')[0]
+        value = data[data.find('=')+1:]
         cookie[key] = value
 
     return cookie
@@ -83,6 +93,9 @@ def main_page_loginjsp():
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
     if 'aria.modules.RequestMgr.session.id' not in response.text:
         logger.warning('获取sessionid失败')
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
@@ -96,28 +109,28 @@ def main_page_loginjsp():
 
     logger.warning('sessionid = ' + sessionid)
 
-    cookie = get_cookie(response.raw.headers.getlist('Set-Cookie'))
-    mydb.save_cookie(domain=domain, cookie=cookie)
-
-    return True, cookie['prxCookie'], sessionid
+    return True, sessionid
 
 
 def main_page_XMLRequestHandler():
 
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
-    return True, newPrxCookie
+
+    return True
 
 
 def main_page_init(sessionid):
 
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     payload = 'data=' + json.dumps({
         'supportMode': False,
@@ -128,6 +141,9 @@ def main_page_init(sessionid):
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     lines = response.text.split('\n')
     data = ''
@@ -143,23 +159,24 @@ def main_page_init(sessionid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
 
-    logger.warning('clpUrl = ' + model['clpUrl'])
     logger.warning('nonce = ' + model['nonce'])
     logger.warning('sessionToken = ' + model['sessionToken'])
     logger.warning('configToken = ' + model['configToken'])
 
-    return True, newPrxCookie, model
+    return True, model
 
 
 def main_page_embedUiLess():
 
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     if 'window._clp_lid' not in response.text:
         logger.warning('获取lid失败')
@@ -178,7 +195,7 @@ def main_page_embedUiLess():
 
 
 def auth_page_init_option(model, lid):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     params['nonce']= model['nonce']
 
@@ -187,10 +204,13 @@ def auth_page_init_option(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
     return True
 
 def auth_page_init_post(model, lid):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     params['nonce']= model['nonce']
 
@@ -205,11 +225,14 @@ def auth_page_init_post(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
     return True
 
 
 def auth_page_indentify_option(model, lid):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
     ret, response = mynet.option(url=url, params=params, headers=headers)
@@ -217,6 +240,8 @@ def auth_page_indentify_option(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     return True
 
@@ -224,7 +249,7 @@ def auth_page_indentify_option(model, lid):
 
 
 def auth_page_indentify_post(model, lid):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
     payload = 'data=' + \
@@ -242,6 +267,9 @@ def auth_page_indentify_post(model, lid):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
     try:
         accessToken = json.loads(response.text)['accessToken']
     except json.decoder.JSONDecodeError as e:
@@ -257,7 +285,7 @@ def auth_page_indentify_post(model, lid):
 
 
 def auth_page_authenticate_option(model, lid, accessToken, oneTimePassword=''):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
     ret, response = mynet.option(url=url, params=params, headers=headers)
@@ -265,12 +293,15 @@ def auth_page_authenticate_option(model, lid, accessToken, oneTimePassword=''):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
 
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
     return True
 
 
 
 def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
     payload = 'data=' + \
@@ -291,6 +322,9 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     try:
         responsejson = json.loads(response.text)
@@ -313,16 +347,14 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
 
-    logger.warning('newaccessToken >>> ' + newaccessToken)
-
-    exit(0)
+    logger.warning('newaccessToken = ' + newaccessToken)
 
     return True, newaccessToken
 
 
 
 def user_page_login(model, accessToken):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
         'configToken'] + '&NONCE=' + model['nonce']
@@ -331,6 +363,9 @@ def user_page_login(model, accessToken):
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     lines = response.text.split('\n')
     for line in lines:
@@ -343,12 +378,15 @@ def user_page_login(model, accessToken):
     return True, newsessionid
 
 def user_page_UMCreateSessionKey(sessionid):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     ret, response = mynet.get(url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     if '{"ENC":"' not in response.text:
         logger.warning('获取 ENC 失败')
@@ -366,12 +404,11 @@ def user_page_UMCreateSessionKey(sessionid):
     logger.warning('ENC = ' + ENC)
     logger.warning('ENCT = ' + ENCT)
 
-
     return True, ENC, ENCT
 
 
 def user_page_loginNewSession(ENC, ENCT):
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['ENC'] = ENC
     params['aria.panelId'] = '2'
 
@@ -379,6 +416,9 @@ def user_page_loginNewSession(ENC, ENCT):
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     if '<aria-response jsessionid=' not in response.text:
         logger.warning('获取新的 jsessionid 失败')
@@ -397,18 +437,22 @@ def user_page_loginNewSession(ENC, ENCT):
     logger.warning('newsessionid = ' + newsessionid)
     logger.warning('contextId = ' + contextId)
 
+
     return True, newsessionid, contextId
 
 
 def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
 # def shell_page_cryptic_execute_instruction():
-    url, params, headers = get_link_info(sys._getframe().f_code.co_name)
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     payload = 'data={"jSessionId":"P5xQ0BWCMJWeO4jsxqXmxHZ0cEDXT9bwNIWBqDqs!1638335619670","contextId":"8c3e796ca1dce6ce9e46aeeeb53508f16aec49c7ec4662e8a77d425988fb3c7a","userId":"WXIAONAN","organization":"NMC-NIGERI","officeId":"LOSN82312","gds":"AMADEUS","isStatelessCloneRequired":false,"tasks":[{"type":"CRY","command":{"command":"AN02DECLOSFRA/ALH","prohibitedList":"SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"}},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"ACT","actionType":"speedmode.SpeedModeAction","args":{"argsType":"speedmode.SpeedModeActionArgs","obj":{}}},{"type":"PAR","parserType":"pnr.PnrParser"}]}'
 
     ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
 
     try:
         result = json.loads(response.text)['model']['output']['crypticResponse']['response']

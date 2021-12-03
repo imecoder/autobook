@@ -4,6 +4,7 @@
         "accept-language": "zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7",
         "pragma": "no-cache",
         "cache-control": "no-cache",
+        "Connection":"keep-alive",
         "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "\"Windows\"",
@@ -212,18 +213,13 @@
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
             "prxCookie",
-            "lss_loc_id",
-            "visid_incap_2643603",
-            "incap_ses_636_2643603"
+            "lss_loc_id"
         ]
     },
     "user_page_loginNewSession": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/loginNewSession.UM/login",
         "params": {
-            "LANGUAGE": [
-                "CN",
-                "CN"
-            ],
+            "LANGUAGE": "CN",
             "J0CCJ0CC": "",
             "persoUpdateDateInMillis": "undefined",
             "MARKETS": "OID_losn82312",
@@ -245,9 +241,29 @@
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
             "prxCookie",
-            "lss_loc_id",
-            "visid_incap_2643603",
-            "incap_ses_636_2643603"
+            "lss_loc_id"
+        ]
+    },
+    "user_page_index_html": {
+        "url": "https://customsolutions.amadeus.com/APAC/TravelSafety/12d3deb0-24ce-11eb-b0ef-0050560c4716/latest/index.html",
+        "params": {
+            "LANGUAGE": "CN",
+            "S_ENV": "PRD",
+            "SP_ID": "APAC_TRVSTY_PRD",
+            "CLP_URL": "https://www.accounts.sellingplatformconnect.amadeus.com",
+            "CLP_SAML_SSO_PATH": "LoginService/saml/sso?service=SECO&office=LOSN82312",
+            "POPUP_ID": "smartTool_8hlqgkwp6q4h8",
+            "secoDomain": "https://www.booking1.sellingplatformconnect.amadeus.com",
+            "EXTERNAL_CATALOG_VERSION": "29.0.0"
+        },
+        "headers": {
+            "sec-fetch-dest": "iframe",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "same-site",
+            "upgrade-insecure-requests": "1"
+        },
+        "cookie": [
+            "JSID"
         ]
     },
     "shell_page_cryptic_execute_instruction": {
