@@ -3,6 +3,7 @@ import urllib3
 import json
 from mylog import *
 
+session = requests.session()
 
 def get(url, params={}, headers={}, payload='', debug=True):
     try:
@@ -14,7 +15,7 @@ def get(url, params={}, headers={}, payload='', debug=True):
             logger.warning('headers = ' + json.dumps(headers))
             logger.warning('payload = ' + payload)
 
-        response = requests.get(url=url, params=params, headers=headers, data=payload, timeout=100)
+        response = session.get(url=url, params=params, headers=headers, data=payload, timeout=100)
 
         logger.warning("-------------- response --------------")
 
@@ -49,7 +50,7 @@ def option(url, params={}, headers={}, payload='', debug=True):
             logger.warning('headers = ' + json.dumps(headers))
             logger.warning('payload = ' + payload)
 
-        response = requests.options(url=url, params=params, headers=headers, data=payload, timeout=100)
+        response = session.options(url=url, params=params, headers=headers, data=payload, timeout=100)
 
         logger.warning("-------------- response --------------")
 
@@ -83,7 +84,7 @@ def post(url, params={}, headers={}, payload='', debug=True):
             logger.warning('headers = ' + json.dumps(headers))
             logger.warning('payload = ' + payload)
 
-        response = requests.post(url=url, params=params, headers=headers, data=payload, timeout=100)
+        response = session.post(url=url, params=params, headers=headers, data=payload, timeout=100)
 
         logger.warning("-------------- response --------------")
 

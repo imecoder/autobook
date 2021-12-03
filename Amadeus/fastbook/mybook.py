@@ -13,7 +13,7 @@ import myflag
 import myfile
 import mynet
 
-# mydb.clear_cookie()
+mydb.clear_cookie()
 # exit()
 
 
@@ -605,6 +605,8 @@ def login() :
         # ret = auth_page_indentify_option(model, lid)
         # if ret == False:
         #     exit(-1)
+
+        exit(0)
 
         ret, accessToken = auth_page_indentify_post(model, lid)
         if ret == False:
