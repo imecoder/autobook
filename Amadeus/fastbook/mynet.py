@@ -3,9 +3,7 @@ import urllib3
 import json
 from mylog import *
 
-session = requests.session()
-
-def get(url, params={}, headers={}, payload='', debug=True):
+def get(session, url, params={}, headers={}, payload='', debug=True):
     try:
         logger.warning("-------------- request --------------")
 
@@ -40,7 +38,7 @@ def get(url, params={}, headers={}, payload='', debug=True):
     return True, response
 
 
-def option(url, params={}, headers={}, payload='', debug=True):
+def option(session, url, params={}, headers={}, payload='', debug=True):
     try:
         logger.warning("-------------- request --------------")
 
@@ -74,7 +72,7 @@ def option(url, params={}, headers={}, payload='', debug=True):
     return True, response
 
 
-def post(url, params={}, headers={}, payload='', debug=True):
+def post(session, url, params={}, headers={}, payload='', debug=True):
     try:
         logger.warning("-------------- request --------------")
 

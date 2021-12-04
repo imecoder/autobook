@@ -17,6 +17,10 @@ mydb.clear_cookie()
 # exit()
 
 
+main_session = requests.session()
+auth_session = requests.session()
+
+
 ret, link_config = myfile.read_json('link.json')
 if ret == False:
     exit(0)
@@ -88,7 +92,7 @@ def main_page_loginjsp():
 
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = mynet.get(url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -116,7 +120,7 @@ def main_page_XMLRequestHandler():
 
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = mynet.get(url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -131,13 +135,14 @@ def main_page_XMLRequestHandler():
 def main_page_init(sessionid):
 
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
+    url += sessionid
 
     payload = 'data=' + json.dumps({
         'supportMode': False,
         'loginPagePath': '/LoginService/login.jsp'
     })
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -170,7 +175,7 @@ def main_page_embedUiLess():
 
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
-    ret, response = mynet.get(url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=auth_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -199,7 +204,7 @@ def auth_page_init_option(model, lid):
 
     params['nonce']= model['nonce']
 
-    ret, response = mynet.option(url=url, params=params, headers=headers)
+    ret, response = mynet.option(session=auth_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -220,7 +225,7 @@ def auth_page_init_post(model, lid):
               }) + \
               '&lid=' + lid
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=auth_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -235,7 +240,7 @@ def auth_page_indentify_option(model, lid):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
-    ret, response = mynet.option(url=url, params=params, headers=headers)
+    ret, response = mynet.option(session=auth_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -262,7 +267,7 @@ def auth_page_indentify_post(model, lid):
               }) + \
               '&lid=' + lid
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=auth_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -288,7 +293,7 @@ def auth_page_authenticate_option(model, lid, accessToken, oneTimePassword=''):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
-    ret, response = mynet.option(url=url, params=params, headers=headers)
+    ret, response = mynet.option(session=auth_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -318,7 +323,7 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
               }) + \
               '&lid=' + lid
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=auth_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -359,7 +364,7 @@ def user_page_login(model, accessToken):
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
         'configToken'] + '&NONCE=' + model['nonce']
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -379,8 +384,9 @@ def user_page_login(model, accessToken):
 
 def user_page_UMCreateSessionKey(sessionid):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
+    url += sessionid
 
-    ret, response = mynet.get(url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -412,7 +418,7 @@ def user_page_loginNewSession(ENC, ENCT):
     params['ENC'] = ENC
     params['aria.panelId'] = '2'
 
-    ret, response = mynet.get(url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -446,7 +452,7 @@ def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     payload = 'data={"jSessionId":"P5xQ0BWCMJWeO4jsxqXmxHZ0cEDXT9bwNIWBqDqs!1638335619670","contextId":"8c3e796ca1dce6ce9e46aeeeb53508f16aec49c7ec4662e8a77d425988fb3c7a","userId":"WXIAONAN","organization":"NMC-NIGERI","officeId":"LOSN82312","gds":"AMADEUS","isStatelessCloneRequired":false,"tasks":[{"type":"CRY","command":{"command":"AN02DECLOSFRA/ALH","prohibitedList":"SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"}},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"ACT","actionType":"speedmode.SpeedModeAction","args":{"argsType":"speedmode.SpeedModeActionArgs","obj":{}}},{"type":"PAR","parserType":"pnr.PnrParser"}]}'
 
-    ret, response = mynet.post(url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -605,8 +611,6 @@ def login() :
         # ret = auth_page_indentify_option(model, lid)
         # if ret == False:
         #     exit(-1)
-
-        exit(0)
 
         ret, accessToken = auth_page_indentify_post(model, lid)
         if ret == False:
