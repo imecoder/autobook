@@ -8,6 +8,7 @@
         "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "\"Windows\"",
+        "TE": "ttrailers",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
     },
     "main_page_loginjsp": {
@@ -171,7 +172,7 @@
             "lss_loc_id"
         ]
     },
-    "user_page_login": {
+    "book_page_login": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/init/login",
         "params": {
             "SITE": "LOGINURL",
@@ -190,7 +191,7 @@
             "JSID"
         ]
     },
-    "user_page_UMCreateSessionKey": {
+    "book_page_UMCreateSessionKey": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/sellweb_home.taskmgr/UMCreateSessionKey;jsessionid=",
         "params": {
             "flowExKey": "e5s1",
@@ -216,7 +217,7 @@
             "lss_loc_id"
         ]
     },
-    "user_page_loginNewSession": {
+    "book_page_loginNewSession": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/do/loginNewSession.UM/login",
         "params": {
             "LANGUAGE": "CN",
@@ -244,7 +245,7 @@
             "lss_loc_id"
         ]
     },
-    "user_page_index_html": {
+    "book_page_index_html": {
         "url": "https://customsolutions.amadeus.com/APAC/TravelSafety/12d3deb0-24ce-11eb-b0ef-0050560c4716/latest/index.html",
         "params": {
             "LANGUAGE": "CN",

@@ -19,6 +19,8 @@ mydb.clear_cookie()
 
 main_session = requests.session()
 auth_session = requests.session()
+book_session = requests.session()
+
 
 
 ret, link_config = myfile.read_json('link.json')
@@ -358,13 +360,13 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
 
 
 
-def user_page_login(model, accessToken):
+def book_page_login(model, accessToken):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
         'configToken'] + '&NONCE=' + model['nonce']
 
-    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=book_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -382,11 +384,11 @@ def user_page_login(model, accessToken):
 
     return True, newsessionid
 
-def user_page_UMCreateSessionKey(sessionid):
+def book_page_UMCreateSessionKey(sessionid):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     url += sessionid
 
-    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=book_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -413,12 +415,12 @@ def user_page_UMCreateSessionKey(sessionid):
     return True, ENC, ENCT
 
 
-def user_page_loginNewSession(ENC, ENCT):
+def book_page_loginNewSession(ENC, ENCT):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['ENC'] = ENC
     params['aria.panelId'] = '2'
 
-    ret, response = mynet.get(session=main_session, url=url, params=params, headers=headers)
+    ret, response = mynet.get(session=book_session, url=url, params=params, headers=headers)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, '', ''
@@ -452,7 +454,7 @@ def shell_page_cryptic_execute_instruction(newsessionid, contextId, command):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     payload = 'data={"jSessionId":"P5xQ0BWCMJWeO4jsxqXmxHZ0cEDXT9bwNIWBqDqs!1638335619670","contextId":"8c3e796ca1dce6ce9e46aeeeb53508f16aec49c7ec4662e8a77d425988fb3c7a","userId":"WXIAONAN","organization":"NMC-NIGERI","officeId":"LOSN82312","gds":"AMADEUS","isStatelessCloneRequired":false,"tasks":[{"type":"CRY","command":{"command":"AN02DECLOSFRA/ALH","prohibitedList":"SITE_JCPCRYPTIC_PROHIBITED_COMMANDS_LIST_2"}},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"PAR","parserType":"screens.ScreenTypeParser"},{"type":"ACT","actionType":"speedmode.SpeedModeAction","args":{"argsType":"speedmode.SpeedModeActionArgs","obj":{}}},{"type":"PAR","parserType":"pnr.PnrParser"}]}'
 
-    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
+    ret, response = mynet.post(session=book_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, ''
@@ -665,20 +667,22 @@ if __name__ == '__main__':
 
             model, accessToken = login()
 
-            ret, sessionid = user_page_login(model, accessToken)
+            ret, sessionid = book_page_login(model, accessToken)
             if ret == False :
                 continue
 
-            # ret = user_page_CreateMonoSession(sessionid)
+            # ret = book_page_CreateMonoSession(sessionid)
             # # if ret == False :
             # #     continue
 
 
-            ret, ENC, ENCT = user_page_UMCreateSessionKey(sessionid)
+            ret, ENC, ENCT = book_page_UMCreateSessionKey(sessionid)
             # if ret == False :
             #     continue
 
-            ret, sessionid, contextId = user_page_loginNewSession(ENC, ENCT)
+            exit(0)
+
+            ret, sessionid, contextId = book_page_loginNewSession(ENC, ENCT)
             # if ret == False :
             #     continue
 
