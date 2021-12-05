@@ -28,11 +28,15 @@
     },
     "main_page_XMLRequestHandler": {
         "url": "https://www.sellingplatformconnect.amadeus.com/LoginService-static/aria/modules/requestHandler/XMLRequestHandler-1ya0zpy.js",
-        "params": {},
+        "params": {
+            "SITE": "LOGINURL",
+            "LANGUAGE": "GB"
+        },
         "headers": {
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
         "cookie": [
@@ -172,7 +176,30 @@
             "lss_loc_id"
         ]
     },
-    "book_page_login": {
+    "main_page_resolveFarmLink": {
+        "url": "https://www.sellingplatformconnect.amadeus.com/LoginService/apfplus/modules/usermanagement/resolveFarmLink;jsessionid=",
+        "params": {
+            "SITE": "LOGINURL",
+            "LANGUAGE": "CN"
+        },
+        "headers": {
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "x-requested-with": "XMLHttpRequest"
+        },
+        "cookie": [
+            "JSID",
+            "visid_incap_1943992",
+            "nlbi_1943992",
+            "incap_ses_407_1943992",
+            "lss_loc_id",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie"
+        ]
+    },
+    "book_page_init_login": {
         "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/init/login",
         "params": {
             "SITE": "LOGINURL",
@@ -189,6 +216,24 @@
         },
         "cookie": [
             "JSID"
+        ]
+    },
+    "book_page_view_login": {
+        "url": "https://www.booking1.sellingplatformconnect.amadeus.com/app_sell2.0/apf/view/login;jsessionid=",
+        "params": {
+        },
+        "headers": {
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "x-requested-with": "XMLHttpRequest"
+        },
+        "cookie": [
+            "JSID",
+            "um_jst",
+            "455368185956a8f748fd35f7d905a930",
+            "prxCookie"
         ]
     },
     "book_page_UMCreateSessionKey": {

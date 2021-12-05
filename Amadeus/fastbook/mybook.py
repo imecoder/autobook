@@ -55,7 +55,7 @@ def get_link_info(name) :
 
         domain = link_config[name]['url'].split('https://')[1].split('/')[0]
 
-        headers = link_config['headers_base']
+        headers = link_config['headers_base'].copy()
         for key, value in link_config[name]['headers'].items() :
             headers[key] = value
         # logger.warning(json.dumps(headers))
@@ -291,7 +291,7 @@ def auth_page_indentify_post(model, lid):
 
 
 
-def auth_page_authenticate_option(model, lid, accessToken, oneTimePassword=''):
+def auth_page_authenticate_option(model):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
     params['nonce']= model['nonce']
 
@@ -360,7 +360,33 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
 
 
 
-def book_page_login(model, accessToken):
+
+def main_page_resolveFarmLink(sessionid, accessToken, model):
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
+    url += sessionid
+
+    payload = 'data=' + \
+              json.dumps({
+                  'idToken': model['configToken'],
+                  'nonce': model['nonce'],
+                  'accessToken': accessToken,
+                  'clpVersion': '19.10.225'
+              })
+
+    ret, response = mynet.post(session=main_session, url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
+    mydb.save_cookie(domain=domain, cookie=cookie)
+
+    return True
+
+
+
+
+def book_page_init_login(model, accessToken):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
 
     payload = 'ACTION=UMSignInByAccessToken&ACCESS_TOKEN=' + accessToken + '&ID_TOKEN=' + model[
@@ -369,7 +395,7 @@ def book_page_login(model, accessToken):
     ret, response = mynet.post(session=book_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False
+        return False, ''
 
     cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
     mydb.save_cookie(domain=domain, cookie=cookie)
@@ -383,6 +409,29 @@ def book_page_login(model, accessToken):
     logger.warning('newsessionid = ' + newsessionid)
 
     return True, newsessionid
+
+
+def book_page_view_login(sessionid, model, accessToken):
+    url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
+    url += ( sessionid + '.acs' )
+
+    payload = 'ACTION=UMSignInByAccessToken' +\
+              '&ACCESS_TOKEN=' + accessToken + \
+              '&ID_TOKEN=' + model['configToken'] + \
+              '&NONCE=' + model['nonce'] + \
+              '&LANGUAGE=CN' + \
+              '&SITE=LOGINURL' + \
+              '&refreshOnError=true' + \
+              '&aria.panelId=0'
+
+    ret, response = mynet.post(session=book_session, url=url, params=params, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+
+    return True
+
+
 
 def book_page_UMCreateSessionKey(sessionid):
     url, params, headers, domain = get_link_info(sys._getframe().f_code.co_name)
@@ -589,10 +638,10 @@ def login() :
         ret, sessionid = main_page_loginjsp()
         if ret == False:
             exit(-1)
-        #
-        # ret = main_page_XMLRequestHandler()
-        # if ret == False:
-        #     exit(-1)
+
+        ret = main_page_XMLRequestHandler()
+        if ret == False:
+            exit(-1)
 
         ret, model = main_page_init(sessionid)
         if ret == False:
@@ -601,18 +650,18 @@ def login() :
         ret, lid = main_page_embedUiLess()
         if ret == False:
             exit(-1)
-        #
-        # ret = auth_page_init_option(model, lid)
-        # if ret == False:
-        #     exit(-1)
-        #
-        # ret = auth_page_init_post(model, lid)
-        # if ret == False:
-        #     exit(-1)
-        #
-        # ret = auth_page_indentify_option(model, lid)
-        # if ret == False:
-        #     exit(-1)
+
+        ret = auth_page_init_option(model, lid)
+        if ret == False:
+            exit(-1)
+
+        ret = auth_page_init_post(model, lid)
+        if ret == False:
+            exit(-1)
+
+        ret = auth_page_indentify_option(model, lid)
+        if ret == False:
+            exit(-1)
 
         ret, accessToken = auth_page_indentify_post(model, lid)
         if ret == False:
@@ -628,8 +677,18 @@ def login() :
             if oneTimePassword.strip('') != '':
                 break
 
+    time.sleep(20)
+
+    ret = auth_page_authenticate_option(model)
+    if ret == False:
+        exit(-1)
+
     # oneTimePassword=''
     ret, newAccessToken = auth_page_authenticate_post(model, lid, accessToken, oneTimePassword.strip(' '))
+    if ret == False:
+        exit(-1)
+
+    ret = main_page_resolveFarmLink(sessionid, newAccessToken, model)
     if ret == False:
         exit(-1)
 
@@ -667,7 +726,11 @@ if __name__ == '__main__':
 
             model, accessToken = login()
 
-            ret, sessionid = book_page_login(model, accessToken)
+            ret, sessionid = book_page_init_login(model, accessToken)
+            if ret == False :
+                continue
+
+            ret = book_page_view_login(sessionid, model, accessToken)
             if ret == False :
                 continue
 
