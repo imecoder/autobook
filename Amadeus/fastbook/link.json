@@ -107,7 +107,7 @@
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
-            "incap_ses_407_1943992"
+            "incap_ses_200_1943992"
         ]
     },
     "auth_page_indentify_option": {
@@ -139,7 +139,7 @@
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
-            "incap_ses_407_1943992"
+            "incap_ses_200_1943992"
         ]
     },
     "auth_page_authenticate_option": {
@@ -171,7 +171,7 @@
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
-            "incap_ses_407_1943992",
+            "incap_ses_200_1943992",
             "accessToken_SECO",
             "lss_loc_id"
         ]
@@ -193,7 +193,7 @@
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
-            "incap_ses_407_1943992",
+            "incap_ses_200_1943992",
             "lss_loc_id",
             "70f276b919ac6ed3c8047ca07019200a",
             "prxCookie"

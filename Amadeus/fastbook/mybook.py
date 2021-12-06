@@ -328,7 +328,7 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
     ret, response = mynet.post(session=auth_session, url=url, params=params, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False, ''
+        return False, False, ''
 
     cookie = get_response_cookie(response.raw.headers.getlist('Set-Cookie'))
     mydb.save_cookie(domain=domain, cookie=cookie)
@@ -339,24 +339,21 @@ def auth_page_authenticate_post(model, lid, accessToken, oneTimePassword=''):
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False, ''
-
-    logger.warning('responseStatus >>> ' + responseStatus)
+        return False, False, ''
 
     if responseStatus != '[]' :
         logger.warning(sys._getframe().f_code.co_name + ' 验证登录失败')
-        return False, ''
+        return True, True, ''
 
-    try:
-        newaccessToken = responsejson['accessToken']
-    except json.decoder.JSONDecodeError as e:
-        logger.warning('解析json失败 : ' + str(e))
-        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False, ''
+    if responsejson['daysBeforePasswordExpiration'] == -1 :
+        logger.warning(sys._getframe().f_code.co_name + ' 验证登录失败')
+        return True, True, ''
+
+    newaccessToken = responsejson['accessToken']
 
     logger.warning('newaccessToken = ' + newaccessToken)
 
-    return True, newaccessToken
+    return True, False, newaccessToken
 
 
 
@@ -677,16 +674,21 @@ def login() :
             if oneTimePassword.strip('') != '':
                 break
 
-    time.sleep(20)
+    for i in range(2) :
+        ret = auth_page_authenticate_option(model)
+        if ret == False:
+            exit(-1)
 
-    ret = auth_page_authenticate_option(model)
-    if ret == False:
-        exit(-1)
+        time.sleep(2)
 
-    # oneTimePassword=''
-    ret, newAccessToken = auth_page_authenticate_post(model, lid, accessToken, oneTimePassword.strip(' '))
-    if ret == False:
-        exit(-1)
+        # oneTimePassword=''
+        ret, reauth_flag, newAccessToken = auth_page_authenticate_post(model, lid, accessToken, oneTimePassword.strip(' '))
+        if ret == False:
+            exit(-1)
+        if reauth_flag == True :
+            continue
+
+        break
 
     ret = main_page_resolveFarmLink(sessionid, newAccessToken, model)
     if ret == False:
@@ -738,6 +740,7 @@ if __name__ == '__main__':
             # # if ret == False :
             # #     continue
 
+            exit(0)
 
             ret, ENC, ENCT = book_page_UMCreateSessionKey(sessionid)
             # if ret == False :
