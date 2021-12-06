@@ -24,7 +24,14 @@
             "sec-fetch-site": "none",
             "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1"
-        }
+        },
+        "cookie": [
+            "JSID",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603"
+        ]
     },
     "main_page_XMLRequestHandler": {
         "url": "https://www.sellingplatformconnect.amadeus.com/LoginService-static/aria/modules/requestHandler/XMLRequestHandler-1ya0zpy.js",
@@ -39,10 +46,17 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "70f276b919ac6ed3c8047ca07019200a",
             "prxCookie"
+        ],
+        "cookie": [
+            "JSID",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603"
         ]
     },
     "main_page_init": {
@@ -58,10 +72,18 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "70f276b919ac6ed3c8047ca07019200a",
             "prxCookie"
+        ],
+        "cookie": [
+            "JSID",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603"
         ]
     },
     "main_page_embedUiLess": {
@@ -74,8 +96,21 @@
             "sec-fetch-mode": "no-cors",
             "sec-fetch-site": "same-site"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "accessToken_AAM",
+            "accessToken_ASH",
+            "accessToken_SECO",
+            "visid_incap_1943992",
+            "incap_ses_200_1943992",
+            "nlbi_1943992",
+            "sso_t"
         ]
     },
     "auth_page_init_option": {
@@ -103,11 +138,24 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
             "incap_ses_200_1943992"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "accessToken_AAM",
+            "accessToken_ASH",
+            "accessToken_SECO",
+            "visid_incap_1943992",
+            "incap_ses_200_1943992",
+            "nlbi_1943992",
+            "sso_t"
         ]
     },
     "auth_page_indentify_option": {
@@ -135,11 +183,24 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
             "incap_ses_200_1943992"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "accessToken_AAM",
+            "accessToken_ASH",
+            "accessToken_SECO",
+            "visid_incap_1943992",
+            "incap_ses_200_1943992",
+            "nlbi_1943992",
+            "sso_t"
         ]
     },
     "auth_page_authenticate_option": {
@@ -167,13 +228,26 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "visid_incap_1943992",
             "nlbi_1943992",
             "incap_ses_200_1943992",
             "accessToken_SECO",
             "lss_loc_id"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "accessToken_AAM",
+            "accessToken_ASH",
+            "accessToken_SECO",
+            "visid_incap_1943992",
+            "incap_ses_200_1943992",
+            "nlbi_1943992",
+            "sso_t"
         ]
     },
     "main_page_resolveFarmLink": {
@@ -189,14 +263,19 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
-            "visid_incap_1943992",
-            "nlbi_1943992",
-            "incap_ses_200_1943992",
             "lss_loc_id",
             "70f276b919ac6ed3c8047ca07019200a",
             "prxCookie"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "70f276b919ac6ed3c8047ca07019200a",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603"
         ]
     },
     "book_page_init_login": {
@@ -214,8 +293,20 @@
             "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "455368185956a8f748fd35f7d905a930",
+            "5bb6f21dabcc922fce10d96f5b36a932",
+            "674ce9d23b31b8a36605b73f0c2e841f",
+            "aria_user_profile",
+            "um_jst"
         ]
     },
     "book_page_view_login": {
@@ -229,11 +320,23 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
             "prxCookie"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "455368185956a8f748fd35f7d905a930",
+            "5bb6f21dabcc922fce10d96f5b36a932",
+            "674ce9d23b31b8a36605b73f0c2e841f",
+            "aria_user_profile",
+            "um_jst"
         ]
     },
     "book_page_UMCreateSessionKey": {
@@ -254,12 +357,24 @@
             "sec-fetch-site": "same-origin",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
             "prxCookie",
             "lss_loc_id"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "455368185956a8f748fd35f7d905a930",
+            "5bb6f21dabcc922fce10d96f5b36a932",
+            "674ce9d23b31b8a36605b73f0c2e841f",
+            "aria_user_profile",
+            "um_jst"
         ]
     },
     "book_page_loginNewSession": {
@@ -282,12 +397,24 @@
             "sec-fetch-site": "same-origin",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
             "prxCookie",
             "lss_loc_id"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "455368185956a8f748fd35f7d905a930",
+            "5bb6f21dabcc922fce10d96f5b36a932",
+            "674ce9d23b31b8a36605b73f0c2e841f",
+            "aria_user_profile",
+            "um_jst"
         ]
     },
     "book_page_index_html": {
@@ -308,8 +435,13 @@
             "sec-fetch-site": "same-site",
             "upgrade-insecure-requests": "1"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID"
+        ],
+        "cookie": [
+            "JSID",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603"
         ]
     },
     "shell_page_cryptic_execute_instruction": {
@@ -326,7 +458,7 @@
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-requested-with": "XMLHttpRequest"
         },
-        "cookie": [
+        "first_cookie": [
             "JSID",
             "um_jst",
             "455368185956a8f748fd35f7d905a930",
@@ -334,6 +466,17 @@
             "lss_loc_id",
             "visid_incap_2643603",
             "incap_ses_636_2643603"
+        ],
+        "cookie": [
+            "JSID",
+            "lss_loc_id",
+            "prxCookie",
+            "visid_incap_2643603",
+            "incap_ses_1510_2643603",
+            "455368185956a8f748fd35f7d905a930",
+            "674ce9d23b31b8a36605b73f0c2e841f",
+            "um_jst",
+            "JSESSIONID"
         ]
     }
 }
