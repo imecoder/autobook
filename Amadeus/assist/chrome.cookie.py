@@ -71,6 +71,6 @@ def get_cookies_from_chrome(domain):
 
     return cookie
 if __name__ == '__main__':
-    domain = 'amadeus.com'   # 目标网站域名
+    domain = 'amadeus'   # 目标网站域名
     cookie = get_cookies_from_chrome(domain)
     print(json.dumps(cookie))
