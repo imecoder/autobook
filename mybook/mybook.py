@@ -495,6 +495,20 @@ def auto_book(sessionid):
     if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
         logger.warning('前期客户电话命令已经执行...')
 
+    'SI.LH*CTCEPEILANGLANG//GMAIL.COM'
+
+
+    # email
+    ret, msg = execute_instruction(sessionid, book_config["email"])
+    if ret == False :
+        logger.warning(msg)
+        return False, ''
+
+    if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
+        logger.warning('前期客户邮箱命令已经执行...')
+
+
+
     # R.PEI
     ret, msg = execute_instruction(sessionid, "R.PEI")
     if ret == False:
