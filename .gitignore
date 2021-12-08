@@ -13,7 +13,6 @@ log*
 *pro.user*
 *Makefile*
 *debug*
-*release*
 tmp*
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
@@ -85,7 +84,5 @@ Thumbs.db
 
 # Binaries
 # --------
-*.dll
-*.exe
-
-amadeus-flight-booking-django/
+moc_*
+*.o

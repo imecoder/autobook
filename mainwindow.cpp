@@ -181,7 +181,7 @@ void MainWindow::on_pushButtonBookAdd_clicked()
     jsonObject.insert("contact", ui->lineEditContact->text());
     jsonObject.insert("email", ui->lineEditEmail->text());
 
-    jsonBookConfig.append(jsonObject);
+    jsonBookConfig.insert(0,jsonObject);
 
     clearBookConfig();
     clearTableWidgetBookList();

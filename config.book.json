@@ -2,46 +2,31 @@
     {
         "comp": "LH",
         "contact": "P.LOST08039943766",
-        "date": "24NOV",
+        "date": "2021-12-10",
         "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
-        "flight": "728",
-        "from": "FRA",
+        "flight": "569",
+        "from": "LOS",
         "space": [
             "Y",
             "G",
             "J"
         ],
-        "to": "PVG",
-        "user": "N.FANG/AAA"
+        "to": "FRA",
+        "user": "N.ZHANG/aaa"
     },
     {
         "comp": "LH",
         "contact": "P.LOST08039943766",
-        "date": "24NOV",
+        "date": "2021-12-10",
         "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
-        "flight": "728",
-        "from": "FRA",
+        "flight": "569",
+        "from": "LOS",
         "space": [
             "Y",
             "G",
             "J"
         ],
-        "to": "PVG",
-        "user": "N.FANG/BBB"
-    },
-    {
-        "comp": "LH",
-        "contact": "P.LOST08039943766",
-        "date": "24NOV",
-        "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
-        "flight": "728",
-        "from": "FRA",
-        "space": [
-            "Y",
-            "G",
-            "J"
-        ],
-        "to": "PVG",
-        "user": "N.FANG/CCC"
+        "to": "FRA",
+        "user": "N.ZHANG/KUNYUN"
     }
 ]
