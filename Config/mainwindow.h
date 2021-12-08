@@ -35,6 +35,9 @@ private:
     QJsonArray jsonBookConfig;
     int currentRow;
 
+    QString toString(QJsonValue) ;
+    QJsonValue toJsonValue(QString) ;
+
     void readBase();
     void writeBase();
     void readBook();

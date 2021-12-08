@@ -133,6 +133,7 @@ void MainWindow::fillBookConfig() {
     ui->lineEditSpace->setText(ui->tableWidgetBookList->item(currentRow,5)->text());
     ui->lineEditUser->setText(ui->tableWidgetBookList->item(currentRow,6)->text());
     ui->lineEditContact->setText(ui->tableWidgetBookList->item(currentRow,7)->text());
+    ui->lineEditEmail->setText(ui->tableWidgetBookList->item(currentRow,8)->text());
 }
 
 
@@ -163,7 +164,8 @@ void MainWindow::on_pushButtonBookAdd_clicked()
          || ui->lineEditFlight->text().isEmpty()
          || ui->lineEditSpace->text().isEmpty()
          || ui->lineEditUser->text().isEmpty()
-         || ui->lineEditContact->text().isEmpty()) {
+         || ui->lineEditContact->text().isEmpty()
+         || ui->lineEditEmail->text().isEmpty()) {
         QMessageBox::information(NULL, "添加失败", "请确认是否存在空的情况!", QMessageBox::Yes);
         return;
     }
@@ -174,9 +176,10 @@ void MainWindow::on_pushButtonBookAdd_clicked()
     jsonObject.insert("to", ui->lineEditTo->text());
     jsonObject.insert("comp", ui->lineEditComp->text());
     jsonObject.insert("flight", ui->lineEditFlight->text());
-    jsonObject.insert("space", ui->lineEditSpace->text());
+    jsonObject.insert("space", toJsonValue(ui->lineEditSpace->text()));
     jsonObject.insert("user", ui->lineEditUser->text());
     jsonObject.insert("contact", ui->lineEditContact->text());
+    jsonObject.insert("email", ui->lineEditEmail->text());
 
     jsonBookConfig.append(jsonObject);
 
@@ -196,7 +199,8 @@ void MainWindow::on_pushButtonBookModify_clicked()
          || ui->lineEditFlight->text().isEmpty()
          || ui->lineEditSpace->text().isEmpty()
          || ui->lineEditUser->text().isEmpty()
-         || ui->lineEditContact->text().isEmpty()) {
+         || ui->lineEditContact->text().isEmpty()
+         || ui->lineEditEmail->text().isEmpty()) {
         QMessageBox::information(NULL, "修改失败", "请确认是否存在空的情况!", QMessageBox::Yes);
         return;
     }
@@ -211,9 +215,10 @@ void MainWindow::on_pushButtonBookModify_clicked()
     jsonObject.insert("to", ui->lineEditTo->text());
     jsonObject.insert("comp", ui->lineEditComp->text());
     jsonObject.insert("flight", ui->lineEditFlight->text());
-    jsonObject.insert("space", ui->lineEditSpace->text());
+    jsonObject.insert("space", toJsonValue(ui->lineEditSpace->text()));
     jsonObject.insert("user", ui->lineEditUser->text());
     jsonObject.insert("contact", ui->lineEditContact->text());
+    jsonObject.insert("email", ui->lineEditEmail->text());
 
     jsonBookConfig.append(jsonObject);
 
@@ -240,6 +245,7 @@ void MainWindow::clearBookConfig() {
     ui->lineEditSpace->clear();
     ui->lineEditUser->clear();
     ui->lineEditContact->clear();
+    ui->lineEditEmail->clear();
 }
 
 void MainWindow::clearTableWidgetBookList()
@@ -259,9 +265,10 @@ void MainWindow::clearTableWidgetBookList()
     ui->tableWidgetBookList->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableWidgetBookList->horizontalHeader()->setStretchLastSection(true);
     QStringList header;
-    header<< "日期"<<"起始"<<"目的"<<"航司"<<"航班"<<"仓位"<<"用户"<<"联系方式";
+    header<< "日期"<<"起始"<<"目的"<<"航司"<<"航班"<<"仓位"<<"用户"<<"电话"<<"邮箱";
     ui->tableWidgetBookList->setHorizontalHeaderLabels(header);
-    ui->tableWidgetBookList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+//    ui->tableWidgetBookList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidgetBookList->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
     currentRow = -1 ;
 }
@@ -270,6 +277,24 @@ void  MainWindow::on_tableWidgetBookList_clicked(int row,int column)
 {
     currentRow = row;
     fillBookConfig();
+}
+
+QString MainWindow::toString(QJsonValue value) {
+    QString str ;
+    QJsonArray array = value.toArray();
+    for( int i = 0 ; i < (int)array.size() ; i++ ){
+        qDebug() <<array.at(i).toString();
+        str += array.at(i).toString();
+    }
+    return str;
+}
+
+QJsonValue MainWindow::toJsonValue(QString str) {
+    QJsonArray array ;
+    for ( int i = 0 ; i < str.length() ; i++ ) {
+        array.append(QJsonValue(str[i]));
+    }
+    return QJsonValue(array);
 }
 
 void MainWindow::fillTableWidgetBookList()
@@ -284,10 +309,13 @@ void MainWindow::fillTableWidgetBookList()
         ui->tableWidgetBookList->setItem(row, 2, new QTableWidgetItem(jsonObject["to"].toString()) );
         ui->tableWidgetBookList->setItem(row, 3, new QTableWidgetItem(jsonObject["comp"].toString()) );
         ui->tableWidgetBookList->setItem(row, 4, new QTableWidgetItem(jsonObject["flight"].toString()) );
-        ui->tableWidgetBookList->setItem(row, 5, new QTableWidgetItem(jsonObject["space"].toString()) );
+        ui->tableWidgetBookList->setItem(row, 5, new QTableWidgetItem(toString(jsonObject["space"])));
         ui->tableWidgetBookList->setItem(row, 6, new QTableWidgetItem(jsonObject["user"].toString()) );
         ui->tableWidgetBookList->setItem(row, 7, new QTableWidgetItem(jsonObject["contact"].toString()) );
+        ui->tableWidgetBookList->setItem(row, 8, new QTableWidgetItem(jsonObject["email"].toString()) );
     }
+
+    ui->tableWidgetBookList->resizeColumnsToContents();
 
     currentRow = -1 ;
 }
