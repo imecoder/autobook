@@ -43,5 +43,20 @@
         ],
         "to": "PVG",
         "user": "N.FANG/CCC"
+    },
+    {
+        "comp": "LH",
+        "contact": "P.LOST08039943766",
+        "date": "24NOV",
+        "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
+        "flight": "728",
+        "from": "FRA",
+        "space": [
+            "Y",
+            "G",
+            "J"
+        ],
+        "to": "PVG",
+        "user": "N.FANG/DDD"
     }
 ]

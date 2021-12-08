@@ -1,6 +1,6 @@
 {
     "branch_size": 4,
+    "debug": false,
     "manual": false,
-    "mode": 0,
-    "debug": false
+    "mode": 0
 }

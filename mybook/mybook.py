@@ -62,13 +62,13 @@ def netaccess(url, js, key) :
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    # login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
+    login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/PX", "pcc": "7LJ2", "pwd": "FRUITS01", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/YJ", "pcc": "7LJ2", "pwd": "FRUITS02", "gds": "Galileo"}
-    login_config = {"son": "Z7LJ2/SS", "pcc": "7LJ2", "pwd": "FRUITS03", "gds": "Galileo"}
+    # login_config = {"son": "Z7LJ2/SS", "pcc": "7LJ2", "pwd": "FRUITS03", "gds": "Galileo"}
 
 
     logger.warning('')
@@ -95,7 +95,8 @@ def execute_instruction(sessionid, arg):
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
     return netaccess(book_url, cmd, "message")
 
-def query_airline(book_date, book_from, book_to, book_comp) :
+
+def query_airline(sessionid, book_date, book_from, book_to, book_comp) :
     scan_cmd = 'A' + book_date + book_from + book_to + '/' + book_comp
     ret, msg = execute_instruction(sessionid, scan_cmd)
     if ret == False:
@@ -160,7 +161,7 @@ def query_space_end_location(attrlist, line, comp_flight_location) :
 
     return end_location
 
-def deal_ticket(attrlist, book_comp, book_flight, space_location, book_space, line) :
+def deal_ticket(sessionid, attrlist, book_comp, book_flight, space_location, book_space, line) :
 
     # logger.warning("space_location = %d" % space_location )
     # logger.warning("text = " + attrlist[space_location]["text"])
@@ -210,7 +211,7 @@ def deal_ticket(attrlist, book_comp, book_flight, space_location, book_space, li
     logger.warning(msg)
     return False
 
-def quick_booking(book_comp, book_flight, book_space, book_date, book_from, book_to) :
+def quick_booking(sessionid, book_comp, book_flight, book_space, book_date, book_from, book_to) :
     logger.warning("航班 [" + book_comp + book_flight + "] 不可候补, 执行快速预订")
 
     while True:
@@ -342,9 +343,11 @@ def occupy(book_list):
             return
 
         # 查询匹配的航线
-        ret, attrlist = query_airline(book_date, book_from, book_to, book_comp)
+        ret, attrlist = query_airline(sessionid, book_date, book_from, book_to, book_comp)
         if ret == False :
-            return
+            if myflag.get_flag_relogin() == True:
+                return
+            continue
 
         # 查询匹配的航班
         ret, line, comp_flight_location = query_flight(attrlist, book_comp, book_flight)
@@ -377,7 +380,7 @@ def occupy(book_list):
             # 有位置, 立即占票及订票
             if status >= "1" and status <= "9":
                 has_ticket = True
-                ret = deal_ticket(attrlist, book_comp, book_flight, line_end_location, book_space, line)
+                ret = deal_ticket(sessionid, attrlist, book_comp, book_flight, line_end_location, book_space, line)
                 if ret == True :
                     return
 
@@ -402,7 +405,7 @@ def occupy(book_list):
 
             # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
             if status == 'C' :
-                ret = quick_booking(book_comp, book_flight, book_space, book_date, book_from, book_to)
+                ret = quick_booking(sessionid, book_comp, book_flight, book_space, book_date, book_from, book_to)
                 if ret == True :
                     return
 
@@ -475,66 +478,101 @@ def munual_book(sessionid):
 
     return True
 
+
+
 def auto_book(sessionid):
     # 客户姓名
-    ret, msg = execute_instruction(sessionid, book_config["user"])
-    if ret == False :
-        logger.warning(msg)
-        return False, ''
+    while True :
+        ret, msg = execute_instruction(sessionid, book_config["user"])
+        if ret == False :
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
 
-    if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
-        logger.warning('前期客户姓名命令已经执行...')
+        if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
+            logger.warning('前期客户姓名命令已经执行...')
 
-
-    # 客户联系方式
-    ret, msg = execute_instruction(sessionid, book_config["contact"])
-    if ret == False :
-        logger.warning(msg)
-        return False, ''
-
-    if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
-        logger.warning('前期客户电话命令已经执行...')
-
-    'SI.LH*CTCEPEILANGLANG//GMAIL.COM'
+        break
 
 
-    # email
-    ret, msg = execute_instruction(sessionid, book_config["email"])
-    if ret == False :
-        logger.warning(msg)
-        return False, ''
+    # 客户手机
+    while True :
+        ret, msg = execute_instruction(sessionid, book_config["contact"])
+        if ret == False :
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
 
-    if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
-        logger.warning('前期客户邮箱命令已经执行...')
+        if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
+            logger.warning('前期客户电话命令已经执行...')
 
+        break
+
+
+    # 客户email
+    while True :
+        ret, msg = execute_instruction(sessionid, book_config["email"])
+        if ret == False :
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
+
+        if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
+            logger.warning('前期客户邮箱命令已经执行...')
+
+        break
 
 
     # R.PEI
-    ret, msg = execute_instruction(sessionid, "R.PEI")
-    if ret == False:
-        logger.warning(msg)
-        return False, ''
+    while True :
+        ret, msg = execute_instruction(sessionid, "R.PEI")
+        if ret == False:
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
 
-    if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
-        logger.warning('前期R.PEI命令已经执行...')
+        if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
+            logger.warning('前期R.PEI命令已经执行...')
+
+        break
+
+
 
     # T.T*
-    ret, msg = execute_instruction(sessionid, "T.T*")
-    if ret == False:
-        logger.warning(msg)
-        return False, ''
+    while True :
+        ret, msg = execute_instruction(sessionid, "T.T*")
+        if ret == False:
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
 
-    if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
-        logger.warning('前期T.T*命令已经执行...')
+        if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
+            logger.warning('前期T.T*命令已经执行...')
+
+        break
+
+
 
     # ER
-    ret, msg = execute_instruction(sessionid, "ER")
-    if ret == False:
-        logger.warning(msg)
-        return False, ''
+    while True :
+        ret, msg = execute_instruction(sessionid, "ER")
+        if ret == False:
+            if myflag.get_flag_relogin() == True:
+                return
+            logger.warning(msg)
+            continue
+
+        break
+
 
     if 'HK' not in msg["text"]:
         return False, msg["text"]
+
 
     name = book_config["user"].strip('N.').replace('/','')
     id = msg["text"].split('\n')[0].split('/')[0]
@@ -550,8 +588,7 @@ def auto_book(sessionid):
     return True, ''
 
 
-if __name__ == '__main__':
-
+def main() :
     branch_size = base_config["branch_size"]
 
     for book_config in book_config_list :
@@ -596,4 +633,7 @@ if __name__ == '__main__':
 
     logger.warning('程序退出 ...')
     logger.warning('')
-    logger.warning('')
+
+
+if __name__ == '__main__':
+    main()
