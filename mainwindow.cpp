@@ -208,7 +208,6 @@ void MainWindow::on_pushButtonBookModify_clicked()
     qDebug() <<"jsonBookConfig = " << jsonBookConfig;
     jsonBookConfig.removeAt(currentRow);
 
-
     QJsonObject jsonObject;
     jsonObject.insert("date", ui->lineEditDate->text());
     jsonObject.insert("from", ui->lineEditFrom->text());
@@ -220,7 +219,7 @@ void MainWindow::on_pushButtonBookModify_clicked()
     jsonObject.insert("contact", ui->lineEditContact->text());
     jsonObject.insert("email", ui->lineEditEmail->text());
 
-    jsonBookConfig.append(jsonObject);
+    jsonBookConfig.insert(currentRow, jsonObject);
 
     clearBookConfig();
     clearTableWidgetBookList();
@@ -283,7 +282,6 @@ QString MainWindow::toString(QJsonValue value) {
     QString str ;
     QJsonArray array = value.toArray();
     for( int i = 0 ; i < (int)array.size() ; i++ ){
-        qDebug() <<array.at(i).toString();
         str += array.at(i).toString();
     }
     return str;

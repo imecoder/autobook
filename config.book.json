@@ -12,6 +12,21 @@
             "J"
         ],
         "to": "FRA",
+        "user": "N.ZHANG/bbb"
+    },
+    {
+        "comp": "LH",
+        "contact": "P.LOST08039943766",
+        "date": "2021-12-10",
+        "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
+        "flight": "569",
+        "from": "LOS",
+        "space": [
+            "Y",
+            "G",
+            "J"
+        ],
+        "to": "FRA",
         "user": "N.ZHANG/aaa"
     },
     {
@@ -27,6 +42,6 @@
             "J"
         ],
         "to": "FRA",
-        "user": "N.ZHANG/KUNYUN"
+        "user": "N.ZHANG/ddd"
     }
 ]
