@@ -11,13 +11,13 @@ from mylog import *
 import myflag
 import myfile
 import mynet
-
+import mypayload
 
 session = requests.session()
 url_token = 'https://api.amadeus.com/v1/security/oauth2/token'
 url_flightOffersSearch = 'https://api.amadeus.com/v2/shopping/flight-offers'
 url_flightOffersPrice = 'https://api.amadeus.com/v2/shopping/flight-offers/pricing'
-url_flightOffersBook = 'https://api.amadeus.com/v1/security/oauth2/token'
+url_flightOffersBook = 'https://test.api.amadeus.com/v1/booking/flight-orders'
 
 
 ret, base_config = myfile.read_json('config.base.json')
@@ -44,7 +44,7 @@ def get_access_token() :
         'Content-Type': "application/x-www-form-urlencoded",
     }
 
-    payload = "grant_type=client_credentials&client_id=te8ZC3BmobVE8DYpJck8s1Isvx73FZ7m&client_secret=SkdB6l1jU1UK7j0Z"
+    payload = mypayload.for_access_token()
 
     ret, response = mynet.post(session=session, url=url_token, headers=headers, payload=payload)
     if ret == False:
@@ -71,36 +71,7 @@ def flight_offers_search(access_token, book_comp, book_flight, book_date, book_f
         'Authorization': "Bearer " + access_token ,
     }
 
-    payload = {
-        "currencyCode": "USD",
-        "originDestinations": [
-            {
-                "id": "1",
-                "originLocationCode": book_from,
-                "destinationLocationCode": book_to,
-                "departureDateTimeRange": {
-                    "date": book_date
-                }
-            }
-        ],
-        "travelers": [
-            {
-                "id": "1",
-                "travelerType": "ADULT"
-            }
-        ],
-        "sources": [
-            "GDS"
-        ],
-        "searchCriteria": {
-            "maxFlightOffers": 3,
-            "flightFilters": {
-                "carrierRestrictions": {
-                    "includedCarrierCodes": [book_comp]
-                }
-            }
-        }
-    }
+    payload = mypayload.for_flight_offers_search(book_comp, book_date, book_from, book_to)
 
 
     ret, response = mynet.post(session=session, url=url_flightOffersSearch, headers=headers, payload=json.dumps(payload))
@@ -109,42 +80,26 @@ def flight_offers_search(access_token, book_comp, book_flight, book_date, book_f
         return False, {}
 
     try:
-        json_reponse = json.loads(response.text)
-    except json.decoder.JSONDecodeError as e:
-        logger.warning('解析json失败 : ' + str(e))
-        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-        return False, {}
+        elem = json.loads(response.text)['data'][0]
+        data_from = elem['itineraries'][0]['segments'][0]['departure']['iataCode']
+        data_to = elem['itineraries'][0]['segments'][0]['arrival']['iataCode']
+        data_comp = elem['itineraries'][0]['segments'][0]['carrierCode']
+        data_flight = elem['itineraries'][0]['segments'][0]['number']
 
-
-    if "data" not in json_reponse :
-        logger.warning(sys._getframe().f_code.co_name + ' 返回信息有误 .')
-        return False, {}
-
-    try :
-        data = json_reponse['data']
-
-        for elem in data :
-            data_from = elem['itineraries'][0]['segments'][0]['departure']['iataCode']
-            data_to = elem['itineraries'][0]['segments'][0]['arrival']['iataCode']
-            data_comp = elem['itineraries'][0]['segments'][0]['carrierCode']
-            data_flight = elem['itineraries'][0]['segments'][0]['number']
-
-            if data_comp != book_comp \
-                or data_flight != book_flight \
-                or data_from != book_from \
-                or data_to != book_to :
-                continue
-
-            return True, elem
+        if data_comp != book_comp \
+            or data_flight != book_flight \
+            or data_from != book_from \
+            or data_to != book_to :
+            logger.warning('未找到航班 [' + book_comp + book_flight + ']')
+            return False, {}
 
     except :
         logger.warning('解析json失败 : ' + str(e))
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, 0
 
-
-    return False, 0
-
+    logger.warning('找到航班 [' + book_comp + book_flight + ']')
+    return True, elem
 
 
 def flight_offers_price(access_token, elem) :
@@ -174,6 +129,32 @@ def flight_offers_price(access_token, elem) :
     return True
 
 
+
+def flight_offers_booking(access_token, elem) :
+
+
+    headers = {
+        'Content-Type': "application/json",
+        'Authorization': "Bearer " + access_token ,
+    }
+
+    payload = json.dumps(elem)
+
+    ret, response = mynet.post(session=session, url=url_flightOffersPrice, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+    #
+    # try:
+    #     access_token = json.loads(response.text)['access_token']
+    # except json.decoder.JSONDecodeError as e:
+    #     logger.warning('解析json失败 : ' + str(e))
+    #     logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+    #     return False, ''
+    #
+    # logger.warning('access_token = ' + access_token)
+
+    return True
 
 
 
