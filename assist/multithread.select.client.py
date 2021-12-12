@@ -1,6 +1,8 @@
 ''''
 select 异步socket客户端实例
 把请求连接、监听发送队列、监听接收队列放到不同的线程中里。
+这是短连接模式。即收发送消息，收到消息就断开连接。
+如果是长链接模式，此模型并不适用。
 '''
 
 
@@ -14,6 +16,8 @@ class HttpRequest:
     def __init__(self, sock, item):
         self.sock = sock
         self.item = item
+        self.write_count = 0
+        self.read_count = 0
 
     def fileno(self):
         return self.sock.fileno()
@@ -34,6 +38,17 @@ def doconnect(item):
 
 def dosend():
     while True:
+
+        if not list_write :
+            time.sleep(1)
+            continue
+
+        for elem in list_write :
+            elem.write_count += 1
+            if elem.write_count >= 30 :     # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
+                elem.sock.close()
+                list_write.remove(elem)
+
         if not list_write :
             time.sleep(1)
             continue
@@ -50,9 +65,22 @@ def dosend():
             list_write.remove(http_request)
 
 
+
+
 def dorecv():
     while True:
         if not list_read:
+            time.sleep(1)
+            continue
+
+
+        for elem in list_read :
+            elem.write_count += 1
+            if elem.write_count >= 30 :     # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
+                elem.sock.close()
+                list_read.remove(elem)
+
+        if not list_read :
             time.sleep(1)
             continue
 
