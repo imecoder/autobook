@@ -5,6 +5,7 @@ import time
 
 q = queue.Queue()
 
+print(q.maxsize)
 
 
 class putThread (threading.Thread):

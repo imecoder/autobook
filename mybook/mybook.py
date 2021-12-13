@@ -26,7 +26,7 @@ if ret == False :
 def limit():
     # 2021-11-20 00:00 我是
     # pyinstaller.exe -F -p venv/Lib/site-packages/ mybook.py
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-12-12 23:59', '%Y-%m-%d %H:%M'):
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-12-30 23:59', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
     return False
@@ -218,11 +218,11 @@ def quick_booking(sessionid, book_comp, book_flight, book_space, book_date, book
         quick_booking_cmd = 'N ' + book_comp + book_flight + ' ' + book_space + ' ' + book_date + ' ' + book_from + book_to + ' NN1'
         ret, msg = execute_instruction(sessionid, quick_booking_cmd)
         if ret == False:
-            logger.warning('占票失败')
+            logger.warning('快速预定失败')
             continue
 
         if 'text' not in msg:
-            logger.warning('占票失败')
+            logger.warning('快速预定失败')
             return False
 
         if 'SYSTEM ERROR' in msg["text"] \
