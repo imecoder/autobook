@@ -37,13 +37,13 @@ from enum import Enum
 
 class RunStatus(Enum):
     LOGIN = 1
-    BRUSH = 2
+    QUERY = 2
     OCCUPIED = 3
     QUICKBOOK = 4
 
 # 运行状态
 
-run_statue = RunStatus.BRUSH
+run_statue = RunStatus.QUERY
 mutex_run_status = threading.Lock()
 
 def set_run_status(flag) :

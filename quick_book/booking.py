@@ -5,6 +5,7 @@ import ssl
 import select
 import time
 import threading
+import _thread
 import urllib3
 from io import BytesIO
 from http.client import HTTPResponse
@@ -47,7 +48,7 @@ class HttpRequest:
 
 def limit():
     # 2021-11-20 00:00 我是
-    # pyinstaller.exe -F -p venv/Lib/site-packages/ quick_booking.book.py
+    # pyinstaller.exe -F -p venv/Lib/site-packages/ booking.py
     if datetime.datetime.now() > datetime.datetime.strptime('2021-12-12 23:59', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
@@ -68,24 +69,24 @@ def netaccess(url, js, key) :
         return False, {}
 
     try:
-        thejson = response.json()
+        response_json = response.json()
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
         # logger.warning('-------------------------------\n' + response.text)
         return False, {}
 
-    if thejson["success"] == False:
+    if response_json["success"] == False:
         return False, {}
 
-    if key not in thejson :
+    if key not in response_json :
         return False, {}
 
-    return True, thejson[key]
+    return True, response_json[key]
 
 # 登录
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
-    # pyinstaller.exe -F -p venv/Lib/site-packages/ quick_booking.book.py
+    # pyinstaller.exe -F -p venv/Lib/site-packages/ booking.py
     login_config = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # login_config = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
@@ -121,153 +122,6 @@ def execute_instruction(sessionid, arg):
     cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
     return netaccess(book_url, cmd, "message")
 
-
-def brush_ticket(sessionid, book_config) :
-
-    data = {
-        "sessionId": sessionid,
-        "command": 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"],
-        "allowEnhanced": True
-    }
-
-    item = {
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": brush_ticket_callback
-    }
-
-    send_queue.put(item)
-
-
-
-def brush_ticket_callback(item, data):
-    logger.warning('response >>>')
-    response = response_from_bytes(data)
-    logger.warning(response.headers)
-    logger.warning(response.data)
-
-    msg = response.data
-    # set_flag_relogin(True)
-    # if 'text' not in msg:
-    #     logger.warning('刷票失败')
-    # else:
-    #     logger.warning('发现错误 : ' + msg["text"])
-    # return False, []
-
-    sessionid = item['sessionid']
-    book_config = item['book_config']
-
-    # 刷票失败，重新回去刷票
-    if 'text' not in msg:
-        logger.warning('刷票失败')
-        return
-
-    # 航班过去，重新回去刷票
-    if 'DEPARTED' in msg["text"]:
-        logger.warning("请确认是否航班已经过期 ...")
-        return
-
-    # 掉线，重新回去登录和刷票
-    if 'SYSTEM ERROR' in msg["text"] \
-            or 'Session does not exist' in msg["text"]:
-        logger.warning('掉线重新登录')
-        set_run_status(RunStatus.LOGIN)
-        return
-
-    attrlist = msg["masks"]["special"]["attrList"]
-
-    # 查询匹配的航班，失败重新回去刷票
-    ret, line, comp_flight_location = parse_flight(
-        attrlist,
-        book_config['comp'],
-        book_config['flight']
-    )
-    if ret == False:
-        return
-
-    # 航班行的开始位置
-    line_start_location = comp_flight_location + 2
-
-    # 查找匹配的航班结束的位置，即text: line + 1 位置
-    line_end_location = parse_space_end_location(
-        attrlist,
-        line,
-        comp_flight_location
-    )
-
-    # 查找 book_space_list 的位置, 及状态
-    space_list = parse_space(
-        attrlist,
-        book_config["space"],
-        line_start_location,
-        line_end_location,
-        book_config["comp"],
-        book_config["flight"]
-    )
-
-    # 如果所有仓位状态都是N，重新回去刷票
-    if all_N(
-            space_list,
-            line_end_location,
-            book_config["comp"],
-            book_config["flight"]
-    ) == True:
-        return
-
-    # 处理所有的占座及订座
-
-    # 处理有座状态
-    has_ticket = False
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location == line_end_location or status == 'N':
-            continue
-
-        # 有位置, 立即占票及订票
-        if status >= "1" and status <= "9":
-            occupy_ticket(
-                item['sessionid'],
-                attrlist,
-                book_config["comp"],
-                book_config["flight"],
-                line_end_location,
-                book_space,
-                line)
-            return
-
-
-    # 刷票+占票模式，不进行快速预定，重新去刷票
-    if base_config["mode"] == 0:
-        return
-
-    # 刷票+占票+快速预定模式下，处理带有C状态的票
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location == line_end_location or status == 'N':
-            continue
-
-        # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
-        if status == 'C':
-            ret = quick_booking(
-                item['sessionid'],
-                book_config["comp"],
-                book_config["flight"],
-                book_config["space"],
-                book_config["date"],
-                book_config["from"],
-                book_config["to"])
-            if ret == True:
-                return
-
-            if get_flag_relogin() == True:
-                return
-
-            break
-
-    # 候补状态，L, 0 等等重新刷票
 
 
 
@@ -310,157 +164,6 @@ def parse_space_end_location(attrlist, line, comp_flight_location) :
 
     return end_location
 
-def occupy_ticket(sessionid, attrlist, book_comp, book_flight, space_location, book_space, line) :
-
-    # logger.warning("space_location = %d" % space_location )
-    # logger.warning("text = " + attrlist[space_location]["text"])
-
-    logger.warning("航班 [" + book_comp + book_flight + "] 有票 : " + attrlist[space_location]["text"])
-
-    occupy_ticket_cmd = '01' + book_space + line
-    ret, msg = execute_instruction(sessionid, occupy_ticket_cmd)
-    if ret == False:
-        logger.warning('占票失败')
-        return False
-
-    if 'text' not in msg:
-        logger.warning('占票失败')
-        return False
-
-    if 'HL' in msg["text"] or \
-            'LL' in msg["text"]:
-        logger.warning('占票失败')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        return False
-
-    if 'HS' not in msg["text"]:
-        logger.warning('占票失败')
-        return False
-
-    # HS
-
-    logger.warning('占票成功')
-    set_flag_occupied(True)
-
-    if base_config["manual"] == True:
-        return True
-
-    ret, msg = auto_booking(sessionid)
-    if ret == True:
-        return True
-
-    if msg == '':
-        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-        return False
-
-    logger.warning('')
-    logger.warning('')
-    logger.warning(msg)
-    return False
-
-
-
-def quick_booking(sessionid, book_config) :
-
-    cmd = (
-        'N {}{} {} {} {}{} NN1',
-    ).format(
-        book_config['comp'],
-        book_config['flight'],
-        book_config['space'],
-        book_config['date'],
-        book_config['from'],
-        book_config['to']
-    )
-
-    data = {
-        "sessionId": sessionid,
-        "command": cmd,
-        "allowEnhanced": True
-    }
-
-    item = {
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": quick_booking_callback
-    }
-
-    send_queue.put(item)
-
-
-
-def quick_booking_callback(item, data):
-    logger.warning('response >>>')
-    response = response_from_bytes(data)
-    logger.warning(response.headers)
-    logger.warning(response.data)
-
-    msg = response.data
-    # if ret == False:
-    #     logger.warning('快速预定失败')
-    #     continue
-
-
-    sessionid = item['sessionid']
-    book_config = item['book_config']
-
-
-    # 失败，重新回去刷票
-    if 'text' not in msg:
-        logger.warning('快速预定失败')
-        set_run_status(RunStatus.BRUSH)
-        return
-
-    # 掉线，重新回去登录刷票
-    if 'SYSTEM ERROR' in msg["text"] \
-            or 'Session does not exist' in msg["text"]:
-        logger.warning('掉线重新登录')
-        set_run_status(RunStatus.LOGIN)
-        return
-
-    # 票面关闭，重新快速预定
-    if '*0 AVAIL/WL CLOSED*' in msg["text"]:
-        logger.warning('票面关闭中')
-        set_run_status(RunStatus.QUICKBOOK)
-        return
-
-    # 票面禁止销售
-    if '*SELL RESTRICTED*' in msg["text"]:
-        logger.warning('票面禁止销售')
-        set_run_status(RunStatus.QUICKBOOK)
-        return
-
-    # 产生了HL LL错误，重新回去刷票
-    if 'HL' in msg["text"] or \
-            'LL' in msg["text"]:
-        set_run_status(RunStatus.BRUSH)
-        return
-
-    # HS
-    if 'HS' in msg["text"]:
-        logger.warning('占票成功')
-        set_run_status(RunStatus.OCCUPIED)
-
-        if base_config["manual"] == True:
-            return
-
-        auto_booking(sessionid, book_config)
-        return
-
-
-
-def quick_booking(sessionid, book_comp, book_flight, book_space, book_date, book_from, book_to) :
-    logger.warning("航班 [" + book_comp + book_flight + "] 不可候补, 执行快速预订")
-
-    while True:
-        quick_bookinging_cmd = 'N ' + book_comp + book_flight + ' ' + book_space + ' ' + book_date + ' ' + book_from + book_to + ' NN1'
-        ret, msg = execute_instruction(sessionid, quick_bookinging_cmd)
-
-
-
 
 
 def parse_space(attrlist, book_space_list, line_start_location, line_end_location, book_comp, book_flight) :
@@ -497,7 +200,7 @@ def parse_space(attrlist, book_space_list, line_start_location, line_end_locatio
 
 
 
-def all_N(space_list, line_end_location, book_comp, book_flight) :
+def all_N(space_list, line_end_location) :
 
     for book_space in space_list:
         location = space_list[book_space]["location"]
@@ -505,12 +208,76 @@ def all_N(space_list, line_end_location, book_comp, book_flight) :
         if location != line_end_location and status != 'N':
             return False
 
-        logger.warning('找到航班 [' + book_comp + book_flight + ']的座舱类型[' + book_space + status + ']')
-
     return True
 
 
 
+
+
+
+def query_ticket(sessionid, book_config) :
+
+    data = {
+        "sessionId": sessionid,
+        "command": 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"],
+        "allowEnhanced": True
+    }
+
+    item = {
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback_for_success": callback_for_query_ticket
+    }
+
+    send_queue.put(item)
+
+
+def occupy_ticket(sessionid, book_config, book_space, line) :
+
+    data = {
+        "sessionId": sessionid,
+        "command": '01' + book_space + line,
+        "allowEnhanced": True
+    }
+
+    item = {
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback_for_success": callback_for_occupy_ticket
+    }
+
+    send_queue.put(item)
+
+
+def quick_booking(sessionid, book_config) :
+
+    cmd = (
+        'N {}{} {} {} {}{} NN1',
+    ).format(
+        book_config['comp'],
+        book_config['flight'],
+        book_config['space'],
+        book_config['date'],
+        book_config['from'],
+        book_config['to']
+    )
+
+    data = {
+        "sessionId": sessionid,
+        "command": cmd,
+        "allowEnhanced": True
+    }
+
+    item = {
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback": callback_for_quick_booking
+    }
+
+    send_queue.put(item)
 
 
 def auto_booking_user(sessionid, book_config):
@@ -526,7 +293,7 @@ def auto_booking_user(sessionid, book_config):
         'sessionid': sessionid,
         'book_config': book_config,
         'data': json.dumps(data),
-        "callback": brush_ticket_callback
+        "callback": callback_for_query_ticket
     }
 
     send_queue.put(item)
@@ -543,11 +310,32 @@ def auto_booking_contact(sessionid, book_config):
     }
 
     item = {
-        'type': 'user',
+        'type': 'contact',
         'sessionid': sessionid,
         'book_config': book_config,
         'data': json.dumps(data),
-        "callback": brush_ticket_callback
+        "callback": callback_for_query_ticket
+    }
+
+    send_queue.put(item)
+
+
+
+
+def auto_booking_email(sessionid, book_config):
+
+    data = {
+        "sessionId": sessionid,
+        "command": book_config["email"],
+        "allowEnhanced": True
+    }
+
+    item = {
+        'type': 'email',
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback": callback_for_query_ticket
     }
 
     send_queue.put(item)
@@ -556,28 +344,268 @@ def auto_booking_contact(sessionid, book_config):
 
 
 
+def auto_booking_RPEI(sessionid, book_config):
+
+    data = {
+        "sessionId": sessionid,
+        "command": "R.PEI",
+        "allowEnhanced": True
+    }
+
+    item = {
+        'type': 'R.PEI',
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback": callback_for_query_ticket
+    }
+
+    send_queue.put(item)
 
 
 
 
+def auto_booking_TT(sessionid, book_config):
 
-        # 客户姓名
-        ret, msg = execute_instruction(sessionid, book_config["user"])
-        if ret == False :
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
+    data = {
+        "sessionId": sessionid,
+        "command": "T.T*",
+        "allowEnhanced": True
+    }
+
+    item = {
+        'type': 'T.T*',
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback": callback_for_query_ticket
+    }
+
+    send_queue.put(item)
+
+
+
+def auto_booking_ER(sessionid, book_config):
+
+    data = {
+        "sessionId": sessionid,
+        "command": "ER",
+        "allowEnhanced": True
+    }
+
+    item = {
+        'type': 'ER',
+        'sessionid': sessionid,
+        'book_config': book_config,
+        'data': json.dumps(data),
+        "callback": callback_for_query_ticket
+    }
+
+    send_queue.put(item)
+
+
+
+
+def callback_for_query_ticket(item, message):
+
+    sessionid = item['sessionid']
+    book_config = item['book_config']
+
+    # 航班过去，重新回去刷票
+    if 'DEPARTED' in message["text"]:
+        logger.warning("请确认是否航班已经过期 ...")
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # 掉线，重新回去登录和刷票
+    if 'SYSTEM ERROR' in message["text"] \
+            or 'Session does not exist' in message["text"]:
+        logger.warning('掉线重新登录')
+        set_run_status(RunStatus.LOGIN)
+        return
+
+    attrlist = message["masks"]["special"]["attrList"]
+
+    # 查询匹配的航班，失败重新回去刷票
+    ret, line, comp_flight_location = parse_flight(
+        attrlist,
+        book_config['comp'],
+        book_config['flight']
+    )
+    if ret == False:
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # 航班行的开始位置
+    line_start_location = comp_flight_location + 2
+
+    # 查找匹配的航班结束的位置，即text: line + 1 位置
+    line_end_location = parse_space_end_location(
+        attrlist,
+        line,
+        comp_flight_location
+    )
+
+    # 查找 book_space_list 的位置, 及状态
+    space_list = parse_space(
+        attrlist,
+        book_config["space"],
+        line_start_location,
+        line_end_location,
+        book_config["comp"],
+        book_config["flight"]
+    )
+
+    # 如果所有仓位状态都是N，重新回去刷票
+    if all_N( space_list,line_end_location ) == True:
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # 处理所有的占座及订座
+
+    # 处理有座状态
+    for book_space in space_list:
+        location = space_list[book_space]["location"]
+        status = space_list[book_space]["status"]
+        if location == line_end_location or status == 'N':
             continue
 
-        if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
-            logger.warning('前期客户姓名命令已经执行...')
+        # 有位置, 立即占票及订票
+        if status >= "1" and status <= "9":
+            logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
 
-        break
+            occupy_ticket(
+                sessionid,
+                book_config,
+                book_space,
+                line
+            )
+            return
 
 
-        if msg == '':
-            logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-            return False
+    # 刷票+占票模式，不进行快速预定，重新去刷票
+    if base_config["mode"] == 0:
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # 刷票+占票+快速预定模式下，处理带有C状态的票
+    for book_space in space_list:
+        location = space_list[book_space]["location"]
+        status = space_list[book_space]["status"]
+        if location == line_end_location or status == 'N':
+            continue
+
+        # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
+        if status == 'C':
+            quick_booking(sessionid,book_config)
+            return
+
+    # 候补状态，L, 0 等等重新刷票
+
+
+
+def callback_for_occupy_ticket(item, message) :
+
+    sessionid = item['sessionid']
+    book_config = item['book_config']
+
+    if 'HL' in message["text"] or \
+            'LL' in message["text"]:
+        logger.warning('占票失败')
+        execute_instruction(sessionid, 'I')
+        execute_instruction(sessionid, 'I')
+        execute_instruction(sessionid, 'I')
+        return False
+
+    if 'HS' not in message["text"]:
+        logger.warning('占票失败')
+        return False
+
+    # HS
+
+    logger.warning('占票成功')
+    set_flag_occupied(True)
+
+    if base_config["manual"] == True:
+        return True
+
+    ret, message = auto_booking(sessionid)
+    if ret == True:
+        return True
+
+    if message == '':
+        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
+        return False
+
+    logger.warning('')
+    logger.warning('')
+    logger.warning(message)
+    return False
+
+
+
+def callback_for_quick_booking(item, data):
+    sessionid = item['sessionid']
+    book_config = item['book_config']
+
+
+    # 失败，重新回去刷票
+    if 'text' not in message:
+        logger.warning('快速预定失败')
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # 掉线，重新回去登录刷票
+    if 'SYSTEM ERROR' in message["text"] \
+            or 'Session does not exist' in message["text"]:
+        logger.warning('掉线重新登录')
+        set_run_status(RunStatus.LOGIN)
+        return
+
+    # 票面关闭，重新快速预定
+    if '*0 AVAIL/WL CLOSED*' in message["text"]:
+        logger.warning('票面关闭中')
+        set_run_status(RunStatus.QUICKBOOK)
+        return
+
+    # 票面禁止销售
+    if '*SELL RESTRICTED*' in message["text"]:
+        logger.warning('票面禁止销售')
+        set_run_status(RunStatus.QUICKBOOK)
+        return
+
+    # 产生了HL LL错误，重新回去刷票
+    if 'HL' in message["text"] or \
+            'LL' in message["text"]:
+        set_run_status(RunStatus.QUERY)
+        return
+
+    # HS
+    if 'HS' in message["text"]:
+        logger.warning('占票成功')
+        set_run_status(RunStatus.OCCUPIED)
+
+        if base_config["manual"] == True:
+            return
+
+        auto_booking(sessionid, book_config)
+        return
+
+
+
+
+
+
+def callback_for_auto_booking_user(item, data) :
+    if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
+        logger.warning('前期客户姓名命令已经执行...')
+
+    break
+
+
+    if msg == '':
+        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
+        return False
 
 
     # 客户手机
@@ -747,20 +775,46 @@ def do_recv():
             logger.warning(http_request.sock)
             data = http_request.sock.recv(8096)
             http_request.sock.close()
-            http_request.item['callback'](http_request.item, data)  # 回调
+
+            logger.warning('response >>>')
+            response = response_from_bytes(data)
+            logger.warning(response.headers)
+            logger.warning(response.data)
+
+            try:
+                response_json = json.loads(response.data.strip(' '))
+            except json.decoder.JSONDecodeError as e:
+                logger.warning('解析json失败 : ' + str(e))
+                break
+
+            sessionid = http_request.item['sessionid']
+            book_config = http_request.item['book_config']
+            if 'callback_for_failure' in http_request.item :
+                callback_for_failure = http_request.item['callback_for_failure']
+            if 'callback_for_success' in http_request.item :
+                callback_for_success = http_request.item['callback_for_success']
+
+            if response_json["success"] == False:
+                logger.warning('返回状态非success')
+                if callback_for_failure:
+                    _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
+                break
+
+            # if http_request.item['sessionid'] not in response_json:
+            #     logger.warning('返回数据中未发现匹配的sessionid :' + http_request.item['sessionid'] )
+            #     if callback_for_failure:
+            #          _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
+            #     break
+
+            if 'message' not in response_json:
+                logger.warning('返回数据中未发现message信息')
+                if callback_for_failure:
+                    _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
+                break
+
+            _thread.start_new_thread(callback_for_success, (http_request.item, response_json['message']))
+
             read_list.remove(http_request)
-
-
-def callback(item, data):
-    logger.warning('response >>>')
-    response = response_from_bytes(data)
-    logger.warning(response.headers)
-    logger.warning(response.data)
-
-
-
-
-
 
 
 class sendThread (threading.Thread):
@@ -809,7 +863,7 @@ class taskThread (threading.Thread):
                 if get_flag_relogin() == True:
                     sessionid = login()
 
-                brush_ticket(sessionid, book_config)
+                query_ticket(sessionid, book_config)
 
                 time.sleep(1/branch_size)
 
