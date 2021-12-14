@@ -4,7 +4,7 @@ import socket
 import ssl
 import select
 import time
-import threading
+import os
 import _thread
 import urllib3
 from io import BytesIO
@@ -83,6 +83,21 @@ def netaccess(url, js, key) :
 
     return True, response_json[key]
 
+
+
+def execute_instruction(sessionid, arg):
+    logger.warning("命令 = " + arg)
+    cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
+    return netaccess(book_url, cmd, "message")
+
+
+def three_i_command(sessionid) :
+    execute_instruction(sessionid, 'I')
+    execute_instruction(sessionid, 'I')
+    execute_instruction(sessionid, 'I')
+
+
+
 # 登录
 def login():
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
@@ -109,19 +124,29 @@ def login():
 
         logger.warning('登录成功')
 
-        execute_instruction(sessionid, "I")
-        execute_instruction(sessionid, "I")
-        execute_instruction(sessionid, "I")
+        three_i_command(sessionid)
 
         return sessionid
 
 
 
-def execute_instruction(sessionid, arg):
-    logger.warning("命令 = " + arg)
-    cmd = {"sessionId": sessionid, "command": arg, "allowEnhanced": True}
-    return netaccess(book_url, cmd, "message")
 
+
+
+class BytesIOSocket:
+    def __init__(self, content):
+        self.handle = BytesIO(content)
+
+    def makefile(self, mode):
+        return self.handle
+
+def response_from_bytes(data):
+    sock = BytesIOSocket(data)
+
+    response = HTTPResponse(sock)
+    response.begin()
+
+    return urllib3.HTTPResponse.from_httplib(response)
 
 
 
@@ -215,43 +240,41 @@ def all_N(space_list, line_end_location) :
 
 
 
-def query_ticket(sessionid, book_config) :
+def query_ticket(item) :
+
+    book_config = item['book_config']
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": 'A' + book_config["date"] + book_config["from"] + book_config["to"] + '/' + book_config["comp"],
         "allowEnhanced": True
     }
 
-    item = {
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback_for_success": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_query_ticket
 
     send_queue.put(item)
 
 
-def occupy_ticket(sessionid, book_config, book_space, line) :
+
+def occupy_ticket(item, book_space, line) :
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": '01' + book_space + line,
         "allowEnhanced": True
     }
 
-    item = {
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback_for_success": callback_for_occupy_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_occupy_ticket
 
     send_queue.put(item)
 
 
-def quick_booking(sessionid, book_config) :
+
+def quick_booking(item) :
+
+    book_config = item['book_config']
 
     cmd = (
         'N {}{} {} {} {}{} NN1',
@@ -265,78 +288,60 @@ def quick_booking(sessionid, book_config) :
     )
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": cmd,
         "allowEnhanced": True
     }
 
-    item = {
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_quick_booking
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_quick_booking
 
     send_queue.put(item)
 
 
-def auto_booking_user(sessionid, book_config):
+
+def auto_booking_user(item):
 
     data = {
-        "sessionId": sessionid,
-        "command": book_config["user"],
+        "sessionId": item['sessionid'],
+        "command": item['book_config']["user"],
         "allowEnhanced": True
     }
 
-    item = {
-        'type':'user',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_user
 
     send_queue.put(item)
 
 
 
 
-def auto_booking_contact(sessionid, book_config):
+def auto_booking_contact(item):
 
     data = {
-        "sessionId": sessionid,
-        "command": book_config["contact"],
+        "sessionId": item['sessionid'],
+        "command": item['book_config']["contact"],
         "allowEnhanced": True
     }
 
-    item = {
-        'type': 'contact',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_contract
 
     send_queue.put(item)
 
 
 
 
-def auto_booking_email(sessionid, book_config):
+def auto_booking_email(item):
 
     data = {
-        "sessionId": sessionid,
-        "command": book_config["email"],
+        "sessionId": item['sessionid'],
+        "command": item['book_config']["email"],
         "allowEnhanced": True
     }
 
-    item = {
-        'type': 'email',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_email
 
     send_queue.put(item)
 
@@ -344,21 +349,16 @@ def auto_booking_email(sessionid, book_config):
 
 
 
-def auto_booking_RPEI(sessionid, book_config):
+def auto_booking_RPEI(item):
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": "R.PEI",
         "allowEnhanced": True
     }
 
-    item = {
-        'type': 'R.PEI',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_RPEI
 
     send_queue.put(item)
 
@@ -408,7 +408,6 @@ def auto_booking_ER(sessionid, book_config):
 
 def callback_for_query_ticket(item, message):
 
-    sessionid = item['sessionid']
     book_config = item['book_config']
 
     # 航班过去，重新回去刷票
@@ -475,8 +474,7 @@ def callback_for_query_ticket(item, message):
             logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
 
             occupy_ticket(
-                sessionid,
-                book_config,
+                item,
                 book_space,
                 line
             )
@@ -497,7 +495,7 @@ def callback_for_query_ticket(item, message):
 
         # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
         if status == 'C':
-            quick_booking(sessionid,book_config)
+            quick_booking(item)
             return
 
     # 候补状态，L, 0 等等重新刷票
@@ -506,48 +504,32 @@ def callback_for_query_ticket(item, message):
 
 def callback_for_occupy_ticket(item, message) :
 
-    sessionid = item['sessionid']
-    book_config = item['book_config']
-
+    # 占票失败，重新回去刷票
     if 'HL' in message["text"] or \
             'LL' in message["text"]:
         logger.warning('占票失败')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        execute_instruction(sessionid, 'I')
-        return False
+        three_i_command(item['sessionid'])
+        set_run_status(RunStatus.QUERY)
+        return
 
     if 'HS' not in message["text"]:
         logger.warning('占票失败')
-        return False
+        set_run_status(RunStatus.QUERY)
+        return
 
     # HS
-
     logger.warning('占票成功')
-    set_flag_occupied(True)
+    set_run_status(RunStatus.OCCUPIED)
 
     if base_config["manual"] == True:
         return True
 
-    ret, message = auto_booking(sessionid)
-    if ret == True:
-        return True
-
-    if message == '':
-        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-        return False
-
-    logger.warning('')
-    logger.warning('')
-    logger.warning(message)
-    return False
+    auto_booking_user(item)
 
 
 
-def callback_for_quick_booking(item, data):
-    sessionid = item['sessionid']
-    book_config = item['book_config']
 
+def callback_for_quick_booking(item, message):
 
     # 失败，重新回去刷票
     if 'text' not in message:
@@ -580,143 +562,84 @@ def callback_for_quick_booking(item, data):
         set_run_status(RunStatus.QUERY)
         return
 
+
+    if 'HS' not in message["text"]:
+        logger.warning('快速预定失败')
+        set_run_status(RunStatus.QUERY)
+        return
+
     # HS
-    if 'HS' in message["text"]:
-        logger.warning('占票成功')
-        set_run_status(RunStatus.OCCUPIED)
+    logger.warning('快速预定成功')
+    set_run_status(RunStatus.OCCUPIED)
 
-        if base_config["manual"] == True:
-            return
+    if base_config["manual"] == True:
+        return
 
-        auto_booking(sessionid, book_config)
+    auto_booking_user(item)
+
+
+
+
+def callback_for_auto_booking_user(item, message) :
+    
+    if 'INVALID NAME - DUPLICATE ITEM' in message["text"]:
+        logger.warning('前期客户姓名命令已经执行...')
+
+    auto_booking_contact(item)
+
+
+
+def callback_for_auto_booking_contract(item, message):
+    if 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in message["text"]:
+        logger.warning('前期客户电话命令已经执行...')
+
+    auto_booking_email(item)
+
+
+
+def callback_for_auto_booking_email(item, message):
+    if 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in message["text"]:
+        logger.warning('前期客户邮箱命令已经执行...')
+
+    auto_booking_RPEI(item)
+
+
+
+def callback_for_auto_booking_RPEI(item, message):
+    if 'SINGLE ITEM FIELD' in message["text"]:
+        logger.warning('前期R.PEI命令已经执行...')
+
+    auto_booking_TT(item)
+
+
+def callback_for_auto_booking_TT(item, message):
+    if 'SINGLE ITEM FIELD' in message["text"]:
+        logger.warning('前期T.T*命令已经执行...')
+
+    auto_booking_ER(item)
+
+
+
+def callback_for_auto_booking_ER(item, message):
+    if 'SINGLE ITEM FIELD' in message["text"]:
+        logger.warning('前期T.T*命令已经执行...')
+
+    # 如果最终订票没成功，重新回去刷票
+    if 'HK' not in message["text"]:
+        set_run_status(RunStatus.QUERY)
         return
 
 
-
-
-
-
-def callback_for_auto_booking_user(item, data) :
-    if 'text' in msg and 'INVALID NAME - DUPLICATE ITEM' in msg["text"]:
-        logger.warning('前期客户姓名命令已经执行...')
-
-    break
-
-
-    if msg == '':
-        logger.warning("请检查订票配置文件 [ config.book.json ] ...")
-        return False
-
-
-    # 客户手机
-    while True :
-        ret, msg = execute_instruction(sessionid, book_config["contact"])
-        if ret == False :
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
-            continue
-
-        if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
-            logger.warning('前期客户电话命令已经执行...')
-
-        break
-
-
-    # 客户email
-    while True :
-        ret, msg = execute_instruction(sessionid, book_config["email"])
-        if ret == False :
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
-            continue
-
-        if 'text' in msg and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in msg["text"]:
-            logger.warning('前期客户邮箱命令已经执行...')
-
-        break
-
-
-    # R.PEI
-    while True :
-        ret, msg = execute_instruction(sessionid, "R.PEI")
-        if ret == False:
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
-            continue
-
-        if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
-            logger.warning('前期R.PEI命令已经执行...')
-
-        break
-
-
-
-    # T.T*
-    while True :
-        ret, msg = execute_instruction(sessionid, "T.T*")
-        if ret == False:
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
-            continue
-
-        if 'text' in msg and 'SINGLE ITEM FIELD' in msg["text"]:
-            logger.warning('前期T.T*命令已经执行...')
-
-        break
-
-
-
-    # ER
-    while True :
-        ret, msg = execute_instruction(sessionid, "ER")
-        if ret == False:
-            if get_flag_relogin() == True:
-                return
-            logger.warning(msg)
-            continue
-
-        break
-
-
-    if 'HK' not in msg["text"]:
-        return False, msg["text"]
-
-
-    name = book_config["user"].strip('N.').replace('/','')
-    id = msg["text"].split('\n')[0].split('/')[0]
+    name = item['book_config']["user"].strip('N.').replace('/','')
+    id = message["text"].split('\n')[0].split('/')[0]
     logger.warning("存档 : " + name + '-' + id)
-    myfile.save(name + '-' + id, msg["text"])
+    myfile.save(name + '-' + id, message["text"])
     logger.warning('订票存档成功 !!!')
     os.system(r"start /b BookInfo.exe")
 
-    execute_instruction(sessionid, "I")
-    execute_instruction(sessionid, "I")
-    execute_instruction(sessionid, "I")
+    set_run_status(RunStatus.OVER)
 
-    return True, ''
-
-
-
-class BytesIOSocket:
-    def __init__(self, content):
-        self.handle = BytesIO(content)
-
-    def makefile(self, mode):
-        return self.handle
-
-def response_from_bytes(data):
-    sock = BytesIOSocket(data)
-
-    response = HTTPResponse(sock)
-    response.begin()
-
-    return urllib3.HTTPResponse.from_httplib(response)
-
-
+    three_i_command(item['sessionid'])
 
 
 
@@ -817,6 +740,8 @@ def do_recv():
             read_list.remove(http_request)
 
 
+
+
 class sendThread (threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
@@ -827,14 +752,14 @@ class sendThread (threading.Thread):
 
 
 
-
-
 class readThread (threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
 
     def run(self):
         do_recv()
+
+
 
 
 class taskThread (threading.Thread):
@@ -863,7 +788,12 @@ class taskThread (threading.Thread):
                 if get_flag_relogin() == True:
                     sessionid = login()
 
-                query_ticket(sessionid, book_config)
+                item = {
+                    'sessionid': sessionid,
+                    'book_config': book_config,
+                }
+
+                query_ticket(item)
 
                 time.sleep(1/branch_size)
 
@@ -882,7 +812,7 @@ class taskThread (threading.Thread):
                 break
 
 
-def munual_booking(sessionid):
+def munual_booking(sessionid, book_config):
     logger.warning("进入命令行, 进行手动订票...")
     while True:
         cmd = input("\n> ")
@@ -896,12 +826,12 @@ def munual_booking(sessionid):
         if cmd == "exit":
             exit(0)
 
-        ret, msg = execute_instruction(sessionid, cmd)
+        ret, message = execute_instruction(sessionid, cmd)
         if ret == False:
-            logger.warning(msg)
+            logger.warning(message)
             continue
 
-        text = msg["text"]
+        text = message["text"]
         logger.warning()
         logger.warning(text)
         logger.warning(flush=True)

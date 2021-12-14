@@ -40,6 +40,7 @@ class RunStatus(Enum):
     QUERY = 2
     OCCUPIED = 3
     QUICKBOOK = 4
+    OVER = 5
 
 # 运行状态
 
