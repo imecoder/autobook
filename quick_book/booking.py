@@ -11,6 +11,7 @@ from io import BytesIO
 from http.client import HTTPResponse
 import queue
 import requests
+import http
 
 from mylog import *
 from myflag import *
@@ -41,6 +42,10 @@ class HttpRequest:
         self.sock = sock
         self.item = item
         self.read_count = 0
+        self.response_data = b''
+        self.response_status = 0
+        self.response_header_length = 0
+        self.response_content_length = 0
 
     def fileno(self):
         return self.sock.fileno()
@@ -49,7 +54,7 @@ class HttpRequest:
 def limit():
     # 2021-11-20 00:00 我是
     # pyinstaller.exe -F -p venv/Lib/site-packages/ booking.py
-    if datetime.datetime.now() > datetime.datetime.strptime('2021-12-12 23:59', '%Y-%m-%d %H:%M'):
+    if datetime.datetime.now() > datetime.datetime.strptime('2021-12-30 23:59', '%Y-%m-%d %H:%M'):
         logger.warning("试用期限已到...")
         return True
     return False
@@ -60,7 +65,7 @@ def netaccess(url, js, key) :
     try:
         response = requests.post(url, json=js, timeout=100)
         if base_config["debug"] :
-            logger.info(response.text)
+            logger.warning(response.text)
     except requests.exceptions.ReadTimeout as e:
         logger.warning('网络错误 : ' + str(e))
         return False, {}
@@ -129,25 +134,40 @@ def login():
         return sessionid
 
 
-
-
-
-
-class BytesIOSocket:
+class SocketBytesIO:
     def __init__(self, content):
         self.handle = BytesIO(content)
 
     def makefile(self, mode):
         return self.handle
 
-def response_from_bytes(data):
-    sock = BytesIOSocket(data)
-
+def get_response_header(data):
+    sock = SocketBytesIO(data)
     response = HTTPResponse(sock)
     response.begin()
+    header_length = len(data.split(b'\r\n\r\n')[0]) + 4
+    return response.status, header_length, int(response.getheader('Content-Length'))
 
-    return urllib3.HTTPResponse.from_httplib(response)
+def get_response_body(data):
+    sock = SocketBytesIO(data)
+    response = HTTPResponse(sock)
+    response.begin()
+    return urllib3.HTTPResponse.from_httplib(response).data
 
+def get_response_body_json(data):
+    sock = SocketBytesIO(data)
+    response = HTTPResponse(sock)
+    response.begin()
+    data = urllib3.HTTPResponse.from_httplib(response).data
+
+    try:
+        body_json  = json.loads(data)
+        return True, body_json
+    except json.decoder.JSONDecodeError as e:
+        logger.warning('解析json失败 : ' + str(e))
+        return False, {}
+
+    return False, {}
 
 
 
@@ -250,6 +270,7 @@ def query_ticket(item) :
         "allowEnhanced": True
     }
 
+    item['type'] = 'query'
     item['data'] = json.dumps(data)
     item['callback_for_success'] = callback_for_query_ticket
 
@@ -265,6 +286,7 @@ def occupy_ticket(item, book_space, line) :
         "allowEnhanced": True
     }
 
+    item['type'] = 'occupy'
     item['data'] = json.dumps(data)
     item['callback_for_success'] = callback_for_occupy_ticket
 
@@ -293,6 +315,7 @@ def quick_booking(item) :
         "allowEnhanced": True
     }
 
+    item['type'] = 'quick'
     item['data'] = json.dumps(data)
     item['callback_for_success'] = callback_for_quick_booking
 
@@ -365,41 +388,31 @@ def auto_booking_RPEI(item):
 
 
 
-def auto_booking_TT(sessionid, book_config):
+def auto_booking_TT(item):
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": "T.T*",
         "allowEnhanced": True
     }
 
-    item = {
-        'type': 'T.T*',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_TT
 
     send_queue.put(item)
 
 
 
-def auto_booking_ER(sessionid, book_config):
+def auto_booking_ER(item):
 
     data = {
-        "sessionId": sessionid,
+        "sessionId": item['sessionid'],
         "command": "ER",
         "allowEnhanced": True
     }
 
-    item = {
-        'type': 'ER',
-        'sessionid': sessionid,
-        'book_config': book_config,
-        'data': json.dumps(data),
-        "callback": callback_for_query_ticket
-    }
+    item['data'] = json.dumps(data)
+    item['callback_for_success'] = callback_for_auto_booking_ER
 
     send_queue.put(item)
 
@@ -420,7 +433,7 @@ def callback_for_query_ticket(item, message):
     if 'SYSTEM ERROR' in message["text"] \
             or 'Session does not exist' in message["text"]:
         logger.warning('掉线重新登录')
-        set_run_status(RunStatus.LOGIN)
+        set_run_status(RunStatus.LOGIN_QUERY)
         return
 
     attrlist = message["masks"]["special"]["attrList"]
@@ -504,6 +517,11 @@ def callback_for_query_ticket(item, message):
 
 def callback_for_occupy_ticket(item, message) :
 
+    if 'UNABLE - DUPLICATE SEGMENT' in message['text']:
+        logger.warning('前期占票命令已经执行...')
+        set_run_status(RunStatus.OCCUPIED)
+        return
+
     # 占票失败，重新回去刷票
     if 'HL' in message["text"] or \
             'LL' in message["text"]:
@@ -541,7 +559,7 @@ def callback_for_quick_booking(item, message):
     if 'SYSTEM ERROR' in message["text"] \
             or 'Session does not exist' in message["text"]:
         logger.warning('掉线重新登录')
-        set_run_status(RunStatus.LOGIN)
+        set_run_status(RunStatus.LOGIN_QUICKBOOK)
         return
 
     # 票面关闭，重新快速预定
@@ -646,15 +664,30 @@ def callback_for_auto_booking_ER(item, message):
 
 def do_send():
     while True:
+        if get_run_status() == RunStatus.OVER:
+            send_queue.queue.clear()
+            return
 
-        item = send_queue.get()
+        try:
+            item = send_queue.get(timeout=1)
+
+            if get_run_status() == RunStatus.OCCUPIED :
+                if 'type' in item :
+                    if item['type'] == 'query' or \
+                        item['type'] == 'occupy' or \
+                        item['type'] == 'quick' :
+                        continue
+
+        except:
+            continue
+
         content = \
             (
-                "POST TWS/TerminalCommand HTTP/1.1\r\n"
+                "POST /TWS/TerminalCommand HTTP/1.1\r\n"
                 "Host: webagentapp.tts.com\r\n"
                 "Accept: application/json, text/javascript, */*; q=0.01\r\n"
                 "Cache-Control: no-cache\r\n"
-                "Content-Type: application/x-www-form-urlencoded; charset=UTF-8\r\n"
+                "Content-Type: application/json\r\n"
                 "Content-Length: %d\r\n"
                 "Connection: keep-alive\r\n\r\n"
                 "%s"
@@ -665,79 +698,129 @@ def do_send():
             sock.connect(('webagentapp.tts.com', 443))
             logger.warning('------ send ------ ')
             sock.sendall(content.encode("utf-8"))
-            read_list.put(HttpRequest(sock, item))
+
+            logger.warning(content)
+                
+            read_list.append(HttpRequest(sock, item))
             logger.warning('添加socket=%d'%(sock.fileno()))
 
         except BlockingIOError as e:
             logger.warning('错误产生')
             logger.warning(json.dumps(item))
 
-
-
-
 def do_recv():
     while True:
+        if get_run_status() == RunStatus.OVER:
+            read_list.clear()
+            return
+
         if not read_list:
             time.sleep(1)
             continue
 
-        for elem in read_list :
-            elem.write_count += 1
-            if elem.write_count >= 30 :     # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
-                elem.sock.close()
-                read_list.remove(elem)
+        for http_req in read_list :
+            if get_run_status() == RunStatus.OCCUPIED :
+                if 'type' in http_req.item :
+                    if http_req.item['type'] == 'query' or \
+                        http_req.item['type'] == 'occupy' or \
+                        http_req.item['type'] == 'quick' :
+                        http_req.sock.close()
+                        read_list.remove(http_req)
+                        continue
+
+            http_req.read_count += 1
+
+            if http_req.read_count >= 30:  # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
+                http_req.sock.close()
+                read_list.remove(http_req)
+                continue
+
 
         if not read_list :
             time.sleep(1)
             continue
 
         logger.warning("------ select read ------")
-        r, _, _ = select.select(read_list, [], [], 1)
+        r, _, _ = select.select([read_list[0]], [], [], 1)
         for http_request in r:
             """请求得到响应，接收数据"""
-            logger.warning(http_request.sock)
-            data = http_request.sock.recv(8096)
-            http_request.sock.close()
 
-            logger.warning('response >>>')
-            response = response_from_bytes(data)
-            logger.warning(response.headers)
-            logger.warning(response.data)
-
-            try:
-                response_json = json.loads(response.data.strip(' '))
-            except json.decoder.JSONDecodeError as e:
-                logger.warning('解析json失败 : ' + str(e))
-                break
-
-            sessionid = http_request.item['sessionid']
-            book_config = http_request.item['book_config']
             if 'callback_for_failure' in http_request.item :
                 callback_for_failure = http_request.item['callback_for_failure']
             if 'callback_for_success' in http_request.item :
                 callback_for_success = http_request.item['callback_for_success']
 
-            if response_json["success"] == False:
+
+            http_request.response_data += http_request.sock.recv(60000)
+            logger.warning('socket=%d' % http_request.sock.fileno())
+            logger.warning(http_request.response_data)
+
+            # 判断是否获取过http状态
+            if http_request.response_status != 200 :
+
+                # 获取http状态
+                http_request.response_status, \
+                http_request.response_header_length, \
+                http_request.response_content_length = \
+                    get_response_header(http_request.response_data)
+
+                if http_request.response_status != 200:
+                    http_request.sock.close()
+                    read_list.remove(http_request)
+
+                    logger.warning(
+                        'socket=%d, http响应状态=%d' %
+                        (
+                            http_request.sock.fileno(),
+                            http_request.response_status
+                        )
+                    )
+
+                    if callback_for_failure:
+                        _thread.start_new_thread(callback_for_failure, (http_request.item))
+                    continue
+
+
+            logger.warning(
+                'socket=%d, data.length=%d, header_length=%d, content_length=%d' %
+                (
+                    http_request.sock.fileno(),
+                    len(http_request.response_data),
+                    http_request.response_header_length,
+                    http_request.response_content_length
+                )
+            )
+
+            # 尚未接收完整
+            if len(http_request.response_data) != http_request.response_header_length + http_request.response_content_length  :
+
+                continue
+
+            # 数据接收完整了
+            http_request.sock.close()
+            read_list.remove(http_request)
+
+            ret, body_json = get_response_body_json(http_request.response_data)
+            if ret == False :
+                if callback_for_failure:
+                    _thread.start_new_thread(callback_for_failure, (http_request.item))
+                continue
+
+
+            if body_json["success"] == False:
                 logger.warning('返回状态非success')
                 if callback_for_failure:
-                    _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
-                break
+                    _thread.start_new_thread(callback_for_failure, (http_request.item))
+                continue
 
-            # if http_request.item['sessionid'] not in response_json:
-            #     logger.warning('返回数据中未发现匹配的sessionid :' + http_request.item['sessionid'] )
-            #     if callback_for_failure:
-            #          _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
-            #     break
-
-            if 'message' not in response_json:
+            if 'message' not in body_json:
                 logger.warning('返回数据中未发现message信息')
                 if callback_for_failure:
-                    _thread.start_new_thread(callback_for_failure, (sessionid, book_config))
-                break
+                    _thread.start_new_thread(callback_for_failure, (http_request.item))
+                continue
 
-            _thread.start_new_thread(callback_for_success, (http_request.item, response_json['message']))
 
-            read_list.remove(http_request)
+            _thread.start_new_thread(callback_for_success, (http_request.item, body_json['message']))
 
 
 
@@ -759,57 +842,6 @@ class readThread (threading.Thread):
     def run(self):
         do_recv()
 
-
-
-
-class taskThread (threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-
-        branch_size = base_config["branch_size"]
-
-        for book_config in book_config_list :
-
-            logger.warning('')
-            logger.warning('')
-            logger.warning('开始订票 = ' + json.dumps(book_config))
-
-            set_flag_relogin(True)
-            set_flag_occupied(False)
-
-            sessionid = ''
-            while True :
-
-                if limit() == True:
-                    exit(0)
-
-                if get_flag_relogin() == True:
-                    sessionid = login()
-
-                item = {
-                    'sessionid': sessionid,
-                    'book_config': book_config,
-                }
-
-                query_ticket(item)
-
-                time.sleep(1/branch_size)
-
-                if get_flag_relogin() == True:
-                    continue
-
-                if get_flag_occupied() == False:
-                    break
-
-                if base_config["manual"] == True:
-                    if munual_booking(sessionid) == True:
-                        break
-
-                    exit(0)
-
-                break
 
 
 def munual_booking(sessionid, book_config):
@@ -869,25 +901,78 @@ def munual_booking(sessionid, book_config):
             logger.warning('订票存档成功 !!!')
             os.system(r"start /b BookInfo.exe")
 
-    return True
-
 
 def main() :
 
-    # 创建新线程
-    sth = sendThread()
-    rth = readThread()
-    tth = taskThread()
+    branch_size = base_config["branch_size"]
 
+    for book_config in book_config_list:
 
-    # 开启新线程
-    rth.start()
-    sth.start()
-    tth.start()
+        logger.warning('')
+        logger.warning('')
+        logger.warning('开始订票 = ' + json.dumps(book_config))
 
-    tth.join()
-    sth.join()
-    rth.join()
+        sth = sendThread()
+        rth = readThread()
+        rth.start()
+        sth.start()
+        logger.warning('读写线程已启动 ...')
+
+        
+        set_run_status(RunStatus.LOGIN_QUERY)
+
+        sessionid = ''
+        while True:
+
+            if limit() == True:
+                exit(0)
+
+            logger.warning("1111111111111111111")
+            if get_run_status() == RunStatus.LOGIN_QUERY:
+                sessionid = login()
+                set_run_status(RunStatus.QUERY)
+                query_ticket({'sessionid': sessionid, 'book_config': book_config})
+                time.sleep(1 / branch_size)
+                continue
+
+            logger.warning("22222222222222222222")
+            if get_run_status() == RunStatus.QUERY:
+                query_ticket({'sessionid': sessionid, 'book_config': book_config})
+                time.sleep(1 / branch_size)
+                continue
+
+            logger.warning("33333333333333333")
+            if get_run_status() == RunStatus.OCCUPIED:
+                if base_config["manual"] == True:
+                    munual_booking(sessionid)
+                    break
+
+                # 自动情况下，已经占票成功，什么也不做，等待订票成功退出
+                time.sleep(1 / branch_size)
+                continue
+            logger.warning("444444444444444444")
+
+            if get_run_status() == RunStatus.QUICKBOOK:
+                quick_booking({'sessionid': sessionid, 'book_config': book_config})
+                time.sleep(1 / branch_size)
+                continue
+            logger.warning("555555555555555555")
+
+            if get_run_status() == RunStatus.LOGIN_QUICKBOOK:
+                sessionid = login()
+                set_run_status(RunStatus.QUICKBOOK)
+                quick_booking({'sessionid': sessionid, 'book_config': book_config})
+                time.sleep(1 / branch_size)
+                continue
+            logger.warning("666666666666666666666")
+
+            if get_run_status() == RunStatus.OVER:
+                break
+            logger.warning("77777777777777777777777")
+
+        logger.warning('等待读写线程退出 ...')
+        sth.join()
+        rth.join()
 
     logger.warning ("退出主线程")
 

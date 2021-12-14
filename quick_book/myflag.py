@@ -36,11 +36,12 @@ def get_flag_relogin() :
 from enum import Enum
 
 class RunStatus(Enum):
-    LOGIN = 1
+    LOGIN_QUERY = 1
     QUERY = 2
     OCCUPIED = 3
     QUICKBOOK = 4
-    OVER = 5
+    LOGIN_QUICKBOOK = 5
+    OVER = 6
 
 # 运行状态
 

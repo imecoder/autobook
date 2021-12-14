@@ -14,8 +14,10 @@ class putThread (threading.Thread):
 
     def run(self):
         q.put(1)  # 进队列
+        print('put 1')
         time.sleep(2)
         q.put(2)
+        print('put 2')
 
 
 class getThread (threading.Thread):
@@ -25,8 +27,9 @@ class getThread (threading.Thread):
     def run(self):
         print("qsize:{}".format(q.qsize()))  # 取队列当前队列长度
         # print(q.get())  # 出队列
-        print(q.get())
-        print(q.get())
+        print('get=%d'%(q.get()))
+        print('get=%d'%(q.get()))
+        print('get=%d'%(q.get(timeout=3)))
         print("qsize:{}".format(q.qsize()))
         # print(q.get_nowait())# 不检测队列是否为空，为空则报错
 
