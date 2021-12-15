@@ -2,46 +2,18 @@
 # -*- coding: UTF-8 -*-
 
 import threading
-
-# 舱位占有标志
-flagOccupied = False
-mutexOccupied = threading.Lock()
-
-def set_flag_occupied(flag) :
-    with mutexOccupied :
-        global flagOccupied
-        flagOccupied = flag
-
-def get_flag_occupied() :
-    with mutexOccupied :
-        global flagOccupied
-        return flagOccupied
-
-
-# 掉线重新登录标志
-flagRelogin = False
-mutexRelogin = threading.Lock()
-
-def set_flag_relogin(flag) :
-    with mutexRelogin :
-        global flagRelogin
-        flagRelogin = flag
-
-def get_flag_relogin() :
-    with mutexRelogin :
-        global flagRelogin
-        return flagRelogin
+from mylog import *
 
 
 from enum import Enum
 
 class RunStatus(Enum):
-    LOGIN_QUERY = 1
-    QUERY = 2
-    OCCUPIED = 3
-    QUICKBOOK = 4
-    LOGIN_QUICKBOOK = 5
-    OVER = 6
+    LOGIN_QUERY = '登录与刷票'
+    QUERY = '刷票'
+    OCCUPIED = '占票'
+    QUICKBOOK = '快速预定'
+    LOGIN_QUICKBOOK = '登录与快速预定'
+    OVER = '订票完成'
 
 # 运行状态
 
@@ -52,6 +24,8 @@ def set_run_status(flag) :
     with mutex_run_status :
         global run_statue
         run_statue = flag
+        logger.warning('设置状态 = %s' % flag.value )
+
 
 def get_run_status() :
     with mutex_run_status :

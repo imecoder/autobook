@@ -11,7 +11,6 @@ from io import BytesIO
 from http.client import HTTPResponse
 import queue
 import requests
-import http
 
 from mylog import *
 from myflag import *
@@ -63,9 +62,11 @@ def limit():
 
 def net_request(url, command_json) :
     try:
+
         response = requests.post(url, json=command_json, timeout=100)
         if base_config["debug"] :
-            logger.warning(response.text)
+            logger.info(response.text)
+
     except requests.exceptions.ReadTimeout as e:
         logger.warning('网络错误 : ' + str(e))
         return False, {}
@@ -124,9 +125,9 @@ def login():
     logger.warning('登录账户 = ' + json.dumps(login_config['son']))
 
     while True :
-        ret, response_json = net_request(login_url, login_config, "sessionId")
+        ret, response_json = net_request(login_url, login_config)
         if ret == False :
-            logger.warning('登录失败, 请确认您的登录账户信息 ...')
+            logger.warning('登录失败, 请确认您的登录账户信息')
             time.sleep(1)
             continue
 
@@ -135,7 +136,7 @@ def login():
         if 'sessionId' not in response_json :
             continue
 
-        sessionid = response_json['sessionid']
+        sessionid = response_json['sessionId']
 
         three_i_command(sessionid)
 
@@ -226,7 +227,7 @@ def parse_space(attrlist, book_space_list, line_start_location, line_end_locatio
     for book_space in book_space_list:
 
         space_list[book_space] = {
-            "location": line_end_location,
+            "location": -1,
             "status": 'N'
         }
 
@@ -253,19 +254,26 @@ def parse_space(attrlist, book_space_list, line_start_location, line_end_locatio
 
 
 
-def all_N(space_list, line_end_location) :
+def space_status_all_N(space_list) :
 
     for book_space in space_list:
         location = space_list[book_space]["location"]
         status = space_list[book_space]["status"]
-        if location != line_end_location and status != 'N':
+        if location != -1 and status != 'N':
             return False
 
     return True
 
 
+def space_status_has_C(space_list) :
 
+    for book_space in space_list:
+        location = space_list[book_space]["location"]
+        status = space_list[book_space]["status"]
+        if location != -1 and status == 'C':
+            return True
 
+    return False
 
 
 def query_ticket(item) :
@@ -279,22 +287,7 @@ def query_ticket(item) :
     }
 
     item['data'] = json.dumps(data)
-    item['callback_for_success'] = callback_for_query_ticket
-
-    send_queue.put(item)
-
-
-
-def occupy_ticket(item, book_space, line) :
-
-    data = {
-        "sessionId": item['sessionid'],
-        "command": '01' + book_space + line,
-        "allowEnhanced": True
-    }
-
-    item['data'] = json.dumps(data)
-    item['callback_for_success'] = callback_for_occupy_ticket
+    item['callback'] = callback_for_query_ticket
 
     send_queue.put(item)
 
@@ -322,7 +315,7 @@ def quick_booking(item) :
     }
 
     item['data'] = json.dumps(data)
-    item['callback_for_success'] = callback_for_quick_booking
+    item['callback'] = callback_for_quick_booking
 
     send_queue.put(item)
 
@@ -335,14 +328,13 @@ def callback_for_query_ticket(item, message):
 
     # 航班过去，重新回去刷票
     if 'DEPARTED' in message["text"]:
-        logger.warning("请确认是否航班已经过期 ...")
-        set_run_status(RunStatus.QUERY)
+        logger.warning("[任务退出] 请确认是否航班已经过期")
         return
 
     # 掉线，重新回去登录和刷票
     if 'SYSTEM ERROR' in message["text"] \
             or 'Session does not exist' in message["text"]:
-        logger.warning('掉线重新登录')
+        logger.warning('[任务退出] 掉线重新登录')
         set_run_status(RunStatus.LOGIN_QUERY)
         return
 
@@ -355,7 +347,7 @@ def callback_for_query_ticket(item, message):
         book_config['flight']
     )
     if ret == False:
-        set_run_status(RunStatus.QUERY)
+        logger.warning('[任务退出] 未找到匹配航班')
         return
 
     # 航班行的开始位置
@@ -379,56 +371,123 @@ def callback_for_query_ticket(item, message):
     )
 
     # 如果所有仓位状态都是N，重新回去刷票
-    if all_N( space_list,line_end_location ) == True:
-        set_run_status(RunStatus.QUERY)
+    if space_status_all_N( space_list ) == True:
+        logger.warning('[任务退出] 所有仓位都是N的状态')
         return
 
     # 处理所有的占座及订座
 
     # 处理有座状态
+    flag_has_ticket = False
     for book_space in space_list:
         location = space_list[book_space]["location"]
         status = space_list[book_space]["status"]
         if location == line_end_location or status == 'N':
             continue
 
-        # 有位置, 立即占票及订票
-        if status >= "1" and status <= "9":
-            logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
+        # 当前仓位无票
+        if not ( status >= "1" and status <= "9") :
+            continue
 
-            occupy_ticket(
-                item,
-                book_space,
-                line
-            )
+
+        # 有位置, 立即占票及订票
+        flag_has_ticket = True
+        logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
+
+        # 占票
+        occupy_ticket( item, book_space, line )
+
+        # 占票成功，直接回主线程，继续后续订票流程
+        if get_run_status() == RunStatus.OCCUPIED :
+            logger.warning('[任务退出]')
             return
+
+        # 占票失败，尝试占票下一个仓位
+
+
+    # 有位置的情况下，但未能占票或订票成功，重新去刷票
+    if flag_has_ticket == True :
+        logger.warning('[任务退出] 占票失败')
+        return
 
 
     # 刷票+占票模式，不进行快速预定，重新去刷票
     if base_config["mode"] == 0:
-        set_run_status(RunStatus.QUERY)
+        logger.warning('[任务退出]')
         return
 
-    # 刷票+占票+快速预定模式下，处理带有C状态的票
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location == line_end_location or status == 'N':
-            continue
-
-        # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
-        if status == 'C':
-            quick_booking(item)
-            return
+    # 刷票+占票+快速预定模式下，带有C 候补关闭 状态 的票, 执行快速预订
+    if space_status_has_C(space_list) :
+        set_run_status(RunStatus.QUICKBOOK)
+        logger.warning('[任务退出]')
+        return
 
     # 候补状态，L, 0 等等重新刷票
 
+    logger.warning('[任务退出]')
 
 
-def callback_for_occupy_ticket(item, message) :
+def callback_for_quick_booking(item, message):
 
+    # 失败，重新回去快速预定
+    if 'text' not in message:
+        logger.warning('[任务退出] 快速预定失败')
+        return
+
+    # 掉线，重新回去登录刷票
+    if 'SYSTEM ERROR' in message["text"] \
+            or 'Session does not exist' in message["text"]:
+        logger.warning('[任务退出] 掉线重新登录')
+        set_run_status(RunStatus.LOGIN_QUICKBOOK)
+        return
+
+    # 票面关闭，重新快速预定
+    if '*0 AVAIL/WL CLOSED*' in message["text"]:
+        logger.warning('[任务退出] 票面关闭中')
+        return
+
+    # 票面禁止销售，重新快速预定
+    if '*SELL RESTRICTED*' in message["text"]:
+        logger.warning('[任务退出] 票面禁止销售')
+        return
+
+    # 产生了HL LL错误，重新回去刷票
+    if 'HL' in message["text"] or \
+            'LL' in message["text"]:
+        set_run_status(RunStatus.QUERY)
+        logger.warning('[任务退出] HL LL 错误状态')
+        return
+
+    # 失败，重新回去快速预定
+    if 'HS' not in message["text"]:
+        logger.warning('[任务退出] 快速预定失败')
+        return
+
+    # HS
+    set_run_status(RunStatus.OCCUPIED)
+    logger.warning('[任务退出] 快速预定成功')
+
+
+
+def occupy_ticket(item, book_space, line) :
+
+    if get_run_status() == RunStatus.OCCUPIED :
+        logger.warning("前述执行已占票")
+        return
+
+    occupy_cmd = '01' + book_space + line
+    ret, message = execute_instruction(item['sessionid'], occupy_cmd)
+    if ret == False:
+        logger.warning('占票失败')
+        return
+
+    if 'text' not in message:
+        logger.warning('占票失败')
+        return
+
+    # 已经了占票的
     if 'UNABLE - DUPLICATE SEGMENT' in message['text']:
-        logger.warning('前期占票命令已经执行...')
+        logger.warning('前期占票命令已经执行')
         set_run_status(RunStatus.OCCUPIED)
         return
 
@@ -437,74 +496,15 @@ def callback_for_occupy_ticket(item, message) :
             'LL' in message["text"]:
         logger.warning('占票失败')
         three_i_command(item['sessionid'])
-        set_run_status(RunStatus.QUERY)
         return
 
     if 'HS' not in message["text"]:
         logger.warning('占票失败')
-        set_run_status(RunStatus.QUERY)
         return
 
     # HS
     logger.warning('占票成功')
     set_run_status(RunStatus.OCCUPIED)
-
-    if base_config["manual"] == True:
-        return True
-
-    auto_booking(item)
-
-
-
-
-def callback_for_quick_booking(item, message):
-
-    # 失败，重新回去刷票
-    if 'text' not in message:
-        logger.warning('快速预定失败')
-        set_run_status(RunStatus.QUERY)
-        return
-
-    # 掉线，重新回去登录刷票
-    if 'SYSTEM ERROR' in message["text"] \
-            or 'Session does not exist' in message["text"]:
-        logger.warning('掉线重新登录')
-        set_run_status(RunStatus.LOGIN_QUICKBOOK)
-        return
-
-    # 票面关闭，重新快速预定
-    if '*0 AVAIL/WL CLOSED*' in message["text"]:
-        logger.warning('票面关闭中')
-        set_run_status(RunStatus.QUICKBOOK)
-        return
-
-    # 票面禁止销售
-    if '*SELL RESTRICTED*' in message["text"]:
-        logger.warning('票面禁止销售')
-        set_run_status(RunStatus.QUICKBOOK)
-        return
-
-    # 产生了HL LL错误，重新回去刷票
-    if 'HL' in message["text"] or \
-            'LL' in message["text"]:
-        set_run_status(RunStatus.QUERY)
-        return
-
-
-    if 'HS' not in message["text"]:
-        logger.warning('快速预定失败')
-        set_run_status(RunStatus.QUERY)
-        return
-
-    # HS
-    logger.warning('快速预定成功')
-    set_run_status(RunStatus.OCCUPIED)
-
-    if base_config["manual"] == True:
-        return
-
-    auto_booking(item)
-
 
 
 
@@ -519,7 +519,7 @@ def auto_booking(item):
             continue
 
         if 'text' in message and 'INVALID NAME - DUPLICATE ITEM' in message["text"]:
-            logger.warning('前期客户姓名命令已经执行...')
+            logger.warning('前期客户姓名命令已经执行')
 
         break
 
@@ -531,7 +531,7 @@ def auto_booking(item):
             continue
 
         if 'text' in message and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in message["text"]:
-            logger.warning('前期客户电话命令已经执行...')
+            logger.warning('前期客户电话命令已经执行')
 
         break
 
@@ -543,7 +543,7 @@ def auto_booking(item):
             continue
 
         if 'text' in message and 'ADD/DELETE RESTRICTED ON RETRIEVED BOOKING' in message["text"]:
-            logger.warning('前期客户邮箱命令已经执行...')
+            logger.warning('前期客户邮箱命令已经执行')
 
         break
 
@@ -555,7 +555,7 @@ def auto_booking(item):
             continue
 
         if 'text' in message and 'SINGLE ITEM FIELD' in message["text"]:
-            logger.warning('前期R.PEI命令已经执行...')
+            logger.warning('前期R.PEI命令已经执行')
 
         break
 
@@ -568,7 +568,7 @@ def auto_booking(item):
             continue
 
         if 'text' in message and 'SINGLE ITEM FIELD' in message["text"]:
-            logger.warning('前期T.T*命令已经执行...')
+            logger.warning('前期T.T*命令已经执行')
 
         break
 
@@ -582,9 +582,14 @@ def auto_booking(item):
 
         break
 
+    if 'CHECK' in message["text"]:
+        logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
+        return False
+
 
     if 'HK' not in message["text"]:
-        return False, message["text"]
+        logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
+        return False
 
 
     name = book_config["user"].strip('N.').replace('/','')
@@ -598,22 +603,27 @@ def auto_booking(item):
 
     set_run_status(RunStatus.OVER)
 
-    return True, ''
+    return True
 
 
 
 def do_send():
     while True:
-        if get_run_status() == RunStatus.OVER:
+        # 已经占票的情况下，清除所有命令，继续等待
+        if get_run_status() == RunStatus.OCCUPIED :
             send_queue.queue.clear()
+            time.sleep(1)
+            continue
+
+        # 已经订票成功，清除所有命令，直接返回
+        if get_run_status() == RunStatus.OVER  :
+            send_queue.queue.clear()
+            logger.warning('线程退出')
             return
 
+        # 循环监听任务命令
         try:
             item = send_queue.get(timeout=1)
-
-            if get_run_status() == RunStatus.OCCUPIED :
-                continue
-
         except:
             continue
 
@@ -632,60 +642,62 @@ def do_send():
         try:
             sock = ssl.wrap_socket(socket.socket())
             sock.connect(('webagentapp.tts.com', 443))
-            logger.warning('------ send ------ ')
             sock.sendall(content.encode("utf-8"))
-
-            logger.warning(content)
-                
             read_list.append(HttpRequest(sock, item))
-            logger.warning('添加socket=%d'%(sock.fileno()))
+
+            if base_config["debug"]:
+                logger.info('[添加任务] socket=%d'%(sock.fileno()))
+                logger.info(content)
+
 
         except BlockingIOError as e:
             logger.warning('错误产生')
             logger.warning(json.dumps(item))
 
+
+    logger.warning('线程退出')
+
+
+
 def do_recv():
     while True:
-        if get_run_status() == RunStatus.OVER:
+        # 已经占票的情况下，清除所有命令
+        if get_run_status() == RunStatus.OCCUPIED :
             read_list.clear()
+            time.sleep(1)
+            continue
+
+        # 已经订票成功，清除所有命令，直接返回
+        if get_run_status() == RunStatus.OVER :
+            read_list.clear()
+            logger.warning('线程退出')
             return
 
+        # 清除超过30秒，仍未接收到数据的链接
+        for http_req in read_list :
+            http_req.read_count += 1
+            if http_req.read_count > 30:  # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
+                http_req.sock.close()
+                read_list.remove(http_req)
+
+        # 循环监听任务命令
         if not read_list:
             time.sleep(1)
             continue
 
-        for http_req in read_list :
-            if get_run_status() == RunStatus.OCCUPIED :
-                http_req.sock.close()
-                read_list.remove(http_req)
-                continue
 
-            http_req.read_count += 1
+        if base_config["debug"]:
+            logger.info("------ select ------")
 
-            if http_req.read_count >= 30:  # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
-                http_req.sock.close()
-                read_list.remove(http_req)
-                continue
-
-
-        if not read_list :
-            time.sleep(1)
-            continue
-
-        logger.warning("------ select read ------")
         r, _, _ = select.select([read_list[0]], [], [], 1)
         for http_request in r:
             """请求得到响应，接收数据"""
 
-            if 'callback_for_failure' in http_request.item :
-                callback_for_failure = http_request.item['callback_for_failure']
-            if 'callback_for_success' in http_request.item :
-                callback_for_success = http_request.item['callback_for_success']
-
-
             http_request.response_data += http_request.sock.recv(60000)
-            logger.warning('socket=%d' % http_request.sock.fileno())
-            logger.warning(http_request.response_data)
+
+            if base_config["debug"]:
+                logger.info('socket=%d 接收到数据' % http_request.sock.fileno())
+                logger.info(http_request.response_data)
 
             # 判断是否获取过http状态
             if http_request.response_status != 200 :
@@ -708,25 +720,26 @@ def do_recv():
                         )
                     )
 
-                    if callback_for_failure:
-                        _thread.start_new_thread(callback_for_failure, (http_request.item))
                     continue
 
 
-            logger.warning(
-                'socket=%d, data.length=%d, header_length=%d, content_length=%d' %
-                (
-                    http_request.sock.fileno(),
-                    len(http_request.response_data),
-                    http_request.response_header_length,
-                    http_request.response_content_length
+            if base_config["debug"]:
+                logger.info(
+                    'socket=%d, data.length=%d, header_length=%d, content_length=%d' %
+                    (
+                        http_request.sock.fileno(),
+                        len(http_request.response_data),
+                        http_request.response_header_length,
+                        http_request.response_content_length
+                    )
                 )
-            )
 
             # 尚未接收完整
             if len(http_request.response_data) != http_request.response_header_length + http_request.response_content_length  :
-
                 continue
+
+            if base_config["debug"]:
+                logger.info( 'socket=%d, 数据接收完成' % http_request.sock.fileno() )
 
             # 数据接收完整了
             http_request.sock.close()
@@ -734,26 +747,24 @@ def do_recv():
 
             ret, body_json = get_response_body_json(http_request.response_data)
             if ret == False :
-                if callback_for_failure:
-                    _thread.start_new_thread(callback_for_failure, (http_request.item))
                 continue
 
 
             if body_json["success"] == False:
                 logger.warning('返回状态非success')
-                if callback_for_failure:
-                    _thread.start_new_thread(callback_for_failure, (http_request.item))
                 continue
 
             if 'message' not in body_json:
                 logger.warning('返回数据中未发现message信息')
-                if callback_for_failure:
-                    _thread.start_new_thread(callback_for_failure, (http_request.item))
                 continue
 
 
-            _thread.start_new_thread(callback_for_success, (http_request.item, body_json['message']))
+            _thread.start_new_thread(
+                http_request.item['callback'],
+                (http_request.item, body_json['message'])
+            )
 
+    logger.warning('线程退出')
 
 
 
@@ -801,19 +812,19 @@ def munual_booking(sessionid, book_config):
         logger.warning(flush=True)
 
         if 'UNABLE - DUPLICATE SEGMENT' in text:
-            logger.warning('前期占票命令已经执行...')
+            logger.warning('前期占票命令已经执行')
             continue
 
         if 'INVALID NAME - DUPLICATE ITEM' in text:
-            logger.warning('前期客户姓名命令已经执行...')
+            logger.warning('前期客户姓名命令已经执行')
             continue
 
         if 'SINGLE ITEM FIELD' in text and "R.PEI" in text:
-            logger.warning('前期R.PEI命令已经执行...')
+            logger.warning('前期R.PEI命令已经执行')
             continue
 
         if 'SINGLE ITEM FIELD' in text and "T.T*" in text:
-            logger.warning('前期T.T*命令已经执行...')
+            logger.warning('前期T.T*命令已经执行')
             continue
 
         if cmd == "ER":
@@ -848,7 +859,7 @@ def main() :
         rth = readThread()
         rth.start()
         sth.start()
-        logger.warning('读写线程已启动 ...')
+        logger.warning('读写线程已启动')
 
         
         set_run_status(RunStatus.LOGIN_QUERY)
@@ -871,15 +882,6 @@ def main() :
                 time.sleep(1 / branch_size)
                 continue
 
-            if get_run_status() == RunStatus.OCCUPIED:
-                if base_config["manual"] == True:
-                    munual_booking(sessionid)
-                    break
-
-                # 自动情况下，已经占票成功，什么也不做，等待订票成功退出
-                time.sleep(1 / branch_size)
-                continue
-
             if get_run_status() == RunStatus.QUICKBOOK:
                 quick_booking({'sessionid': sessionid, 'book_config': book_config})
                 time.sleep(1 / branch_size)
@@ -892,10 +894,29 @@ def main() :
                 time.sleep(1 / branch_size)
                 continue
 
+            if get_run_status() == RunStatus.OCCUPIED:
+                # 后续订票
+                if base_config["manual"] == True:
+                    munual_booking(sessionid)
+                    # 继续下一个用户的订票
+                    break
+
+                if auto_booking({'sessionid': sessionid, 'book_config': book_config}) == True :
+                    # 继续下一个用户的订票
+                    break
+
+                # 自动订票失败，重新刷票
+                set_run_status(RunStatus.QUERY)
+                time.sleep(1 / branch_size)
+                continue
+
+
             if get_run_status() == RunStatus.OVER:
                 break
 
-        logger.warning('等待读写线程退出 ...')
+
+
+        logger.warning('等待读写线程退出')
         sth.join()
         rth.join()
 
