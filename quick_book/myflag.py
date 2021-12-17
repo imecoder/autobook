@@ -8,11 +8,10 @@ from mylog import *
 from enum import Enum
 
 class RunStatus(Enum):
-    LOGIN_QUERY = '登录与刷票'
+    LOGIN = '登录'
     QUERY = '刷票'
-    OCCUPIED = '占票'
     QUICKBOOK = '快速预定'
-    LOGIN_QUICKBOOK = '登录与快速预定'
+    OCCUPIED = '占票'
     OVER = '订票完成'
 
 # 运行状态
