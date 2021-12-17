@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import http
 import socket
 import ssl
 import select
@@ -164,14 +164,19 @@ def get_response_body(data):
     return urllib3.HTTPResponse.from_httplib(response).data
 
 def get_response_body_json(data):
-    sock = SocketBytesIO(data)
-    response = HTTPResponse(sock)
-    response.begin()
-    data = urllib3.HTTPResponse.from_httplib(response).data
 
     try:
+        sock = SocketBytesIO(data)
+        response = HTTPResponse(sock)
+        response.begin()
+
+        data = urllib3.HTTPResponse.from_httplib(response).data
         body_json  = json.loads(data)
+
         return True, body_json
+    except http.client.RemoteDisconnected as e :
+        logger.warning('远程断开了链接 : ' + str(e))
+        return False, {}
     except json.decoder.JSONDecodeError as e:
         logger.warning('解析json失败 : ' + str(e))
         return False, {}
@@ -289,6 +294,8 @@ def query_ticket(item) :
     item['data'] = json.dumps(data)
     item['callback'] = callback_for_query_ticket
 
+    if base_config["debug"]:
+        logger.info('[添加任务]')
     send_queue.put(item)
 
 
@@ -623,7 +630,7 @@ def do_send():
 
         # 循环监听任务命令
         try:
-            item = send_queue.get(timeout=1)
+            item = send_queue.get(timeout=1/base_config["branch_size"])
         except:
             continue
 
@@ -642,6 +649,9 @@ def do_send():
         try:
             sock = ssl.wrap_socket(socket.socket())
             sock.connect(('webagentapp.tts.com', 443))
+            sock.sendall(content.encode("utf-8"))
+            sock.sendall(content.encode("utf-8"))
+            sock.sendall(content.encode("utf-8"))
             sock.sendall(content.encode("utf-8"))
             read_list.append(HttpRequest(sock, item))
 
@@ -674,11 +684,11 @@ def do_recv():
             return
 
         # 清除超过30秒，仍未接收到数据的链接
-        for http_req in read_list :
-            http_req.read_count += 1
-            if http_req.read_count > 30:  # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
-                http_req.sock.close()
-                read_list.remove(http_req)
+        # for http_req in read_list :
+        #     http_req.read_count += 1
+        #     if http_req.read_count > 30:  # 如果经过了30次的select轮询，依旧没有连接成功，则说明连接出现了问题。关闭此连接
+        #         http_req.sock.close()
+        #         read_list.remove(http_req)
 
         # 循环监听任务命令
         if not read_list:
@@ -709,8 +719,8 @@ def do_recv():
                     get_response_header(http_request.response_data)
 
                 if http_request.response_status != 200:
-                    http_request.sock.close()
-                    read_list.remove(http_request)
+                    # http_request.sock.close()
+                    # read_list.remove(http_request)
 
                     logger.warning(
                         'socket=%d, http响应状态=%d' %
@@ -742,13 +752,17 @@ def do_recv():
                 logger.info( 'socket=%d, 数据接收完成' % http_request.sock.fileno() )
 
             # 数据接收完整了
-            http_request.sock.close()
-            read_list.remove(http_request)
+            # http_request.sock.close()
+            # read_list.remove(http_request)
 
             ret, body_json = get_response_body_json(http_request.response_data)
             if ret == False :
                 continue
 
+            http_request.response_content_length = 0
+            http_request.response_data = b''
+            http_request.response_status = 0
+            http_request.response_header_length = 0
 
             if body_json["success"] == False:
                 logger.warning('返回状态非success')
@@ -874,10 +888,12 @@ def main() :
                 sessionid = login()
                 set_run_status(RunStatus.QUERY)
                 query_ticket({'sessionid': sessionid, 'book_config': book_config})
+
                 time.sleep(1 / branch_size)
                 continue
 
             if get_run_status() == RunStatus.QUERY:
+                time.sleep(1000)
                 query_ticket({'sessionid': sessionid, 'book_config': book_config})
                 time.sleep(1 / branch_size)
                 continue
