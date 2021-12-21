@@ -201,22 +201,6 @@ def parse_space(book_config, attrlist, book_space_list, line_start_location, lin
 
 
 
-def all_N(book_config, space_list, line_end_location) :
-
-    book_comp = book_config['comp']
-    book_flight = book_config['flight']
-
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location != line_end_location and status != 'N':
-            return False
-
-        logger.warning('找到航班 [' + book_comp + book_flight + ']的座舱类型[' + book_space + status + ']')
-
-    return True
-
-
 def space_status_has_ticket(space_list):
     for book_space in space_list:
         location = space_list[book_space]["location"]
