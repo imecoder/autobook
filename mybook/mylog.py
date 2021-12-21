@@ -5,7 +5,7 @@ import logging
 import datetime
 
 def mylog() :
-    fmt = logging.Formatter('%(asctime)s - [%(lineno)3.3d] %(threadName)-10.10s: %(message)s')
+    fmt = logging.Formatter('%(asctime)s %(threadName)-10.10s %(filename)-10.10s [%(lineno)3.3d]: %(message)s')
     ch = logging.StreamHandler()
     ch.setFormatter(fmt)
     ch.setLevel(logging.WARNING)
