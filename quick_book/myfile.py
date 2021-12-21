@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import json
-import datetime
 from mylog import *
 
 def get_config(filename) :
@@ -13,7 +12,7 @@ def get_config(filename) :
         logger.warning("配置文件 [" + filename + "] 有误, 请重新配置 ...")
         return False, {}
 
-def save(name, message):
+def save_result(name, message):
     fo = open(name + '-' + datetime.datetime.now().strftime('%Y%m%d-%H-%M-%S') + '.txt', "w")
     fo.write(message)
     fo.close()
