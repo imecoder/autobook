@@ -47,6 +47,7 @@ def execute_instruction(session_id, arg, debug=False):
     return True, response_json['message']
 
 
+
 def three_i_command(session_id, debug = False):
     execute_instruction(session_id, 'I', debug)
     execute_instruction(session_id, 'I', debug)
