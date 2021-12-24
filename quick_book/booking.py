@@ -157,7 +157,7 @@ def callback(session_id, book_config, message):
     # 处理所有的占座及订座
 
     # 处理有座状态
-    flag_has_ticket = False
+    is_have_ticket = False
     for book_space in space_list:
         location = space_list[book_space]["location"]
         status = space_list[book_space]["status"]
@@ -169,7 +169,7 @@ def callback(session_id, book_config, message):
             continue
 
         # 有位置, 立即占票及订票
-        flag_has_ticket = True
+        is_have_ticket = True
         logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
 
         # 占票
@@ -183,7 +183,7 @@ def callback(session_id, book_config, message):
         # 占票失败，尝试占票下一个仓位
 
     # 有位置的情况下，但未能占票或订票成功，重新去刷票
-    if flag_has_ticket == True:
+    if is_have_ticket == True:
         logger.warning('[任务退出] 占票失败')
         return
 
