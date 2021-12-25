@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 
 import time
 import os
@@ -193,34 +195,31 @@ def space_status_has_C(space_list):
     return False
 
 
-def auto_booking(session_id, book_config):
-    # 客户姓名
-    while True :
-        user = \
-            'N.' + \
-            chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + \
-            '/' + \
-            chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91))
+def auto_booking(session_id, book_config, status):
+    for i in range(int(status)) :
+        # 客户姓名
+        while True :
+            user = \
+                'N.' + \
+                chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + \
+                '/' + \
+                chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91))
 
-        ret, message = execute_instruction(session_id, user)
-        if ret == False :
-            if get_flag_relogin() == True:
-                return
-            logger.warning(message)
-            continue
+            ret, message = execute_instruction(session_id, user)
+            if ret == False :
+                logger.warning(message)
+                continue
 
-        if 'text' in message and 'INVALID NAME - DUPLICATE ITEM' in message["text"]:
-            logger.warning('前期客户姓名命令已经执行...')
+            if 'text' in message and 'INVALID NAME - DUPLICATE ITEM' in message["text"]:
+                logger.warning('前期客户姓名命令已经执行...')
 
-        break
+            break
 
 
     # 客户手机
     while True :
         ret, message = execute_instruction(session_id, book_config["contact"])
         if ret == False :
-            if get_flag_relogin() == True:
-                return
             logger.warning(message)
             continue
 
@@ -234,8 +233,6 @@ def auto_booking(session_id, book_config):
     while True :
         ret, message = execute_instruction(session_id, book_config["email"])
         if ret == False :
-            if get_flag_relogin() == True:
-                return
             logger.warning(message)
             continue
 
@@ -249,8 +246,6 @@ def auto_booking(session_id, book_config):
     while True :
         ret, message = execute_instruction(session_id, "R.PEI")
         if ret == False:
-            if get_flag_relogin() == True:
-                return
             logger.warning(message)
             continue
 
@@ -265,8 +260,6 @@ def auto_booking(session_id, book_config):
     while True :
         ret, message = execute_instruction(session_id, "T.T*")
         if ret == False:
-            if get_flag_relogin() == True:
-                return
             logger.warning(message)
             continue
 
@@ -281,12 +274,12 @@ def auto_booking(session_id, book_config):
     while True :
         ret, message = execute_instruction(session_id, "ER")
         if ret == False:
-            if get_flag_relogin() == True:
-                return
             logger.warning(message)
             continue
 
         break
+
+
 
     if 'CHECK' in message["text"]:
         logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
@@ -301,6 +294,7 @@ def auto_booking(session_id, book_config):
     id = message["text"].split('\n')[0].split('/')[0]
     logger.warning("存档 : " + name + '-' + id)
     save_result(name + '-' + id, message["text"])
+    save_excel_result(message["text"])
     logger.warning('订票存档成功 !!!')
     os.system(r"start /b BookInfo.exe")
 
@@ -320,7 +314,7 @@ def get_input( message ):
         if content == "exit":
             exit(0)
 
-        return content
+        return content.upper()
 
 
 def query_airline(session_id, book_config ) :
@@ -421,11 +415,7 @@ def booking(book_config):
                     break
                 continue
 
-            for i in range(int(status)) :
-                ret = auto_booking(session_id, book_config)
-                if ret == False :
-                    if get_flag_relogin() == True:
-                        break
+            auto_booking(session_id, book_config, status)
 
             if get_flag_relogin() == True:
                 break
@@ -445,7 +435,7 @@ def main() :
     book_config["comp"]     = get_input('请输入航司')
     book_config["flight"]   = get_input('请输入航班')
     book_config["space"]    = get_input('请输入座舱').split(',')
-    book_config["contact"]    = get_input('请输入联系方式')
+    book_config["contact"]  = get_input('请输入联系方式')
     book_config["email"]    = get_input('请输入邮箱')
 
     logger.warning('')

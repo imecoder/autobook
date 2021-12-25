@@ -10,7 +10,7 @@ def mylog() :
     ch.setFormatter(fmt)
     ch.setLevel(logging.WARNING)
     ch.flush()
-    fh = logging.FileHandler(filename="log-%s.txt"%(datetime.datetime.now().strftime('%Y%m%d-%H-%M-%S')),
+    fh = logging.FileHandler(filename="log-%s.txt"%(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')),
                              mode='a',
                              encoding='utf-8',
                              delay=False)
