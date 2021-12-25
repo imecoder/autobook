@@ -4,7 +4,6 @@ import json
 
 from mylog import *
 
-
 book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
 
 
@@ -30,8 +29,6 @@ def net_request(url, command_json, debug=False):
     except requests.exceptions.ConnectionError as e:
         logger.warning('网络错误 : ' + str(e))
         return False, {}
-
-
 
     try:
         response_json = response.json()

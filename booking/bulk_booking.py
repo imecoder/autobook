@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
 import time
-import threadpool
-import json
 import os
+import random
 
 from mylimit import *
 from mynet import *
@@ -12,21 +11,15 @@ from myflag import *
 from mylog import *
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
-book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
 
 ret, base_config = get_config("config.base.json")
 if ret == False :
     exit(0)
 
-ret, book_config_list = get_config("config.book.json")
-if ret == False :
-    exit(0)
-
-
 # 登录
 def login(debug = False):
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
-    # pyinstaller.exe -F -p venv/Lib/site-packages/ booking.py
+    # pyinstaller.exe -F -p venv/Lib/site-packages/ bulk_booking.py
     user = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
     # user = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
     # user = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
@@ -87,7 +80,7 @@ def parse_flight(attrlist, book_config) :
 
     line = attrlist[comp_flight_location - 8]["text"]
     # logger.warning("comp_flight_location = %d" % comp_flight_location )
-    logger.warning('找到航班 [' + book_comp + book_flight + ']，位于行 [' + line + ']')
+    logger.warning('[' + book_comp + book_flight + '] 行 = [' + line + ']')
     return True, line, comp_flight_location
 
 
@@ -104,8 +97,6 @@ def parse_space_end_location(attrlist, line, comp_flight_location) :
 
     end_location = len(attrlist)
     if lineplus_start_location < len(attrlist):
-        # logger.warning("lineplus_start_location = %d" % lineplus_start_location)
-        # logger.warning('找到第二个航班')
         end_location = lineplus_start_location - 1
 
     return end_location
@@ -115,11 +106,15 @@ def parse_space_end_location(attrlist, line, comp_flight_location) :
 
 
 
-def occupy_ticket(session_id, book_config, book_space, line) :
+def occupy_ticket(session_id, book_space, status, line) :
 
-    command = '01' + book_space + line
+    command = '0' + status + book_space + line
     ret, msg = execute_instruction(session_id, command, base_config['debug'])
     if ret == False:
+        logger.warning('占票失败')
+        return False
+
+    if get_flag_relogin() == True:
         logger.warning('占票失败')
         return False
 
@@ -138,9 +133,7 @@ def occupy_ticket(session_id, book_config, book_space, line) :
         return False
 
     # HS
-
     logger.warning('占票成功')
-    set_flag_occupied(True)
     return True
 
 
@@ -174,25 +167,10 @@ def parse_space(book_config, attrlist, line_start_location, line_end_location) :
             status = attrlist[i]["extended"]["status"]
             space_list[book_space]["status"] = status
 
-            logger.warning('找到航班 [' + book_config['comp'] + book_config['flight'] + ']的座舱[' + book_space + status + ']')
+            logger.warning('[' + book_config['comp'] + book_config['flight'] + '] --> [' + book_space + status + ']')
             break
 
     return space_list
-
-
-
-def space_status_has_ticket(space_list):
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location == -1 or status == 'N' :
-            continue
-
-        # 有位置, 立即占票及订票
-        if status >= "1" and status <= "9":
-            return True
-
-    return False
 
 
 def space_status_all_N(space_list):
@@ -215,76 +193,16 @@ def space_status_has_C(space_list):
     return False
 
 
-
-def quick_booking(session_id, book_config, space_list) :
-    logger.warning("航班 [" + book_config['comp'] + book_config['flight'] + "] 不可候补, 执行快速预订")
-
-    # 刷票+占票+快速预定模式下，处理带有C状态的票
-    for book_space in space_list:
-        location = space_list[book_space]["location"]
-        status = space_list[book_space]["status"]
-        if location == -1 or \
-            status != 'C' :
-            continue
-
-        # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
-        while True:
-            command = (
-                'N {}{} {} {} {}{} NN1'
-            ).format(
-                book_config['comp'],
-                book_config['flight'],
-                book_space,
-                book_config['date'],
-                book_config['from'],
-                book_config['to']
-            )
-
-            ret, message = execute_instruction(session_id, command)
-            if ret == False:
-                logger.warning('占票失败')
-                continue
-
-            if 'text' not in message:
-                logger.warning('占票失败')
-                continue
-
-            if 'SYSTEM ERROR' in message["text"] \
-                    or 'Session does not exist' in message["text"]:
-                logger.warning('掉线重新登录')
-                set_flag_relogin(True)
-                return False
-
-            if '*0 AVAIL/WL CLOSED*' in message["text"]:
-                logger.warning('票面关闭中')
-                continue
-
-            if '*SELL RESTRICTED*' in message["text"]:
-                logger.warning('票面禁止销售')
-                continue
-
-            # if 'HL' in message["text"] or \
-            #         'LL' in message["text"]:
-            #     logger.warning(message['text'])
-            #     return False
-
-            if 'HS' not in message["text"]:
-                logger.warning(message['text'])
-                return False
-
-            # HS
-            logger.warning('占票成功')
-            set_flag_occupied(True)
-            return True
-
-    return False
-
-
-
 def auto_booking(session_id, book_config):
     # 客户姓名
     while True :
-        ret, message = execute_instruction(session_id, book_config["user"])
+        user = \
+            'N.' + \
+            chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + \
+            '/' + \
+            chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91))
+
+        ret, message = execute_instruction(session_id, user)
         if ret == False :
             if get_flag_relogin() == True:
                 return
@@ -379,7 +297,7 @@ def auto_booking(session_id, book_config):
         return False
 
 
-    name = book_config["user"].strip('N.').replace('/','')
+    name = user.strip('N.').replace('/','')
     id = message["text"].split('\n')[0].split('/')[0]
     logger.warning("存档 : " + name + '-' + id)
     save_result(name + '-' + id, message["text"])
@@ -391,67 +309,18 @@ def auto_booking(session_id, book_config):
     return True
 
 
+def get_input( message ):
 
+    while True :
+        content = input(message + " > ")
 
-def munual_booking(session_id, book_config):
-    logger.warning("进入命令行, 进行手动订票...")
-    while True:
-        command = input("\n> ")
-
-        if command.strip('') == '' :
+        if content.strip('') == '' :
             continue
 
-        if command == "loop":
-            break
-
-        if command == "exit":
+        if content == "exit":
             exit(0)
 
-        ret, message = execute_instruction(session_id, command)
-        if ret == False:
-            logger.warning(message)
-            continue
-
-        text = message["text"]
-        logger.warning()
-        logger.warning(text)
-        logger.warning(flush=True)
-
-        if 'UNABLE - DUPLICATE SEGMENT' in text:
-            logger.warning('前期占票命令已经执行...')
-            continue
-
-        if 'INVALID NAME - DUPLICATE ITEM' in text:
-            logger.warning('前期客户姓名命令已经执行...')
-            continue
-
-        if 'SINGLE ITEM FIELD' in text and "R.PEI" in text:
-            logger.warning('前期R.PEI命令已经执行...')
-            continue
-
-        if 'SINGLE ITEM FIELD' in text and "T.T*" in text:
-            logger.warning('前期T.T*命令已经执行...')
-            continue
-
-        if command == "ER":
-            if "SELL OPTION HAS EXPIRED - CHECK ITINERARY" in text :
-                continue
-
-            if 'NEED RECEIVED' in text:
-                continue
-
-            if 'MODIFY BOOKING' in text:
-                continue
-
-            name = book_config["user"].strip('N.').replace('/','')
-            id = text.split('\n')[0].split('/')[0]
-            logger.warning("存档 : " + name + '-' + id)
-            save_result(name + '-' + id, text)
-            logger.warning('订票存档成功 !!!')
-            os.system(r"start /b BookInfo.exe")
-
-    return True
-
+        return content
 
 
 def query_airline(session_id, book_config ) :
@@ -493,28 +362,24 @@ def query_airline(session_id, book_config ) :
 
 
 # 占票
-def booking(book_list):
-    session_id = book_list["session_id"]
-    book_config = book_list["config"]
+def booking(book_config):
+
+    session_id=''
+    set_flag_relogin(True)
 
     while True:
 
-        if limit() == True:
-            return
-
-        if get_flag_occupied() == True:
-            logger.warning("其他刷票分支已占票, 当前刷票分支退出.")
+        if limit() == True :
             return
 
         if get_flag_relogin() == True:
-            logger.warning("其他刷票分支出错, 当前刷票分支退出.")
-            return
+            session_id = login(base_config['debug'])
+
+        set_flag_relogin(False)
 
         # 查询匹配的航线
         ret, attrlist = query_airline(session_id, book_config)
         if ret == False :
-            if get_flag_relogin() == True:
-                return
             continue
 
         # 查询匹配的航班
@@ -536,13 +401,10 @@ def booking(book_list):
             continue
 
         # 处理所有的占座及订座
-
-        # 处理有座状态
-        is_have_ticket = False
         for book_space in space_list:
             location = space_list[book_space]["location"]
             status = space_list[book_space]["status"]
-            if location == line_end_location or status == 'N' :
+            if location == -1 or status == 'N' :
                 continue
 
             # 有位置, 立即占票及订票
@@ -550,97 +412,47 @@ def booking(book_list):
                 continue
 
             # 有位置, 立即占票及订票
-            is_have_ticket = True
-            logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
+            logger.warning("准备占票 [" + book_config["comp"] + book_config["flight"] + "] [" + attrlist[location]["text"] + "]")
 
             # 占票
-            ret = occupy_ticket(session_id, book_config, book_space, line)
+            ret = occupy_ticket(session_id, book_space, status, line)
             if ret == False :
+                if get_flag_relogin() == True:
+                    break
+                continue
+
+            for i in range(int(status)) :
+                ret = auto_booking(session_id, book_config)
+                if ret == False :
+                    if get_flag_relogin() == True:
+                        break
+
+            if get_flag_relogin() == True:
                 break
-
-            if base_config["manual"] == True:
-                return
-
-            ret = auto_booking(session_id, book_config)
-            if ret == True:
-                return
-
-            break
-
-
-        # 有位置的情况下， 但未能占票或订票成功，重新去刷票
-        if is_have_ticket == True :
-            continue
-
-        # 刷票+占票模式，不进行快速预定，重新去刷票
-        if base_config["mode"] == 0:
-            continue
-
-        # 候补状态，L, 0 等等重新刷票
-        if not space_status_has_C(space_list):
-            continue
-
-        # C状态
-        ret = quick_booking(session_id, book_config, space_list)
-        if ret == False :
-            continue
-
-        if base_config["manual"] == True:
-            return
-
-        ret = auto_booking(session_id, book_config)
-        if ret == True:
-            return
-
 
 
 
 
 def main() :
-    branch_size = base_config["branch_size"]
+    if limit() == True:
+        exit(0)
 
-    for book_config in book_config_list :
+    book_config = {}
 
-        logger.warning('')
-        logger.warning('')
-        logger.warning('开始订票 = ' + json.dumps(book_config))
+    book_config["from"]     = get_input('请输入起点')
+    book_config["to"]       = get_input('请输入终点')
+    book_config["date"]     = get_input('请输入日期')
+    book_config["comp"]     = get_input('请输入航司')
+    book_config["flight"]   = get_input('请输入航班')
+    book_config["space"]    = get_input('请输入座舱').split(',')
+    book_config["contact"]    = get_input('请输入联系方式')
+    book_config["email"]    = get_input('请输入邮箱')
 
-        while True :
-            if limit() == True:
-                exit(0)
-
-            set_flag_relogin(False)
-            set_flag_occupied(False)
-
-            session_id = login(base_config['debug'])
-
-            book_list = []
-            for i in range(branch_size):
-                book_list.append({"session_id" : session_id, "config" : book_config })
-
-            pool = threadpool.ThreadPool(branch_size)
-            reqs = threadpool.makeRequests(booking, book_list)
-            for req in reqs:
-                pool.putRequest(req)
-                time.sleep(1 / branch_size)
-            pool.wait()
-
-            if get_flag_relogin() == True:
-                continue
-
-            if get_flag_occupied() == False:
-                break
-
-            if base_config["manual"] == True:
-                if munual_booking(session_id, book_config) == True :
-                    break
-
-                exit(0)
-
-            break
-
-    logger.warning('程序退出 ...')
     logger.warning('')
+    logger.warning('')
+    logger.warning('开始订票 = ' + json.dumps(book_config))
+
+    booking(book_config)
 
 
 if __name__ == '__main__':
