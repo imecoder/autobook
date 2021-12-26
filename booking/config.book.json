@@ -1,15 +1,15 @@
 [
     {
-        "comp": "KL",
+        "comp": "AF",
         "contact": "P.LOST08039943766",
-        "date": "25JAN",
+        "date": "24JAN",
         "email": "SI.KL*CTCEPEILANGLANG//GMAIL.COM",
-        "flight": "857",
-        "from": "AMS",
+        "flight": "1381",
+        "from": "LHR",
         "space": [
-            "J"
+            "D"
         ],
-        "to": "PVG",
+        "to": "CDG",
         "user": "N.ZHAO/LANGHUAN"
     }
 ]

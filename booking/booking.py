@@ -12,7 +12,6 @@ from myflag import *
 from mylog import *
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
-book_url = 'https://webagentapp.tts.com/TWS/TerminalCommand'
 
 ret, base_config = get_config("config.base.json")
 if ret == False :
@@ -54,6 +53,7 @@ def login(debug = False):
             logger.warning('返回数据中未发现 [sessionId] 信息')
             break
 
+        set_flag_relogin(False)
         logger.warning('登录成功')
 
         session_id = response_json['sessionId']
@@ -115,7 +115,12 @@ def parse_space_end_location(attrlist, line, comp_flight_location) :
 
 
 
-def occupy_ticket(session_id, book_config, book_space, line) :
+def occupy_ticket(session_id, book_space, line) :
+    if get_flag_occupied() == True:
+        return False
+
+    if get_flag_relogin() == True:
+        return False
 
     command = '01' + book_space + line
     ret, msg = execute_instruction(session_id, command, base_config['debug'])
@@ -227,20 +232,26 @@ def quick_booking(session_id, book_config, space_list) :
             status != 'C' :
             continue
 
+        command = (
+            'N {}{} {} {} {}{} NN1'
+        ).format(
+            book_config['comp'],
+            book_config['flight'],
+            book_space,
+            book_config['date'],
+            book_config['from'],
+            book_config['to']
+        )
+
         # 找到了对应仓位，但候补关闭，刷票+占票+快速预定模式下，执行快速预订
         while True:
-            command = (
-                'N {}{} {} {} {}{} NN1'
-            ).format(
-                book_config['comp'],
-                book_config['flight'],
-                book_space,
-                book_config['date'],
-                book_config['from'],
-                book_config['to']
-            )
+            if get_flag_occupied() == True :
+                return False
 
-            ret, message = execute_instruction(session_id, command)
+            if get_flag_relogin() == True :
+                return False
+
+            ret, message = execute_instruction(session_id, command, base_config['debug'])
             if ret == False:
                 logger.warning('占票失败')
                 continue
@@ -263,14 +274,13 @@ def quick_booking(session_id, book_config, space_list) :
                 logger.warning('票面禁止销售')
                 continue
 
-            # if 'HL' in message["text"] or \
-            #         'LL' in message["text"]:
-            #     logger.warning(message['text'])
-            #     return False
+            if '*UNABLE - CLASS DOES NOT EXIST FOR THIS FLIGHT*' in message["text"]:
+                logger.warning('票面禁止销售')
+                continue
 
             if 'HS' not in message["text"]:
                 logger.warning(message['text'])
-                return False
+                continue
 
             # HS
             logger.warning('占票成功')
@@ -287,7 +297,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, book_config["user"])
         if ret == False :
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -302,7 +312,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, book_config["contact"])
         if ret == False :
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -317,7 +327,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, book_config["email"])
         if ret == False :
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -332,7 +342,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, "R.PEI")
         if ret == False:
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -348,7 +358,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, "T.T*")
         if ret == False:
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -364,7 +374,7 @@ def auto_booking(session_id, book_config):
         ret, message = execute_instruction(session_id, "ER")
         if ret == False:
             if get_flag_relogin() == True:
-                return
+                return False
             logger.warning(message)
             continue
 
@@ -394,14 +404,17 @@ def auto_booking(session_id, book_config):
 
 
 def munual_booking(session_id, book_config):
-    logger.warning("进入命令行, 进行手动订票...")
+    logger.warning("进入命令行, 进行手动订票 ...")
+    logger.warning("输入 break 停止当前用户订票 .")
+    logger.warning("输入 exit 退出程序 .")
+
     while True:
         command = input("\n> ")
 
         if command.strip('') == '' :
             continue
 
-        if command == "loop":
+        if command == "break":
             break
 
         if command == "exit":
@@ -503,23 +516,35 @@ def booking(book_list):
             return
 
         if get_flag_occupied() == True:
-            logger.warning("其他刷票分支已占票, 当前刷票分支退出.")
+            logger.warning("已占票, 当前分支退出.")
             return
 
         if get_flag_relogin() == True:
-            logger.warning("其他刷票分支出错, 当前刷票分支退出.")
+            logger.warning("需要重新登录, 当前分支退出.")
             return
 
         # 查询匹配的航线
         ret, attrlist = query_airline(session_id, book_config)
         if ret == False :
+            if get_flag_occupied() == True:
+                logger.warning("已占票, 当前分支退出.")
+                return
+
             if get_flag_relogin() == True:
+                logger.warning("需要重新登录, 当前分支退出.")
                 return
             continue
 
         # 查询匹配的航班
         ret, line, comp_flight_location = parse_flight(attrlist, book_config)
         if ret == False :
+            if get_flag_occupied() == True:
+                logger.warning("已占票, 当前分支退出.")
+                return
+
+            if get_flag_relogin() == True:
+                logger.warning("需要重新登录, 当前分支退出.")
+                return
             return
 
         # 航班行的开始位置
@@ -542,7 +567,7 @@ def booking(book_list):
         for book_space in space_list:
             location = space_list[book_space]["location"]
             status = space_list[book_space]["status"]
-            if location == line_end_location or status == 'N' :
+            if location == -1 or status == 'N' :
                 continue
 
             # 有位置, 立即占票及订票
@@ -554,8 +579,15 @@ def booking(book_list):
             logger.warning("航班 [" + book_config["comp"] + book_config["flight"] + "] 有票 : " + attrlist[location]["text"])
 
             # 占票
-            ret = occupy_ticket(session_id, book_config, book_space, line)
+            ret = occupy_ticket(session_id, book_space, line)
             if ret == False :
+                if get_flag_occupied() == True:
+                    logger.warning("已占票, 当前分支退出.")
+                    return
+
+                if get_flag_relogin() == True:
+                    logger.warning("需要重新登录, 当前分支退出.")
+                    return
                 break
 
             if base_config["manual"] == True:
@@ -563,6 +595,10 @@ def booking(book_list):
 
             ret = auto_booking(session_id, book_config)
             if ret == True:
+                return
+
+            if get_flag_relogin() == True:
+                logger.warning("需要重新登录, 当前分支退出.")
                 return
 
             break
@@ -577,12 +613,19 @@ def booking(book_list):
             continue
 
         # 候补状态，L, 0 等等重新刷票
-        if not space_status_has_C(space_list):
+        if space_status_has_C(space_list) == False :
             continue
 
         # C状态
         ret = quick_booking(session_id, book_config, space_list)
         if ret == False :
+            if get_flag_occupied() == True:
+                logger.warning("已占票, 当前分支退出.")
+                return
+
+            if get_flag_relogin() == True:
+                logger.warning("需要重新登录, 当前分支退出.")
+                return
             continue
 
         if base_config["manual"] == True:
@@ -590,6 +633,14 @@ def booking(book_list):
 
         ret = auto_booking(session_id, book_config)
         if ret == True:
+            return
+
+        if get_flag_occupied() == True:
+            logger.warning("已占票, 当前分支退出.")
+            return
+
+        if get_flag_relogin() == True:
+            logger.warning("需要重新登录, 当前分支退出.")
             return
 
 
