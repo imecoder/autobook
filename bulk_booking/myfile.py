@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import json
-
+import time
+import xlrd
 from xlrd import open_workbook
 from xlutils.copy import copy
 
@@ -22,27 +23,36 @@ def save_result(name, message):
     fo.close()
 
 
-def save_excel_result(message) :
-    current_datetime = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    sheet_name = datetime.datetime.now().strftime('%Y-%m-%d')
-
+def save_excel_result(result_pnr, result_vl, result_vr, result_si) :
+    sheet_name = datetime.datetime.now().strftime('%Y.%m.%d')
     read_workbook = open_workbook("result.xls")  # 用wlrd提供的方法读取一个excel文件
+
+    try :
+        read_sheet = read_workbook.sheet_by_name(sheet_name)
+        line = read_sheet.nrows
+    except xlrd.biffh.XLRDError :
+        line = 0
+
     write_workbook = copy(read_workbook)
 
-    sheets = read_workbook.sheets()
+    if line == 0 :
+        write_sheet = write_workbook.add_sheet(sheet_name)
+    else :
+        index = write_workbook.sheet_index(sheet_name)
+        write_sheet = write_workbook.get_sheet(index)
 
-    for read_sheet in sheets :
-        if read_sheet.name != sheet_name :
+    write_sheet.write(line, 0, result_pnr)
+    write_sheet.write(line, 1, result_vl)
+    write_sheet.write(line, 2, result_vr)
+    write_sheet.write(line, 3, result_si)
+
+
+    while True :
+        try :
+            write_workbook.save("result.xls")  # xlwt对象的保存方法，这时便覆盖掉
+            break
+        except PermissionError :
+            logger.warning('请关闭result.xls文档后再试.')
+            time.sleep(1)
             continue
 
-        rows = read_sheet.nrows
-        write_sheet = write_workbook.sheet_by_name(sheet_name)
-        write_sheet.write(rows, 0, message)  # xlwt对象的写方法，参数分别是行、列、值
-        write_sheet.write(rows, 1, current_datetime)
-        write_workbook.save("result.xls")  # xlwt对象的保存方法，这时便覆盖掉
-        return
-
-    write_sheet = write_workbook.add_sheet(sheet_name)  # 在工作簿中新建一个表格
-    write_sheet.write(0, 0, message)  # xlwt对象的写方法，参数分别是行、列、值
-    write_sheet.write(0, 1, current_datetime)
-    write_workbook.save("result.xls")  # xlwt对象的保存方法，这时便覆盖掉

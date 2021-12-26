@@ -277,7 +277,6 @@ def auto_booking(session_id, book_config, status):
         break
 
 
-
     if 'CHECK' in message["text"]:
         logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
         return False
@@ -286,12 +285,50 @@ def auto_booking(session_id, book_config, status):
         logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
         return False
 
+    result_booking = message["text"]
 
-    name = user.strip('N.').replace('/','')
-    id = message["text"].split('\n')[0].split('/')[0]
-    logger.warning("存档 : " + name + '-' + id)
-    save_result(name + '-' + id, message["text"])
-    save_excel_result(message["text"])
+    id = result_booking.split('\n')[0].split('/')[0]
+    logger.warning("存档 : " + id)
+    save_result(id, result_booking)
+
+    # *PNR
+    while True :
+        ret, message = execute_instruction(session_id, "*"+id, base_config['debug'])
+        if ret == False:
+            logger.warning(message)
+            continue
+        break
+    result_pnr = message["text"]
+
+    # *VL
+    while True :
+        ret, message = execute_instruction(session_id, "*VL", base_config['debug'])
+        if ret == False:
+            logger.warning(message)
+            continue
+        break
+    result_vl = message["text"]
+
+    # *VR
+    while True :
+        ret, message = execute_instruction(session_id, "*VR", base_config['debug'])
+        if ret == False:
+            logger.warning(message)
+            continue
+        break
+    result_vr = message["text"]
+
+    # *SI
+    while True :
+        ret, message = execute_instruction(session_id, "*SI", base_config['debug'])
+        if ret == False:
+            logger.warning(message)
+            continue
+        break
+    result_si = message["text"]
+
+    save_excel_result(result_pnr, result_vl, result_vr, result_si)
+
     logger.warning('订票存档成功 !!!')
     os.system(r"start /b BookInfo.exe")
 
