@@ -4,13 +4,14 @@
 
 import time
 import os
-import random
 
 from mylimit import *
 from mynet import *
 from myfile import *
 from myflag import *
 from mylog import *
+from myrandname import *
+
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
 
@@ -199,11 +200,7 @@ def auto_booking(session_id, book_config, status):
     for i in range(int(status)) :
         # 客户姓名
         while True :
-            user = \
-                'N.' + \
-                chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + \
-                '/' + \
-                chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91)) + chr(random.randrange(65, 91))
+            user = 'N.' + random_name()
 
             ret, message = execute_instruction(session_id, user)
             if ret == False :
