@@ -2,8 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 
-import time
-import os
+import queue
 
 from mylimit import *
 from mynet import *
@@ -14,6 +13,9 @@ from myrandname import *
 
 
 login_url = 'https://webagentapp.tts.com/TWS/Login'
+
+
+pnr_queue = queue.Queue()
 
 ret, base_config = get_config("config.base.json")
 if ret == False :
@@ -36,10 +38,14 @@ def login(debug = False):
     logger.warning('登录账户 = ' + json.dumps(user['son']))
 
     while True :
-        ret, response_json = net_request(login_url, user)
+        ret, response = net_request(login_url, user)
         if ret == False :
+            continue
+
+        ret, response_json = json_parse(response)
+        if ret == False:
             logger.warning('登录失败, 请确认您的登录账户信息 ...')
-            time.sleep(3)
+            time.sleep(1)
             continue
 
         if response_json["success"] == False:
@@ -285,52 +291,13 @@ def auto_booking(session_id, book_config, status):
         logger.warning('请确认是否在对已经订票成功的客户，进行重复订票')
         return False
 
-    result_booking = message["text"]
-
-    id = result_booking.split('\n')[0].split('/')[0]
-    logger.warning("存档 : " + id)
-    save_result(id, result_booking)
-
-    # *PNR
-    while True :
-        ret, message = execute_instruction(session_id, "*"+id, base_config['debug'])
-        if ret == False:
-            logger.warning(message)
-            continue
-        break
     result_pnr = message["text"]
 
-    # *VL
-    while True :
-        ret, message = execute_instruction(session_id, "*VL", base_config['debug'])
-        if ret == False:
-            logger.warning(message)
-            continue
-        break
-    result_vl = message["text"]
+    pnr = result_pnr.split('\n')[0].split('/')[0]
 
-    # *VR
-    while True :
-        ret, message = execute_instruction(session_id, "*VR", base_config['debug'])
-        if ret == False:
-            logger.warning(message)
-            continue
-        break
-    result_vr = message["text"]
+    logger.warning('添加输出任务 = ' + pnr )
+    pnr_queue.put(pnr)
 
-    # *SI
-    while True :
-        ret, message = execute_instruction(session_id, "*SI", base_config['debug'])
-        if ret == False:
-            logger.warning(message)
-            continue
-        break
-    result_si = message["text"]
-
-    save_excel_result(result_pnr, result_vl, result_vr, result_si)
-
-    logger.warning('订票存档成功 !!!')
-    os.system(r"start /b BookInfo.exe")
 
     three_i_command(session_id)
 
@@ -388,71 +355,121 @@ def query_airline(session_id, book_config ) :
     return True, attrlist
 
 
+class BookingThread(threading.Thread):
 
-# 占票
-def booking(book_config):
+    def __init__(self, session_id, book_config, debug = False):
+        threading.Thread.__init__(self)
+        self.session_id = session_id
+        self.book_config = book_config
+        self.debug = debug
+        self.name = 'BookingT'
 
-    session_id=''
-    set_flag_relogin(True)
-
-    while True:
-
-        if limit() == True :
-            return
-
-        if get_flag_relogin() == True:
-            session_id = login(base_config['debug'])
-
-        set_flag_relogin(False)
-
-        # 查询匹配的航线
-        ret, attrlist = query_airline(session_id, book_config)
-        if ret == False :
-            continue
-
-        # 查询匹配的航班
-        ret, line, comp_flight_location = parse_flight(attrlist, book_config)
-        if ret == False :
-            return
-
-        # 航班行的开始位置
-        line_start_location = comp_flight_location+2
-
-        # 查找匹配的航班结束的位置，即text: line + 1 位置
-        line_end_location = parse_space_end_location(attrlist, line, comp_flight_location)
-
-        # 查找 book_config["space"] 的位置, 及状态
-        space_list = parse_space(book_config, attrlist, line_start_location, line_end_location)
-
-        # 如果所有仓位状态都是N，重新循环刷票
-        if space_status_all_N(space_list) == True :
-            continue
-
-        # 处理所有的占座及订座
-        for book_space in space_list:
-            location = space_list[book_space]["location"]
-            status = space_list[book_space]["status"]
-            if location == -1 or status == 'N' :
-                continue
-
-            # 有位置, 立即占票及订票
-            if not (status >= "1" and status <= "9"):
-                continue
-
-            # 有位置, 立即占票及订票
-            logger.warning("准备占票 [" + book_config["comp"] + book_config["flight"] + "] [" + attrlist[location]["text"] + "]")
-
-            # 占票
-            ret = occupy_ticket(session_id, book_space, status, line)
+    def run(self):
+        while True :
+            # 查询匹配的航线
+            ret, attrlist = query_airline(self.session_id, self.book_config)
             if ret == False :
                 if get_flag_relogin() == True:
-                    break
+                    return
                 continue
 
-            auto_booking(session_id, book_config, status)
+            # 查询匹配的航班
+            ret, line, comp_flight_location = parse_flight(attrlist, self.book_config)
+            if ret == False :
+                continue
 
-            if get_flag_relogin() == True:
+            # 航班行的开始位置
+            line_start_location = comp_flight_location+2
+
+            # 查找匹配的航班结束的位置，即text: line + 1 位置
+            line_end_location = parse_space_end_location(attrlist, line, comp_flight_location)
+
+            # 查找 book_config["space"] 的位置, 及状态
+            space_list = parse_space(self.book_config, attrlist, line_start_location, line_end_location)
+
+            # 如果所有仓位状态都是N，重新循环刷票
+            if space_status_all_N(space_list) == True :
+                continue
+
+            # 处理所有的占座及订座
+            for book_space in space_list:
+                location = space_list[book_space]["location"]
+                status = space_list[book_space]["status"]
+                if location == -1 or status == 'N' :
+                    continue
+
+                # 有位置, 立即占票及订票
+                if not (status >= "1" and status <= "9"):
+                    continue
+
+                # 有位置, 立即占票及订票
+                logger.warning("准备占票 [" + self.book_config["comp"] + self.book_config["flight"] + "] [" + attrlist[location]["text"] + "]")
+
+                # 占票
+                ret = occupy_ticket(self.session_id, book_space, status, line)
+                if ret == False :
+                    if get_flag_relogin() == True:
+                        return
+                    continue
+
+                auto_booking(self.session_id, self.book_config, status)
+
+                if get_flag_relogin() == True:
+                    return
+
+
+class OutputThread(threading.Thread):
+
+    def __init__(self, session_id, debug = False):
+        threading.Thread.__init__(self)
+        self.session_id = session_id
+        self.debug = debug
+        self.name = 'OutputT'
+
+    def run(self):
+        while True:
+
+            # 循环监听任务命令
+            try:
+                pnr = pnr_queue.get(timeout=1)
+            except:
+                continue
+
+            logger.warning("存档 : " + pnr)
+
+            while True :
+                # *PNR
+                ret, message = execute_instruction(self.session_id, "*"+pnr, base_config['debug'])
+                if ret == False:
+                    if message == 'relogin' :
+                        set_flag_relogin(True)
+                        return
+                    logger.warning(message)
+                    continue
+
+                result_pnr = message["text"]
+
+                # *VR
+                ret, message = execute_instruction(self.session_id, "*VR", base_config['debug'])
+                if ret == False:
+                    if message == 'relogin' :
+                        set_flag_relogin(True)
+                        return
+                    logger.warning(message)
+                    continue
+
+                result_vr = message["text"]
+                if 'ADTK' not in result_vr :
+                    time.sleep(1)
+                    continue
+
+                save_excel_result(result_pnr, result_vr)
+
+                logger.warning('订票存档成功 !!!')
+                # os.system(r"start /b BookInfo.exe")
+
                 break
+
 
 
 
@@ -476,7 +493,29 @@ def main() :
     logger.warning('')
     logger.warning('开始订票 = ' + json.dumps(book_config))
 
-    booking(book_config)
+    session_id = ''
+    set_flag_relogin(True)
+
+    while True:
+        if limit() == True:
+            return
+
+        if get_flag_relogin() == True:
+            session_id = login(base_config['debug'])
+
+        set_flag_relogin(False)
+
+        booking_thread = BookingThread(session_id, book_config, base_config['debug'])
+        output_thread = OutputThread(session_id, base_config['debug'])
+
+        booking_thread.start()
+        output_thread.start()
+
+        booking_thread.join()
+        output_thread.join()
+
+
+
 
 
 if __name__ == '__main__':

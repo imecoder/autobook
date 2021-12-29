@@ -23,7 +23,7 @@ def save_result(name, message):
     fo.close()
 
 
-def save_excel_result(result_pnr, result_vl, result_vr, result_si) :
+def save_excel_result(result_pnr, result_vr) :
     sheet_name = datetime.datetime.now().strftime('%Y.%m.%d')
     read_workbook = open_workbook("result.xls")  # 用wlrd提供的方法读取一个excel文件
 
@@ -42,9 +42,7 @@ def save_excel_result(result_pnr, result_vl, result_vr, result_si) :
         write_sheet = write_workbook.get_sheet(index)
 
     write_sheet.write(line, 0, result_pnr)
-    write_sheet.write(line, 1, result_vl)
-    write_sheet.write(line, 2, result_vr)
-    write_sheet.write(line, 3, result_si)
+    write_sheet.write(line, 1, result_vr)
 
 
     while True :
