@@ -14,7 +14,7 @@ log*
 *Makefile*
 *debug*
 *release*
-tmp*
+assist/tmp.json
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 

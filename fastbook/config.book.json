@@ -1,13 +1,49 @@
 [
     {
-        "comp": "LH",
-        "contact": "P.LOST08039943766",
-        "email": "SI.LH*CTCEPEILANGLANG//GMAIL.COM",
-        "date": "2021-12-10",
-        "flight": "569",
         "from": "LOS",
-        "space": ["Y", "G", "J"],
         "to": "FRA",
-        "user": "N.ZHANG/KUNYUN"
+        "date": "2021-12-17",
+        "comp": "LH",
+        "flight": "569",
+        "space": [
+            "Y",
+            "G",
+            "J"
+        ],
+        "travelers": [
+            {
+                "id": "1",
+                "dateOfBirth": "1982-01-16",
+                "name": {
+                    "firstName": "JORGE",
+                    "lastName": "GONZALES"
+                },
+                "gender": "MALE",
+                "contact": {
+                    "emailAddress": "jorge.gonzales833@telefonica.es",
+                    "phones": [
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "34",
+                            "number": "480080076"
+                        }
+                    ]
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "birthPlace": "Madrid",
+                        "issuanceLocation": "Madrid",
+                        "issuanceDate": "2015-04-14",
+                        "number": "00000000",
+                        "expiryDate": "2025-04-14",
+                        "issuanceCountry": "ES",
+                        "validityCountry": "ES",
+                        "nationality": "ES",
+                        "holder": true
+                    }
+                ]
+            }
+        ]
     }
 ]

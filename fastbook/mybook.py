@@ -1,9 +1,5 @@
 #!/usr/bin/python
-import sys
-import time
 import requests
-import threadpool
-import urllib3
 import json
 import os
 
@@ -14,9 +10,10 @@ import mynet
 import mypayload
 
 session = requests.session()
-url_token = 'https://api.amadeus.com/v1/security/oauth2/token'
-url_flightOffersSearch = 'https://api.amadeus.com/v2/shopping/flight-offers'
-url_flightOffersPrice = 'https://api.amadeus.com/v2/shopping/flight-offers/pricing'
+url_token = 'https://test.api.amadeus.com/v1/security/oauth2/token'
+url_flightOffersSearch = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
+url_flightOffersSeatMap = 'https://test.api.amadeus.com/v1/shopping/seatmaps'
+url_flightOffersPrice = 'https://test.api.amadeus.com/v2/shopping/flight-offers/pricing'
 url_flightOffersBook = 'https://test.api.amadeus.com/v1/booking/flight-orders'
 
 
@@ -94,7 +91,7 @@ def flight_offers_search(access_token, book_comp, book_flight, book_date, book_f
             return False, {}
 
     except :
-        logger.warning('解析json失败 : ' + str(e))
+        logger.warning('解析json失败 : ')
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False, 0
 
@@ -129,8 +126,7 @@ def flight_offers_price(access_token, elem) :
     return True
 
 
-
-def flight_offers_booking(access_token, elem) :
+def flight_offers_seatmap(access_token, elem) :
 
 
     headers = {
@@ -138,9 +134,9 @@ def flight_offers_booking(access_token, elem) :
         'Authorization': "Bearer " + access_token ,
     }
 
-    payload = json.dumps(elem)
+    payload = json.dumps(mypayload.for_flight_offers_seatmap(elem))
 
-    ret, response = mynet.post(session=session, url=url_flightOffersPrice, headers=headers, payload=payload)
+    ret, response = mynet.post(session=session, url=url_flightOffersSeatMap, headers=headers, payload=payload)
     if ret == False:
         logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
         return False
@@ -159,30 +155,31 @@ def flight_offers_booking(access_token, elem) :
 
 
 
+def flight_offers_booking(access_token, elem, book_travelers) :
+
+
+    headers = {
+        'Content-Type': "application/json",
+        'Authorization': "Bearer " + access_token ,
+    }
+
+    payload = json.dumps(mypayload.for_flight_offers_booking(elem, book_travelers))
 
 
 
-
-
-
-
-def quick_prebook(book_comp, book_flight, book_space, book_date, book_from, book_to):
-    logger.warning('航班 [' + book_comp + book_flight + '] 执行快速预订')
-
-    quick_booking_cmd = 'SS ' + book_comp + book_flight + ' ' + book_space + ' ' + book_date + ' ' + book_from + book_to + ' NN1'
-
-    return True
-
-
-
-def auto_book(sessionid):
-
-    name = book_config['user'].strip('N.').replace('/', '')
-    id = msg['text'].split('\n')[0].split('/')[0]
-    logger.warning('存档 : ' + name + '-' + id)
-    myfile.save(name + '-' + id, msg['text'])
-    logger.warning('订票存档成功 !!!')
-    os.system(r'start /b BookInfo.exe')
+    ret, response = mynet.post(session=session, url=url_flightOffersBook, headers=headers, payload=payload)
+    if ret == False:
+        logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+        return False
+    #
+    # try:
+    #     access_token = json.loads(response.text)['access_token']
+    # except json.decoder.JSONDecodeError as e:
+    #     logger.warning('解析json失败 : ' + str(e))
+    #     logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+    #     return False, ''
+    #
+    # logger.warning('access_token = ' + access_token)
 
     return True
 
@@ -208,9 +205,7 @@ if __name__ == '__main__':
         book_comp = book_config["comp"]
         book_flight = book_config["flight"]
         book_space = book_config["space"][0]
-        book_user = book_config["user"]
-        book_contact = book_config["contact"]
-        book_email = book_config["email"]
+        book_travelers = book_config["travelers"]
 
         while True:
             if limit() == True:
@@ -218,24 +213,34 @@ if __name__ == '__main__':
 
             myflag.set_flag_relogin(False)
 
+            logger.warning("111111111111111111111111111111111111111111")
             ret, access_token = get_access_token()
             if ret == False :
                 continue
+            logger.warning("2222222222222222222222")
 
             ret, elem = flight_offers_search(access_token, book_comp, book_flight, book_date, book_from, book_to)
             if ret == False:
                 continue
+            logger.warning("33333333333333333333")
+
+            ret = flight_offers_seatmap(access_token, elem)
+            if ret == False:
+                continue
+            logger.warning("444444444444444444")
 
             ret = flight_offers_price(access_token, elem)
             if ret == False:
                 continue
+            logger.warning("5555555555555555555555")
+
+            ret = flight_offers_booking(access_token, elem, book_travelers)
+            if ret == False:
+                continue
+            logger.warning("666666666666666666666")
 
             break
 
-
-        ret = quick_prebook(book_comp, book_flight, book_space, book_date, book_from, book_to)
-        if ret == False :
-            continue
 
         if myflag.get_flag_relogin() == True:
             continue
