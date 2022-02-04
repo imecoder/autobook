@@ -97,10 +97,15 @@ def post(session, url, params={}, headers={}, payload='', debug=True):
     except urllib3.exceptions.ReadTimeoutError as e:
         logger.warning('网络超时 : ' + str(e))
         return False, ''
+    except urllib3.exceptions.NewConnectionError as e:
+        logger.warning('网络错误 : ' + str(e))
+        return False, ''
+    except urllib3.exceptions.MaxRetryError as e:
+        logger.warning('网络错误 : ' + str(e))
+        return False, ''
     except requests.exceptions.ConnectionError as e:
         logger.warning('网络连接失败 : ' + str(e))
         return False, ''
 
-    # logger.warning(response.raw.headers.getlist('Set-Cookie'))
 
     return True, response
