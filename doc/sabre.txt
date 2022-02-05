@@ -1,0 +1,15 @@
+
+https://accounts.havail.sabre.com/login/srw?goto=https%3A%2F%2Fsrw.sabre.com%2Flogin%2Flogin.html%3Fts%3D321812&force=true
+https://accounts.havail.sabre.com/login/srw?goto=https://srw.sabre.com/login/login.html?force=true
+
+AGENT       : 1004
+PASSWORD    : 1A2B3C4D
+PCC         : 2Q4J
+
+
+106FEBLOSFRA¥LH
+01Y1     01数量，Y1 仓位和航段排列序号
+-PEI/XUTONG MR  名字
+7TAW/  固定
+6PEI   固定
+ER  封口，也是固定指令

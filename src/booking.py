@@ -5,63 +5,111 @@ import threadpool
 import json
 import os
 
-from mylimit import *
+import mylimit
 from mynet import *
-from myfile import *
 from myflag import *
 from mylog import *
 
-login_url = 'https://webagentapp.tts.com/TWS/Login'
+import mynet
+import myfile
 
-ret, base_config = get_config("config.base.json")
+login_url = 'https://accounts.havail.sabre.com/login/srw'
+
+main_session = requests.session()
+ret, base_config = myfile.read_json("config.base.json")
 if ret == False :
     exit(0)
 
-ret, book_config_list = get_config("config.book.json")
+ret, book_config_list = myfile.read_json("config.book.json")
 if ret == False :
     exit(0)
+
+
+
+
+def get_response_cookie(set_cookies) :
+    cookie = {}
+    for coo in set_cookies:
+        data = coo.split(';')[0]
+        key = data.split('=')[0]
+        value = data[data.find('=')+1:]
+        cookie[key] = value
+
+    return cookie
+
+
+def get_csrf(debug = False) :
+    logger.warning('')
+    logger.warning('')
+
+    querystring = {"goto": "https://srw.sabre.com/login/login.html?force=true"}
+
+    headers = {
+        'cache-control': "no-cache"
+    }
+
+    while True :
+        ret, response = mynet.get(main_session, url=login_url, headers=headers, params=querystring, debug=debug)
+        if ret == False :
+            logger.warning('获取csrf页面失败 ...')
+            time.sleep(3)
+            continue
+
+        cookie_list = response.raw.headers.getlist('Set-Cookie')
+        cookie = get_response_cookie(cookie_list)
+        logger.warning(cookie)
+
+        lines = response.text.split('\n')
+        for line in lines:
+            if '<input type="hidden" name="_csrf" value="' in line:
+                csrf = line.split('value="')[1].split('" /></form>')[0]
+                logger.warning('csrf=' + csrf)
+                return csrf, cookie
+
+        logger.warning('获取csrf页面失败 ...')
+        time.sleep(3)
 
 
 # 登录
 def login(debug = False):
+
     # 此处分发给员工时， 可以自行修改， 修改后编译即可
     # pyinstaller.exe -F -p venv/Lib/site-packages/ booking.py
-    user = {"son": "Z7LJ2/WX", "pcc": "7LJ2", "pwd": "LLP0605", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/WP", "pcc": "7LJ2", "pwd": "BANANA12", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/FG", "pcc": "7LJ2", "pwd": "PLANTAIN12", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/LL", "pcc": "7LJ2", "pwd": "PLL0605", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/PX", "pcc": "7LJ2", "pwd": "FRUITS01", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/YJ", "pcc": "7LJ2", "pwd": "FRUITS02", "gds": "Galileo"}
-    # user = {"son": "Z7LJ2/SS", "pcc": "7LJ2", "pwd": "FRUITS03", "gds": "Galileo"}
 
     logger.warning('')
     logger.warning('')
-    logger.warning('登录账户 = ' + json.dumps(user['son']))
+    logger.warning('登录账户 = 1004')
 
     while True :
-        ret, response_json = net_request(login_url, user)
+        csrf, cookie = get_csrf(debug)
+        headers = {
+            'Content-Type': "application/x-www-form-urlencoded",
+            'cache-control': "no-cache"
+        }
+
+        payload = "goto=https://srw.sabre.com/login/login.html" + \
+                  "&siteId=srw&userId=1004&password=1A2B3C4D&group=2Q4J" + \
+                  "&_csrf=" + csrf
+
+        headers['cookie'] = ''
+        for key in cookie:
+            headers['cookie'] += (key + '=' + cookie[key] + '; ')
+
+        logger.warning(headers)
+        ret, response = mynet.post(main_session, url=login_url, headers=headers, payload=payload, debug=debug)
         if ret == False :
             logger.warning('登录失败, 请确认您的登录账户信息 ...')
             time.sleep(3)
             continue
 
-        if response_json["success"] == False:
-            logger.warning('返回状态非success')
-            break
-
-        if 'sessionId' not in response_json:
-            logger.warning('返回数据中未发现 [sessionId] 信息')
-            break
+        if "Forbidden" in response:
+            logger.warning('登录失败, Forbidden ...')
+            time.sleep(3)
+            continue
 
         set_flag_relogin(False)
         logger.warning('登录成功')
-
-        session_id = response_json['sessionId']
-
-        three_i_command(session_id)
-
-        return session_id
-
+        return
 
 
 
@@ -512,7 +560,7 @@ def booking(book_list):
 
     while True:
 
-        if limit() == True:
+        if mylimit.limit() == True:
             return
 
         if get_flag_occupied() == True:
@@ -657,13 +705,14 @@ def main() :
         logger.warning('开始订票 = ' + json.dumps(book_config))
 
         while True :
-            if limit() == True:
+            if mylimit.limit() == True:
                 exit(0)
 
             set_flag_relogin(False)
             set_flag_occupied(False)
 
             session_id = login(base_config['debug'])
+            exit(0)
 
             book_list = []
             for i in range(branch_size):
