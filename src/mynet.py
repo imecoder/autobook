@@ -82,7 +82,7 @@ def post(session, url, params={}, headers={}, payload='', debug=True):
             logger.warning('headers = ' + json.dumps(headers))
             logger.warning('payload = ' + payload)
 
-        response = session.post(url=url, params=params, headers=headers, data=payload, timeout=100)
+        response = session.post(url=url, params=params, headers=headers, data=payload, timeout=100, allow_redirects=False)
 
         logger.warning("-------------- response --------------")
 

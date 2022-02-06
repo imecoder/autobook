@@ -25,19 +25,6 @@ if ret == False :
     exit(0)
 
 
-
-
-def get_response_cookie(set_cookies) :
-    cookie = {}
-    for coo in set_cookies:
-        data = coo.split(';')[0]
-        key = data.split('=')[0]
-        value = data[data.find('=')+1:]
-        cookie[key] = value
-
-    return cookie
-
-
 def get_csrf(debug = False) :
     logger.warning('')
     logger.warning('')
@@ -55,16 +42,12 @@ def get_csrf(debug = False) :
             time.sleep(3)
             continue
 
-        cookie_list = response.raw.headers.getlist('Set-Cookie')
-        cookie = get_response_cookie(cookie_list)
-        logger.warning(cookie)
-
         lines = response.text.split('\n')
         for line in lines:
             if '<input type="hidden" name="_csrf" value="' in line:
                 csrf = line.split('value="')[1].split('" /></form>')[0]
                 logger.warning('csrf=' + csrf)
-                return csrf, cookie
+                return csrf
 
         logger.warning('获取csrf页面失败 ...')
         time.sleep(3)
@@ -81,7 +64,7 @@ def login(debug = False):
     logger.warning('登录账户 = 1004')
 
     while True :
-        csrf, cookie = get_csrf(debug)
+        csrf = get_csrf(debug)
         headers = {
             'Content-Type': "application/x-www-form-urlencoded",
             'cache-control': "no-cache"
@@ -90,10 +73,6 @@ def login(debug = False):
         payload = "goto=https://srw.sabre.com/login/login.html" + \
                   "&siteId=srw&userId=1004&password=1A2B3C4D&group=2Q4J" + \
                   "&_csrf=" + csrf
-
-        headers['cookie'] = ''
-        for key in cookie:
-            headers['cookie'] += (key + '=' + cookie[key] + '; ')
 
         logger.warning(headers)
         ret, response = mynet.post(main_session, url=login_url, headers=headers, payload=payload, debug=debug)
