@@ -1,13 +1,13 @@
 [
     {
         "from": "LOS",
-        "to": "FRA",
-        "date": "2021-12-17",
-        "comp": "LH",
-        "flight": "569",
+        "to": "AMS",
+        "date": "2022-03-20",
+        "comp": "KL",
+        "flight": "588",
         "space": [
             "Y",
-            "G",
+            "C",
             "J"
         ],
         "travelers": [
