@@ -93,6 +93,8 @@ def Airline_Code_Lookup(access_token) :
 
 def flight_offers_search(access_token, book_comp, book_flight, book_date, book_from, book_to) :
 
+    url_flightOffersSearch = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
+
     headers = {
         'Content-Type': "application/json",
         'Authorization': "Bearer " + access_token ,
@@ -188,6 +190,7 @@ def flight_offers_seatmap(access_token, elem) :
 
 
 def flight_offers_booking(access_token, elem, book_travelers) :
+
     url_flightOffersBook = 'https://test.api.amadeus.com/v1/booking/flight-orders'
 
     headers = {
@@ -220,15 +223,15 @@ def booking(blist):
     # print(blist["flight_offers"])
     # print(blist["book_travelers"])
     # return
-    start = time.time()
+    # start = time.time()
     while True:
         ret = flight_offers_booking(blist["access_token"], blist["flight_offers"], blist["book_travelers"])
         if ret == False:
             break
-
-        end = time.time()
-        if end - start > 5 :
-            break
+        #
+        # end = time.time()
+        # if end - start > 5 :
+        #     break
 
 
 def main():
@@ -264,19 +267,23 @@ if __name__ == '__main__':
             if ret == False :
                 continue
 
-            ret, _ = Airline_Code_Lookup(access_token)
-            if ret == False:
-                continue
-
-            exit(0)
+            # ret, _ = Airline_Code_Lookup(access_token)
+            # if ret == False:
+            #     continue
+            #
+            # exit(0)
 
             # import time
             #
             # start = time.time()
             #
-            # ret, flight_offers = flight_offers_search(access_token, book_comp, book_flight, book_date, book_from, book_to)
-            # if ret == False:
-            #     continue
+            ret, flight_offers = flight_offers_search(access_token, book_comp, book_flight, book_date, book_from, book_to)
+            if ret == False:
+                break
+
+            ret = flight_offers_booking(access_token, flight_offers, book_travelers)
+            if ret == False:
+                break
             #
             # end = time.time()
             # print(end - start)
