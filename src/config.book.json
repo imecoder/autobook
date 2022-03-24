@@ -1,8 +1,10 @@
 [
     {
-        "from": "LOS",
-        "to": "AMS",
-        "date": "2022-03-27",
+        "currencyCode": "GBP",
+        "originLocationCode": "LOS",
+        "destinationLocationCode": "AMS",
+        "departureDate": "2022-03-27",
+        "returnDate": "2022-03-28",
         "comp": "KL",
         "flight": "588",
         "space": [

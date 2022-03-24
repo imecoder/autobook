@@ -9,72 +9,7 @@ def for_access_token():
     return payload
 
 
-def for_Airline_Code_Lookup():
-    payload = {
-        "meta": {
-            "count": 1,
-            "links": {
-                "self": "https://test.api.amadeus.com/v1/reference-data/airlines?airlineCodes=BA"
-            }
-        },
-        "data": [
-            {
-                "type": "airline",
-                "iataCode": "BA",
-                "icaoCode": "BAW",
-                "businessName": "BRITISH AIRWAYS",
-                "commonName": "BRITISH A/W"
-            }
-        ]
-    }
-
-    return payload
-
-def for_flight_offers_search(book_comp, book_date, book_from, book_to):
-    payload = {
-        "currencyCode": "NGN",
-        "originDestinations": [
-            {
-                "id": "1",
-                "originLocationCode": book_from,
-                "destinationLocationCode": book_to,
-                "departureDateTimeRange": {
-                    "date": book_date
-                }
-            }
-        ],
-        "travelers": [
-            {
-                "id": "1",
-                "travelerType": "ADULT"
-            }
-        ],
-        "sources": [
-            "GDS"
-        ],
-        "searchCriteria": {
-            "maxFlightOffers": 1,
-            "flightFilters": {
-                "carrierRestrictions": {
-                    "includedCarrierCodes": [book_comp]
-                }
-            }
-        }
-    }
-
-    return payload
-
-def for_flight_offers_seatmap(elem):
-    payload = {
-        "data": [
-            elem
-        ]
-    }
-
-    return payload
-
-
-def for_flight_offers_booking(elem, book_travelers):
+def for_flight_orders(elem, book_travelers):
     payload = {
         "data": {
             "type": "flight-order",
