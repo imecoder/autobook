@@ -1,0 +1,2010 @@
+{
+	"info": {
+		"_postman_id": "5181032c-71d5-4c3e-8ae9-add3baa25146",
+		"name": "AQC automated Basic Show Case - OAuth 2.0",
+		"description": "The collection 'AQC automated Basic Show Case' is an automated flow from Search to Book with different types for pricing and booking. The parameters for the searches can be change in the Pre-req. of the POST Search request.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"LON\";",
+							"var destinationLocationCode= \"FRA\";",
+							"var departureDate = \"2021-11-25\";",
+							"var returnDate = \"2021-11-30\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"{{currencyCode}}\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{originLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{returnDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        },\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": true\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by Airline  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"FRA\";",
+							"var destinationLocationCode= \"WAW\";",
+							"var departureDate = \"2021-11-25\";",
+							"var returnDate = \"2021-11-30\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"{{currencyCode}}\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{originLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{returnDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        },\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": true\r\n        },\r\n        \"flightFilters\": {\r\n            \"carrierRestrictions\": {\r\n                \"includedCarrierCodes\": [\r\n                    \"LH\"\r\n                ]\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by Airline and connections  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"FRA\";",
+							"var destinationLocationCode= \"WAW\";",
+							"var departureDate = \"2021-11-25\";",
+							"var returnDate = \"2021-11-30\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"{{currencyCode}}\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{originLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{returnDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        },\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": true\r\n        },\r\n        \"flightFilters\": {\r\n            \"carrierRestrictions\": {\r\n                \"includedCarrierCodes\": [\r\n                    \"LH\"\r\n                ]\r\n            },\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": \"0\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Seatmap by offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"seatmap_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price",
+							"var offer_id = \"1\";",
+							"",
+							"var choose_offer;",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));",
+							"for (var i = 0; i < jsonData.data.length; i++) {",
+							"    var data = jsonData.data[i];",
+							"    console.log(data.id);",
+							"    if(data.id == offer_id){",
+							"        choose_offer = data;",
+							"    }",
+							"}",
+							"",
+							"//FlightOffer to price",
+							"postman.setEnvironmentVariable(\"seatmap_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": [\n        {{seatmap_flightOffer}}\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/seatmaps",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"seatmaps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price Cash",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price\r",
+							"var offer_id = \"1\";\r",
+							"\r",
+							"var choose_offer;\r",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == offer_id){\r",
+							"        choose_offer = data;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"//FlightOffer to price\r",
+							"postman.setEnvironmentVariable(\"price_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {{price_flightOffer}}\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price Credit Card",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price\r",
+							"var offer_id = \"1\";\r",
+							"\r",
+							"var choose_offer;\r",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == offer_id){\r",
+							"        choose_offer = data;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"//FlightOffer to price\r",
+							"postman.setEnvironmentVariable(\"price_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n        {{price_flightOffer}}\n        ],\n        \"payments\": [\n            {\n                \"brand\": \"VISA\",\n                \"flightOfferIds\": [ {{offer_id}} ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price B2B Wallet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price\r",
+							"var offer_id = \"1\";\r",
+							"\r",
+							"var choose_offer;\r",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == offer_id){\r",
+							"        choose_offer = data;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"//FlightOffer to price\r",
+							"postman.setEnvironmentVariable(\"price_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n        {{price_flightOffer}}\n        ],\n        \"payments\": [\n            {\n                \"brand\": \"VISA_IXARIS\",\n                \"flightOfferIds\": [ {{offer_id}} ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        {{offer_id}}\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash with traveler documents  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                },\n                \"documents\": [\n                    {\n                        \"documentType\": \"IDENTITY_CARD\",\n                        \"number\": \"A045FGH56\",\n                        \"issuanceDate\": \"2015-12-31\",\n                        \"expiryDate\": \"2021-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    },\n                    {\n                        \"documentType\": \"PASSPORT\",\n                        \"number\": \"F56TU7ZG\",\n                        \"issuanceDate\": \"2015-12-31\",\n                        \"expiryDate\": \"2021-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    }\n                ]\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                },\n                \"documents\": [\n                    {\n                        \"documentType\": \"IDENTITY_CARD\",\n                        \"number\": \"A045FGH56\",\n                        \"issuanceDate\": \"2018-12-01\",\n                        \"expiryDate\": \"2027-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    },\n                    {\n                        \"documentType\": \"PASSPORT\",\n                        \"number\": \"UZ65TDFG7\",\n                        \"issuanceDate\": \"2018-12-01\",\n                        \"expiryDate\": \"2027-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    }\n                ]\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                },\n                \"documents\": [\n                    {\n                        \"documentType\": \"IDENTITY_CARD\",\n                        \"number\": \"A5Z7UIK3\",\n                        \"issuanceDate\": \"2020-12-31\",\n                        \"expiryDate\": \"2028-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    },\n                    {\n                        \"documentType\": \"PASSPORT\",\n                        \"number\": \"KL6DN8J\",\n                        \"issuanceDate\": \"2020-12-31\",\n                        \"expiryDate\": \"2028-12-31\",\n                        \"issuanceCountry\": \"DE\",\n                        \"nationality\": \"DE\",\n                        \"holder\": true,\n                        \"issuanceLocation\": \"Frankfurt\"\n                    }\n                ]\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        {{offer_id}}\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash with queuing to different Queue and Office ID (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        {{offer_id}}\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"automatedProcess\": [\n            {\n                \"code\": \"IMMEDIATE\",\n                \"queue\": {\n                    \"number\": \"90\",\n                    \"category\": \"2\"\n                },\n                \"officeId\": \"LON1A08QC\"\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash - Immediate issuance  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        \"{{offer_id}}\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders?issue=true",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					],
+					"query": [
+						{
+							"key": "issue",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Credit Card  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"creditCard\": {\n                    \"brand\": \"VISA\",\n                    \"holder\": \"MR DUPON DAMIEN\",\n                    \"number\": \"4111111111111111\",\n                    \"expiryDate\": \"2030-03\",\n                    \"securityCode\": \"737\",\n                    \"flightOfferIds\": [\n                        \"{{offer_id}}\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Credit Card - Immediate issuance  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"creditCard\": {\n                    \"brand\": \"VISA\",\n                    \"holder\": \"MR DUPON DAMIEN\",\n                    \"number\": \"4111111111111111\",\n                    \"expiryDate\": \"2030-03\",\n                    \"securityCode\": \"737\",\n                    \"flightOfferIds\": [\n                        \"{{offer_id}}\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders?issue=true",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					],
+					"query": [
+						{
+							"key": "issue",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order B2B Wallet  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n\t        {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                \t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                \t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n            \t}\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\":[\n\t\t   {\n\t\t     \"b2bWallet\":\n\t\t       {\n     \t         \"flightOfferIds\": [ {{offer_id}} ]\n\t\t       }\n            }\n\t\t]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order B2B Wallet CardFriendlyName  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n\t        {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                \t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                \t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n            \t}\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\":[\n\t\t   {\n\t\t     \"b2bWallet\":\n\t\t       {\n     \t         \"cardFriendlyName\": \"MYIXARIS\",\n                  \"flightOfferIds\": [ {{offer_id}} ]\n\t\t       }\n            }\n\t\t]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order B2B Wallet Addintional Information  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {{book_flightOffer}}\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"b2bWallet\": {\n                    \"reportingData\": [\n                        {\n                            \"name\": \"PASSENGERNAME\",\n                            \"value\": \"JohnDoe\"\n                        },\n                        {\n                            \"name\": \"OrderID\",\n                            \"value\": \"123456\"\n                        },\n                        {\n                            \"name\": \"Trip\",\n                            \"value\": \"Paris\"\n                        }\n                    ],\n                    \"flightOfferIds\": [\n                        {{offer_id}}\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Standalone_Issuance",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}/issuance",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}",
+						"issuance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve a given flight order by a record locator",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/by-reference?reference={{reference_id}}&originSystemCode=GDS",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"by-reference"
+					],
+					"query": [
+						{
+							"key": "reference",
+							"value": "{{reference_id}}"
+						},
+						{
+							"key": "originSystemCode",
+							"value": "GDS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Seatmap by order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"seatmap_responseBody\", responseBody);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price",
+							"var offer_id = \"1\";",
+							"",
+							"var choose_offer;",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));",
+							"for (var i = 0; i < jsonData.data.length; i++) {",
+							"    var data = jsonData.data[i];",
+							"    console.log(data.id);",
+							"    if(data.id == offer_id){",
+							"        choose_offer = data;",
+							"    }",
+							"}",
+							"",
+							"//FlightOffer to price",
+							"postman.setEnvironmentVariable(\"seatmap_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/seatmaps?flight-orderId={{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"seatmaps"
+					],
+					"query": [
+						{
+							"key": "flight-orderId",
+							"value": "{{book_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch - adding remark",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var addDay = new Date();\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"addDay\", addDay)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"type\": \"flight-order\",\r\n        \"id\": \"{{book_id}}\",\r\n        \"remarks\": {\r\n            \"general\": [\r\n                {\r\n                    \"subType\": \"GENERAL_MISCELLANEOUS\",\r\n                    \"text\": \"Amadeus - Test Remark - {{addDay}}\"\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch - adding seats",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var addDay = new Date();\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"addDay\", addDay)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"data\": {\r\n\t\t\"type\": \"flight-order\",\r\n\t\t\"id\": \"{{book_id}}\",\r\n\t\t\"flightOffers\": [\r\n\t\t\t{\r\n\t\t\t\t\"type\": \"flight-offer\",\r\n\t\t\t\t\"id\": \"1\",\r\n\t\t\t\t\"travelerPricings\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"travelerId\": \"1\",\r\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\r\n\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\"segmentId\": \"1\",\r\n\t\t\t\t\t\t\t\t\"additionalServices\": {\r\n\t\t\t\t\t\t\t\t\t\"chargeableSeatNumber\": \"5D\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\"segmentId\": \"2\",\r\n\t\t\t\t\t\t\t\t\"additionalServices\": {\r\n\t\t\t\t\t\t\t\t\t\"chargeableSeatNumber\": \"7B\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t]\r\n\t\t\t\t\t},\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t\"travelerId\": \"3\",\r\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\r\n\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\"segmentId\": \"1\",\r\n\t\t\t\t\t\t\t\t\"additionalServices\": {\r\n\t\t\t\t\t\t\t\t\t\"chargeableSeatNumber\": \"5E\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\t\"segmentId\": \"2\",\r\n\t\t\t\t\t\t\t\t\"additionalServices\": {\r\n\t\t\t\t\t\t\t\t\t\"chargeableSeatNumber\": \"7C\"\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t]\r\n\t\t\t\t\t}\r\n\t\t\t\t]\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"remarks\": {\r\n\t\t\t\"general\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"subType\": \"GENERAL_MISCELLANEOUS\",\r\n\t\t\t\t\t\"text\": \"Seats added - {{addDay}}\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

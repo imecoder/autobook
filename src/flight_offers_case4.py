@@ -61,9 +61,6 @@ def get_payload():
         "searchCriteria": {
             "maxFlightOffers": 1,
             "flightFilters": {
-                "carrierRestrictions": {
-                    "includedCarrierCodes": ["KL"]
-                }
             },
             "pricingOptions": {
                 "fareType": [

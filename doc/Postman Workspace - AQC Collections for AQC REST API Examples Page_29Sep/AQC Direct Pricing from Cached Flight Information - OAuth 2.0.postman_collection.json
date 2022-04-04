@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "82024f61-2703-461e-8521-d2942fb1e055",
+		"name": "AQC Direct Pricing from Cached Flight Information - OAuth 2.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Price (1 ADT)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": {\n    \"type\": \"flight-offers-pricing\",\n    \"flightOffers\": [\n      {\n        \"type\": \"flight-offer\",\n        \"id\": \"1\",\n        \"source\": \"GDS\",\n        \"validatingAirlineCodes\": [\n          \"AZ\"\n        ],\n        \"itineraries\": [\n          {\n            \"segments\": [\n              {\n                \"id\": \"1\",\n                \"number\": \"317\",\n                \"departure\": {\n                  \"iataCode\": \"CDG\",\n                  \"at\": \"2021-08-11T06:25:00\"\n                },\n                \"arrival\": {\n                  \"iataCode\": \"FCO\",\n                  \"at\": \"02021-08-11T08:25:00\"\n                },\n                \"carrierCode\": \"AZ\",\n                \"numberOfStops\": \"0\"\n              }\n          ]\n      },\n      {\n        \"segments\":  [\n              {\n                \"id\": \"2\",\n                \"number\": \"332\",\n                \"departure\": {\n                  \"iataCode\": \"FCO\",\n                  \"at\": \"2021-08-21T21:20:00\"\n                },\n                \"arrival\": {\n                  \"iataCode\": \"CDG\",\n                  \"at\": \"2021-08-21T23:30:00\"\n                },\n                \"carrierCode\": \"AZ\",\n                \"numberOfStops\": \"0\"\n              }\n            ]\n          }\n        ],\n        \"travelerPricings\": [\n          {\n            \"travelerId\": \"1\",\n            \"fareOption\": \"STANDARD\",\n            \"travelerType\": \"ADULT\",\n            \"fareDetailsBySegment\": [\n              {\n                \"segmentId\": \"1\",\n                \"cabin\": \"ECONOMY\"\n              },\n              {\n                \"segmentId\": \"2\",\n                \"cabin\": \"ECONOMY\"\n              }\n            ]\n          }\n        ]\n      }\n    ]\n  }\n}\n"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"validatingAirlineCodes\": [\n                    \"AZ\"\n                ],\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"id\": \"1\",\n                                \"number\": \"317\",\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"at\": \"2021-08-11T06:25:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"FCO\",\n                                    \"at\": \"02021-08-11T08:25:00\"\n                                },\n                                \"carrierCode\": \"AZ\",\n                                \"numberOfStops\": \"0\"\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"id\": \"2\",\n                                \"number\": \"332\",\n                                \"departure\": {\n                                    \"iataCode\": \"FCO\",\n                                    \"at\": \"2021-08-21T21:20:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"at\": \"2021-08-21T23:30:00\"\n                                },\n                                \"carrierCode\": \"AZ\",\n                                \"numberOfStops\": \"0\"\n                            }\n                        ]\n                    }\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash  (1 ADT)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-08-06\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-08-11T06:25:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"FCO\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-08-11T08:25:00\"\n                                },\n                                \"carrierCode\": \"AZ\",\n                                \"number\": \"317\",\n                                \"aircraft\": {\n                                    \"code\": \"320\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"AZ\"\n                                },\n                                \"duration\": \"PT2H\",\n                                \"id\": \"1\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"FCO\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-08-21T21:20:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-08-21T23:30:00\"\n                                },\n                                \"carrierCode\": \"AZ\",\n                                \"number\": \"332\",\n                                \"aircraft\": {\n                                    \"code\": \"320\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"AZ\"\n                                },\n                                \"duration\": \"PT2H10M\",\n                                \"id\": \"2\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"GBP\",\n                    \"total\": \"279.00\",\n                    \"base\": \"175.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"279.00\",\n                    \"billingCurrency\": \"GBP\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"AZ\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"GBP\",\n                            \"total\": \"279.00\",\n                            \"base\": \"175.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"1.00\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"2.00\",\n                                    \"code\": \"EX\"\n                                },\n                                {\n                                    \"amount\": \"1.30\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"10.20\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"5.00\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"46.90\",\n                                    \"code\": \"YR\"\n                                },\n                                {\n                                    \"amount\": \"6.40\",\n                                    \"code\": \"HB\"\n                                },\n                                {\n                                    \"amount\": \"13.60\",\n                                    \"code\": \"IT\"\n                                },\n                                {\n                                    \"amount\": \"14.00\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"0.90\",\n                                    \"code\": \"MJ\"\n                                },\n                                {\n                                    \"amount\": \"2.70\",\n                                    \"code\": \"VT\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"ORLGFR1\",\n                                \"brandedFare\": \"ECOLIGHT\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"HRLGFR1\",\n                                \"brandedFare\": \"ECOLIGHT\",\n                                \"class\": \"H\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        \"1\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

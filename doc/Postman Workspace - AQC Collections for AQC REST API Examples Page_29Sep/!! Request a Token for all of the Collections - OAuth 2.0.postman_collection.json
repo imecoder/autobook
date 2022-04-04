@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "677f0024-9b29-460d-9041-92f42869566d",
+		"name": "!! Request a Token for all of the Collections - OAuth 2.0",
+		"description": "This collection is used to request a new token based on the chosen Environments.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get new Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var AQCUser = pm.environment.get(\"Company_Code\");\r",
+							"let timestamp = new Date().toJSON()\r",
+							"var AmaClientRef = AQCUser + \"-\" + timestamp;\r",
+							"\r",
+							"pm.environment.set(\"AmaClientRef\", AmaClientRef);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{Client_ID}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{Client_Secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "guest_office_id",
+							"value": "LON1A0983",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "guest_office_id",
+							"value": "LON1A08QC",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "guest_office_id",
+							"value": "FRAL12177",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/security/oauth2/token",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"security",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token Information",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}/v1/security/oauth2/token/{{access_token}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"security",
+						"oauth2",
+						"token",
+						"{{access_token}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

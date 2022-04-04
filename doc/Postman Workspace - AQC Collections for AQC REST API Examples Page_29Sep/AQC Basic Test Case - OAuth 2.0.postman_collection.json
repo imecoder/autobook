@@ -1,0 +1,1363 @@
+{
+	"info": {
+		"_postman_id": "1ee292e6-a56b-4037-a86d-77d705d7e660",
+		"name": "AQC Basic Test Case - OAuth 2.0",
+		"description": "This test case is the same one as the automated one, only the steps have to be filled manually.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"EUR\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"CDG\",\r\n            \"destinationLocationCode\": \"WAW\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-11\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"WAW\",\r\n            \"destinationLocationCode\": \"CDG\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-21\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": false\r\n        },\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\",\r\n                \"NEGOTIATED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search (2 ADTs + 1 CHD + 1 INF + 1 SEATED INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"EUR\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"CDG\",\r\n            \"destinationLocationCode\": \"WAW\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-11\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"WAW\",\r\n            \"destinationLocationCode\": \"CDG\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-21\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"associatedAdultId\": \"2\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"5\",\r\n            \"travelerType\": \"SEATED_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": false\r\n        },\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\",\r\n                \"NEGOTIATED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by Airline (2 ADT, 1 CHD, 1 INF_Held, 1 INF_Seated)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"EUR\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"CDG\",\r\n            \"destinationLocationCode\": \"WAW\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-11\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"WAW\",\r\n            \"destinationLocationCode\": \"CDG\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2021-10-21\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"associatedAdultId\": \"2\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"5\",\r\n            \"travelerType\": \"SEATED_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": false\r\n        },\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\",\r\n                \"NEGOTIATED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        },\r\n        \"flightFilters\": {\r\n            \"carrierRestrictions\": {\r\n                \"includedCarrierCodes\": [\r\n                    \"BA\"\r\n                ]\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price Flight Offer Cash",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n           {\n            \"type\": \"flight-offer\",\n            \"id\": \"1\",\n            \"source\": \"GDS\",\n            \"instantTicketingRequired\": false,\n            \"nonHomogeneous\": false,\n            \"oneWay\": false,\n            \"lastTicketingDate\": \"2021-08-02\",\n            \"numberOfBookableSeats\": 9,\n            \"itineraries\": [\n                {\n                    \"duration\": \"PT2H15M\",\n                    \"segments\": [\n                        {\n                            \"departure\": {\n                                \"iataCode\": \"CDG\",\n                                \"terminal\": \"2B\",\n                                \"at\": \"2021-10-11T19:45:00\"\n                            },\n                            \"arrival\": {\n                                \"iataCode\": \"WAW\",\n                                \"at\": \"2021-10-11T22:00:00\"\n                            },\n                            \"carrierCode\": \"LO\",\n                            \"number\": \"336\",\n                            \"aircraft\": {\n                                \"code\": \"E90\"\n                            },\n                            \"operating\": {\n                                \"carrierCode\": \"LO\"\n                            },\n                            \"id\": \"16\",\n                            \"numberOfStops\": 0,\n                            \"blacklistedInEU\": false\n                        }\n                    ]\n                },\n                {\n                    \"duration\": \"PT2H30M\",\n                    \"segments\": [\n                        {\n                            \"departure\": {\n                                \"iataCode\": \"WAW\",\n                                \"at\": \"2021-10-21T07:40:00\"\n                            },\n                            \"arrival\": {\n                                \"iataCode\": \"CDG\",\n                                \"terminal\": \"2B\",\n                                \"at\": \"2021-10-21T10:10:00\"\n                            },\n                            \"carrierCode\": \"LO\",\n                            \"number\": \"331\",\n                            \"aircraft\": {\n                                \"code\": \"E90\"\n                            },\n                            \"operating\": {\n                                \"carrierCode\": \"LO\"\n                            },\n                            \"id\": \"97\",\n                            \"numberOfStops\": 0,\n                            \"blacklistedInEU\": false\n                        }\n                    ]\n                }\n            ],\n            \"price\": {\n                \"currency\": \"EUR\",\n                \"total\": \"245.78\",\n                \"base\": \"97.00\",\n                \"fees\": [\n                    {\n                        \"amount\": \"0.00\",\n                        \"type\": \"SUPPLIER\"\n                    },\n                    {\n                        \"amount\": \"0.00\",\n                        \"type\": \"TICKETING\"\n                    }\n                ],\n                \"grandTotal\": \"245.78\"\n            },\n            \"pricingOptions\": {\n                \"fareType\": [\n                    \"PUBLISHED\"\n                ],\n                \"includedCheckedBagsOnly\": false\n            },\n            \"validatingAirlineCodes\": [\n                \"LO\"\n            ],\n            \"travelerPricings\": [\n                {\n                    \"travelerId\": \"1\",\n                    \"fareOption\": \"STANDARD\",\n                    \"travelerType\": \"ADULT\",\n                    \"price\": {\n                        \"currency\": \"EUR\",\n                        \"total\": \"126.39\",\n                        \"base\": \"52.00\"\n                    },\n                    \"fareDetailsBySegment\": [\n                        {\n                            \"segmentId\": \"16\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"USAVJ0\",\n                            \"class\": \"U\",\n                            \"includedCheckedBags\": {\n                                \"quantity\": 0\n                            }\n                        },\n                        {\n                            \"segmentId\": \"97\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"OSAVJ0\",\n                            \"class\": \"O\",\n                            \"includedCheckedBags\": {\n                                \"quantity\": 0\n                            }\n                        }\n                    ]\n                },\n                {\n                    \"travelerId\": \"2\",\n                    \"fareOption\": \"STANDARD\",\n                    \"travelerType\": \"CHILD\",\n                    \"price\": {\n                        \"currency\": \"EUR\",\n                        \"total\": \"113.39\",\n                        \"base\": \"39.00\"\n                    },\n                    \"fareDetailsBySegment\": [\n                        {\n                            \"segmentId\": \"16\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"USAVJ0\",\n                            \"class\": \"U\"\n                        },\n                        {\n                            \"segmentId\": \"97\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"OSAVJ0\",\n                            \"class\": \"O\"\n                        }\n                    ]\n                },\n                {\n                    \"travelerId\": \"3\",\n                    \"fareOption\": \"STANDARD\",\n                    \"travelerType\": \"HELD_INFANT\",\n                    \"associatedAdultId\": \"1\",\n                    \"price\": {\n                        \"currency\": \"EUR\",\n                        \"total\": \"6.00\",\n                        \"base\": \"6.00\"\n                    },\n                    \"fareDetailsBySegment\": [\n                        {\n                            \"segmentId\": \"16\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"USAVJ0\",\n                            \"class\": \"U\"\n                        },\n                        {\n                            \"segmentId\": \"97\",\n                            \"cabin\": \"ECONOMY\",\n                            \"fareBasis\": \"OSAVJ0\",\n                            \"class\": \"O\"\n                        }\n                    ]\n                }\n            ],\n            \"fareRules\": {\n                \"rules\": [\n                    {\n                        \"category\": \"EXCHANGE\",\n                        \"maxPenaltyAmount\": \"70.00\"\n                    },\n                    {\n                        \"category\": \"REFUND\",\n                        \"notApplicable\": true\n                    },\n                    {\n                        \"category\": \"REVALIDATION\",\n                        \"notApplicable\": true\n                    }\n                ]\n            }\n        }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price Flight Offer Cash with options detailed-fare-rules, credit-card-fees and other-services",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        <td><p><strong>Attention: This&nbsp;script&nbsp;works&nbsp;only&nbsp;for&nbsp;test&nbsp;cases&nbsp;with&nbsp;2&nbsp;segments!</strong></p></td>\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"        Fare Rules: </br></br>\r",
+							"            Rule Number : 1 </br>\r",
+							"            SegmentId : {{response.included.detailed-fare-rules.1.segmentId}} </br>\r",
+							"            fareBasis : {{response.included.detailed-fare-rules.1.fareBasis}} </br>\r",
+							"            name : {{response.included.detailed-fare-rules.1.name}} </br>\r",
+							"            fareNotes : </br>\r",
+							"                {{#each response.included.detailed-fare-rules.1.fareNotes.descriptions}}\r",
+							"                    descriptionType : {{descriptionType}} </br>\r",
+							"                    text : {{text}} </br></br>\r",
+							"                {{/each}}\r",
+							"            </br>\r",
+							"            Rule Number : 2 </br>\r",
+							"            SegmentId : {{response.included.detailed-fare-rules.2.segmentId}} </br>\r",
+							"            fareBasis : {{response.included.detailed-fare-rules.2.fareBasis}} </br>\r",
+							"            name : {{response.included.detailed-fare-rules.2.name}} </br>\r",
+							"            fareNotes : </br>\r",
+							"                {{#each response.included.detailed-fare-rules.2.fareNotes.descriptions}}\r",
+							"                    descriptionType : {{descriptionType}} </br>\r",
+							"                    text : {{text}} </br></br>\r",
+							"                {{/each}}\r",
+							"        Credit Card Fees: </br>\r",
+							"                Brand : {{response.included.credit-card-fees.1.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.1.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.1.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.1.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.2.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.2.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.2.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.2.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.3.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.3.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.3.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.3.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.4.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.4.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.4.currency}}</br>\r",
+							"                Flight Offer ID : {{rsponse.included.credit-card-fees.4.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.5.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.5.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.5.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.5.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.6.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.6.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.6.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.6.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.7.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.7.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.7.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.7.flightOfferId}} </br></br>\r",
+							"                Brand : {{response.included.credit-card-fees.8.brand}}</br>\r",
+							"                Amount : {{response.included.credit-card-fees.8.amount}}</br>\r",
+							"                Currency :{{response.included.credit-card-fees.8.currency}}</br>\r",
+							"                Flight Offer ID : {{response.included.credit-card-fees.8.flightOfferId}} </br></br>\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"4\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-05-26\",\n                \"numberOfBookableSeats\": 2,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"14\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T20:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T22:45:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"333\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"86\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"279.14\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"279.14\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.57\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.57\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing?include=detailed-fare-rules,credit-card-fees,other-services",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "detailed-fare-rules,credit-card-fees,other-services"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price Flight Offer B2B Wallet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"4\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-05-26\",\n                \"numberOfBookableSeats\": 2,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"14\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T20:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T22:45:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"333\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"86\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"279.14\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"279.14\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.57\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.57\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"payments\": [\n            {\n                \"brand\": \"VISA_IXARIS\",\n                \"flightOfferIds\": [\n                    \"1\"\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price of up to 6 Flight Offers Cash",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 9,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T07:05:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T09:20:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"334\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"13\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T07:25:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T09:55:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"331\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"84\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"278.84\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"278.84\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.42\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.42\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"2\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 2,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T07:05:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T09:20:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"334\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"13\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T20:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T22:45:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"333\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"86\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"278.84\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"278.84\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.42\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.42\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"13\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"3\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 9,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"16\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T07:25:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T09:55:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"331\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"84\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"278.84\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"278.84\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.42\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.42\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"84\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"4\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 2,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT2H15M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"16\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT2H30M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T20:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T22:45:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"333\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"id\": \"86\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"278.84\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"278.84\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.42\",\n                            \"base\": \"70.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.42\",\n                            \"base\": \"53.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"class\": \"L\"\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"class\": \"O\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"5\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 9,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT4H\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-10-11T12:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-11T13:40:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"2229\",\n                                \"aircraft\": {\n                                    \"code\": \"321\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LH\"\n                                },\n                                \"id\": \"1\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            },\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-11T14:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T16:15:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"1614\",\n                                \"aircraft\": {\n                                    \"code\": \"319\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"CL\"\n                                },\n                                \"id\": \"2\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT3H55M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T13:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-21T14:50:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"1613\",\n                                \"aircraft\": {\n                                    \"code\": \"319\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"CL\"\n                                },\n                                \"id\": \"101\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            },\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-21T15:35:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-10-21T17:10:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"2232\",\n                                \"aircraft\": {\n                                    \"code\": \"320\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LH\"\n                                },\n                                \"id\": \"102\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"305.48\",\n                    \"base\": \"76.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"305.48\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LH\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"155.74\",\n                            \"base\": \"41.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"101\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"102\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"145.74\",\n                            \"base\": \"31.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"101\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"102\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"4.00\",\n                            \"base\": \"4.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"101\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"102\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"6\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-04-30\",\n                \"numberOfBookableSeats\": 9,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT4H\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-10-11T12:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-11T13:40:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"2229\",\n                                \"aircraft\": {\n                                    \"code\": \"321\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LH\"\n                                },\n                                \"id\": \"1\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            },\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-11T14:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T16:15:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"1614\",\n                                \"aircraft\": {\n                                    \"code\": \"319\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"CL\"\n                                },\n                                \"id\": \"2\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT5H25M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T06:00:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-21T07:35:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"1617\",\n                                \"aircraft\": {\n                                    \"code\": \"319\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"CL\"\n                                },\n                                \"id\": \"79\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            },\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"MUC\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-10-21T09:50:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2F\",\n                                    \"at\": \"2021-10-21T11:25:00\"\n                                },\n                                \"carrierCode\": \"LH\",\n                                \"number\": \"2228\",\n                                \"aircraft\": {\n                                    \"code\": \"32A\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LH\"\n                                },\n                                \"id\": \"80\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"305.48\",\n                    \"base\": \"76.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"305.48\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LH\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"155.74\",\n                            \"base\": \"41.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"79\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"80\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"145.74\",\n                            \"base\": \"31.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"79\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"80\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"4.00\",\n                            \"base\": \"4.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"1\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"2\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"79\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            },\n                            {\n                                \"segmentId\": \"80\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K01LGTE8\",\n                                \"class\": \"K\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash  (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"4\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-05-27\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H15M\",\n                                \"id\": \"14\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T20:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-10-21T22:45:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"333\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H30M\",\n                                \"id\": \"86\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"279.14\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"279.14\",\n                    \"billingCurrency\": \"EUR\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.57\",\n                            \"base\": \"70.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"13.32\",\n                                    \"code\": \"XW\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.57\",\n                            \"base\": \"53.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"13.32\",\n                                    \"code\": \"XW\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"14\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 1\n                                }\n                            },\n                            {\n                                \"segmentId\": \"86\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 1\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        \"4\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash  with queuing to different Queue and Office ID (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n             {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-08-03\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2B\",\n                                    \"at\": \"2021-10-11T19:45:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-11T22:00:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"336\",\n                                \"aircraft\": {\n                                    \"code\": \"E90\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H15M\",\n                                \"id\": \"16\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-10-21T07:40:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"2B\",\n                                    \"at\": \"2021-10-21T10:10:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"331\",\n                                \"aircraft\": {\n                                    \"code\": \"E90\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H30M\",\n                                \"id\": \"97\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"245.78\",\n                    \"base\": \"97.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"245.78\",\n                    \"billingCurrency\": \"EUR\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"126.39\",\n                            \"base\": \"52.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"13.14\",\n                                    \"code\": \"XW\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"USAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"U\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"97\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"113.39\",\n                            \"base\": \"39.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"13.14\",\n                                    \"code\": \"XW\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"USAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"U\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"97\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"6.00\",\n                            \"base\": \"6.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"16\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"USAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"U\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"97\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                       \"1\"\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"automatedProcess\": [\n            {\n                \"code\": \"IMMEDIATE\",\n                \"queue\": {\n                    \"number\": \"90\",\n                    \"category\": \"2\"\n                },\n                \"officeId\": \"LON1A08QC\"\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order B2B Wallet (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-03-30\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-08-11T07:05:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-08-11T09:20:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"334\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H15M\",\n                                \"id\": \"15\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"WAW\",\n                                    \"at\": \"2021-08-21T07:25:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"CDG\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-08-21T09:55:00\"\n                                },\n                                \"carrierCode\": \"LO\",\n                                \"number\": \"331\",\n                                \"aircraft\": {\n                                    \"code\": \"E95\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"LO\"\n                                },\n                                \"duration\": \"PT2H30M\",\n                                \"id\": \"94\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"278.54\",\n                    \"base\": \"130.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"278.54\",\n                    \"billingCurrency\": \"EUR\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"LO\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"144.27\",\n                            \"base\": \"70.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"13.02\",\n                                    \"code\": \"XW\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"15\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"94\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"127.27\",\n                            \"base\": \"53.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"16.36\",\n                                    \"code\": \"FR\"\n                                },\n                                {\n                                    \"amount\": \"1.13\",\n                                    \"code\": \"IZ\"\n                                },\n                                {\n                                    \"amount\": \"0.23\",\n                                    \"code\": \"ND\"\n                                },\n                                {\n                                    \"amount\": \"1.50\",\n                                    \"code\": \"O4\"\n                                },\n                                {\n                                    \"amount\": \"12.03\",\n                                    \"code\": \"QX\"\n                                },\n                                {\n                                    \"amount\": \"13.02\",\n                                    \"code\": \"XW\"\n                                },\n                                {\n                                    \"amount\": \"30.00\",\n                                    \"code\": \"YQ\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"15\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"94\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"1\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"7.00\",\n                            \"base\": \"7.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"15\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"OSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"O\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            },\n                            {\n                                \"segmentId\": \"94\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"LSAVJ0\",\n                                \"brandedFare\": \"ECOSAVER\",\n                                \"class\": \"L\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"formOfPayments\": [\n            {\n                \"b2bWallet\": {\n                    \"flightOfferIds\": [\n                        \"1\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Standalone_Issuance",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}/issuance",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}",
+						"issuance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve a given flight order by a record locator",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/by-reference?reference=W5MPQH&originSystemCode=GDS",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"by-reference"
+					],
+					"query": [
+						{
+							"key": "reference",
+							"value": "W5MPQH"
+						},
+						{
+							"key": "originSystemCode",
+							"value": "GDS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/eJzTd9cPN%2FUNCPTQBzF8gsJDACxdBOI%3D",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"eJzTd9cPN%2FUNCPTQBzF8gsJDACxdBOI%3D"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch - adding remark",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"type\": \"flight-order\",\r\n        \"id\": \"eJzTd9f3NTL3CnMBAAqjAkA%3D\",\r\n        \"remarks\": {\r\n            \"general\": [\r\n                {\r\n                    \"subType\": \"GENERAL_MISCELLANEOUS\",\r\n                    \"text\": \"BLABLA\"\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/eJzTd9f3NTL3CnMBAAqjAkA%3D",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"eJzTd9f3NTL3CnMBAAqjAkA%3D"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders/{{book_id}}",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

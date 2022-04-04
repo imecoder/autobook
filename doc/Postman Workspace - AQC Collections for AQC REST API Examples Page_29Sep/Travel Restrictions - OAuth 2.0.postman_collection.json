@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "48352674-cc72-4945-8330-2db53c151000",
+		"name": "Travel Restrictions - OAuth 2.0",
+		"description": "The Travel Restrictions API provides up-to-date data on COVID-19 caseloads and travel restrictions for over 200 countries and territories, as well as hundreds of cities and regions worldwide. For a given country, city or region, the Travel Restrictions API will provide detailed data including: COVID-19 statistics - total cases, active cases, and current rate of infection per 100,000. Travel restrictions - Flight and travel ban information, entry and exit requirements, and information on required tests, travel documents, and quarantines. Local regulations - Information on hotspots, lockdowns, curfews and mask laws. Powered by Riskline, the travel restrictions data is updated every 6 hours to so you can keep your travelers informed of the latest developments on their trip. Notes: The information provided through this API comes from Riskline, our third party provider, and may change quickly due to the context and nature of regulations. We disclaim any liability for its accuracy or completeness and strongly recommend that you advise your end-users to check the travel requirements with the airline and local authorities before their trip Information is provided by local and national governments. The quality of data may vary from one location to another.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "COUNTRY & CITY & LANGUAGE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_URL}}/v1/duty-of-care/diseases/covid19-area-report?countryCode=DE&cityCode=FRA&language=EN",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"duty-of-care",
+						"diseases",
+						"covid19-area-report"
+					],
+					"query": [
+						{
+							"key": "countryCode",
+							"value": "DE"
+						},
+						{
+							"key": "cityCode",
+							"value": "FRA"
+						},
+						{
+							"key": "language",
+							"value": "EN"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

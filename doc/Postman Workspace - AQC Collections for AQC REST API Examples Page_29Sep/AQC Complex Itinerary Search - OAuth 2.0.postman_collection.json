@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "82f58db6-7325-4985-9f30-261d83cddec3",
+		"name": "AQC Complex Itinerary Search - OAuth 2.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search (1 ADT )",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"FRA\";",
+							"var destinationLocationCode= \"WAW\";",
+							"var departureDate = \"2021-11-25\";",
+							"var departureTime = \"08:30:00\";",
+							"var returnDate = \"2021-11-30\";",
+							"var returnTime = \"16:30:00\";",
+							"var timeWindow = \"2H\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"departureTime\", departureTime)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"postman.setEnvironmentVariable(\"returnTime\", returnTime)",
+							"postman.setEnvironmentVariable(\"timeWindow\", timeWindow)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"EUR\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"MAD\",\r\n            \"destinationLocationCode\": \"BCN\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2022-02-15\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"BCN\",\r\n            \"destinationLocationCode\": \"AGP\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2022-02-17\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"originLocationCode\": \"AGP\",\r\n            \"destinationLocationCode\": \"BIO\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2022-02-20\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"originLocationCode\": \"BIO\",\r\n            \"destinationLocationCode\": \"BCN\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2022-02-25\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"5\",\r\n            \"originLocationCode\": \"BCN\",\r\n            \"destinationLocationCode\": \"MAD\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"2022-02-26\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"maxFlightOffers\": 250\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

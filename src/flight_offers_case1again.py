@@ -12,7 +12,8 @@ def get_payload():
                 "originLocationCode": "LOS",
                 "destinationLocationCode": "AMS",
                 "departureDateTimeRange": {
-                    "date": "2022-04-03"
+                    "date": "2022-04-10",
+                    "dateWindow": "I1D"
                 }
             },
             {
@@ -20,7 +21,8 @@ def get_payload():
                 "originLocationCode": "AMS",
                 "destinationLocationCode": "LOS",
                 "departureDateTimeRange": {
-                    "date": "2022-04-07"
+                    "date": "2022-04-14",
+                    "dateWindow": "I1D"
                 }
             }
         ],
@@ -59,10 +61,7 @@ def get_payload():
             "GDS"
         ],
         "searchCriteria": {
-            "addOneWayOffers": True,
             "maxFlightOffers": 1,
-            "flightFilters": {
-            },
             "pricingOptions": {
                 "fareType": [
                     "PUBLISHED"
@@ -70,7 +69,7 @@ def get_payload():
                 "includedCheckedBagsOnly": False
             },
             "additionalInformation": {
-                "chargeableCheckedBags": True,
+                "chargeableCheckedBags": False,
                 "brandedFares": True
             }
         }

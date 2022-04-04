@@ -1,0 +1,613 @@
+{
+	"info": {
+		"_postman_id": "39ac8bcb-fc93-490c-baba-d3d2ae714ec0",
+		"name": "AQC Bags Test Case - OAuth 2.0",
+		"description": "This test case is for sgowing how bags can be requested and booked.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search (1 ADT)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currencyCode\": \"EUR\",\n    \"originDestinations\": [\n        {\n            \"id\": \"1\",\n            \"originLocationCode\": \"AMS\",\n            \"destinationLocationCode\": \"BCN\",\n            \"departureDateTimeRange\": {\n                \"date\": \"2021-11-15\"\n            }\n        },\n        {\n            \"id\": \"2\",\n            \"originLocationCode\": \"BCN\",\n            \"destinationLocationCode\": \"AMS\",\n            \"departureDateTimeRange\": {\n                \"date\": \"2021-11-29\"\n            }\n        }\n    ],\n    \"travelers\": [\n        {\n            \"id\": \"1\",\n            \"travelerType\": \"ADULT\",\n            \"fareOptions\": [\n                \"STANDARD\"\n            ]\n        }\n    ],\n    \"sources\": [\n        \"GDS\"\n    ],\n    \"searchCriteria\": {\n        \"pricingOptions\": {\n            \"fareType\": [\n                \"PUBLISHED\"\n            ],\n            \"includedCheckedBagsOnly\": false\n        },\n        \"maxFlightOffers\": 250,\n        \"additionalInformation\": {\n            \"brandedFares\": false,\n            \"chargeableCheckedBags\": true\n        },\n        \"flightFilters\": {}\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by Airline (1 ADT)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"currencyCode\": \"EUR\",\n    \"originDestinations\": [\n        {\n            \"id\": \"1\",\n            \"originLocationCode\": \"BKK\",\n            \"destinationLocationCode\": \"LON\",\n            \"departureDateTimeRange\": {\n                \"date\": \"2021-11-15\"\n            }\n        },\n        {\n            \"id\": \"2\",\n            \"originLocationCode\": \"LON\",\n            \"destinationLocationCode\": \"BKK\",\n            \"departureDateTimeRange\": {\n                \"date\": \"2021-11-29\"\n            }\n        }\n    ],\n    \"travelers\": [\n        {\n            \"id\": \"1\",\n            \"travelerType\": \"ADULT\",\n            \"fareOptions\": [\n                \"STANDARD\"\n            ]\n        }\n    ],\n    \"sources\": [\n        \"GDS\"\n    ],\n    \"searchCriteria\": {\n        \"pricingOptions\": {\n            \"fareType\": [\n                \"PUBLISHED\"\n            ],\n            \"includedCheckedBagsOnly\": false\n        },\n        \"maxFlightOffers\": 250,\n        \"additionalInformation\": {\n            \"brandedFares\": false,\n            \"chargeableCheckedBags\": true\n        },\n        \"flightFilters\": {\n            \"carrierRestrictions\": {\n                \"includedCarrierCodes\": [\n                    \"TG\"\n                ]\n            }\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pricing 1 - include=bags",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"oneWay\": false,\n                \"lastTicketingDate\": \"2021-09-07\",\n                \"numberOfBookableSeats\": 9,\n                \"itineraries\": [\n                    {\n                        \"duration\": \"PT13H5M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-15T00:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-15T06:20:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"910\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"id\": \"10\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"duration\": \"PT11H25M\",\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-29T11:50:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-30T06:15:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"911\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"id\": \"58\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"872.72\",\n                    \"base\": \"621.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"872.72\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": true\n                },\n                \"validatingAirlineCodes\": [\n                    \"TG\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"872.72\",\n                            \"base\": \"621.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"10\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                }\n                            },\n                            {\n                                \"segmentId\": \"58\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                }\n                            }\n                        ]\n                    }\n                ],\n                \"fareRules\": {\n                    \"rules\": [\n                        {\n                            \"category\": \"EXCHANGE\",\n                            \"maxPenaltyAmount\": \"0.00\"\n                        },\n                        {\n                            \"category\": \"REFUND\",\n                            \"notApplicable\": true\n                        },\n                        {\n                            \"category\": \"REVALIDATION\",\n                            \"notApplicable\": true\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing?include=bags",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "bags"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pricing 2 - Piece Concept",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-11-05\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"AMS\",\n                                    \"at\": \"2021-11-15T20:55:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"BCN\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-11-15T23:05:00\"\n                                },\n                                \"carrierCode\": \"KL\",\n                                \"number\": \"1681\",\n                                \"aircraft\": {\n                                    \"code\": \"73H\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"KL\"\n                                },\n                                \"duration\": \"PT2H10M\",\n                                \"id\": \"11\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"BCN\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-11-29T19:55:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"AMS\",\n                                    \"at\": \"2021-11-29T22:15:00\"\n                                },\n                                \"carrierCode\": \"KL\",\n                                \"number\": \"1676\",\n                                \"aircraft\": {\n                                    \"code\": \"73H\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"KL\"\n                                },\n                                \"duration\": \"PT2H20M\",\n                                \"id\": \"58\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"125.00\",\n                    \"base\": \"44.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"175.00\",\n                    \"billingCurrency\": \"EUR\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"KL\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"125.00\",\n                            \"base\": \"44.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"7.85\",\n                                    \"code\": \"VV\"\n                                },\n                                {\n                                    \"amount\": \"3.38\",\n                                    \"code\": \"QV\"\n                                },\n                                {\n                                    \"amount\": \"12.72\",\n                                    \"code\": \"CJ\"\n                                },\n                                {\n                                    \"amount\": \"26.00\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"0.62\",\n                                    \"code\": \"OG\"\n                                },\n                                {\n                                    \"amount\": \"13.96\",\n                                    \"code\": \"JD\"\n                                },\n                                {\n                                    \"amount\": \"16.47\",\n                                    \"code\": \"RN\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"11\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"GS55PBLG\",\n                                \"brandedFare\": \"LIGHT2\",\n                                \"class\": \"G\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            },\n                            {\n                                \"segmentId\": \"58\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"GS55PBLG\",\n                                \"brandedFare\": \"LIGHT2\",\n                                \"class\": \"G\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pricing 2 - Weight Concept",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-11-08\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-15T00:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-15T06:20:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"910\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"duration\": \"PT13H5M\",\n                                \"id\": \"10\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-29T11:50:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-30T06:15:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"911\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"duration\": \"PT11H25M\",\n                                \"id\": \"58\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"872.72\",\n                    \"base\": \"621.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"952.66\",\n                    \"billingCurrency\": \"EUR\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": true\n                },\n                \"validatingAirlineCodes\": [\n                    \"TG\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"872.72\",\n                            \"base\": \"621.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"0.78\",\n                                    \"code\": \"G8\"\n                                },\n                                {\n                                    \"amount\": \"1.82\",\n                                    \"code\": \"E7\"\n                                },\n                                {\n                                    \"amount\": \"75.68\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"95.73\",\n                                    \"code\": \"GB\"\n                                },\n                                {\n                                    \"amount\": \"49.12\",\n                                    \"code\": \"UB\"\n                                },\n                                {\n                                    \"amount\": \"10.39\",\n                                    \"code\": \"R1\"\n                                },\n                                {\n                                    \"amount\": \"18.20\",\n                                    \"code\": \"TS\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"10\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            },\n                            {\n                                \"segmentId\": \"58\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash - Piece Concept (1 ADT)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n              {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-11-05\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"AMS\",\n                                    \"at\": \"2021-11-15T20:55:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"BCN\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-11-15T23:05:00\"\n                                },\n                                \"carrierCode\": \"KL\",\n                                \"number\": \"1681\",\n                                \"aircraft\": {\n                                    \"code\": \"73H\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"KL\"\n                                },\n                                \"duration\": \"PT2H10M\",\n                                \"id\": \"11\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"BCN\",\n                                    \"terminal\": \"1\",\n                                    \"at\": \"2021-11-29T19:55:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"AMS\",\n                                    \"at\": \"2021-11-29T22:15:00\"\n                                },\n                                \"carrierCode\": \"KL\",\n                                \"number\": \"1676\",\n                                \"aircraft\": {\n                                    \"code\": \"73H\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"KL\"\n                                },\n                                \"duration\": \"PT2H20M\",\n                                \"id\": \"58\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"125.00\",\n                    \"base\": \"44.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"175.00\",\n                    \"billingCurrency\": \"EUR\",\n                    \"additionalServices\": [\n                        {\n                            \"amount\": \"50.00\",\n                            \"type\": \"CHECKED_BAGS\"\n                        }\n                    ]\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"KL\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"125.00\",\n                            \"base\": \"44.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"7.85\",\n                                    \"code\": \"VV\"\n                                },\n                                {\n                                    \"amount\": \"3.38\",\n                                    \"code\": \"QV\"\n                                },\n                                {\n                                    \"amount\": \"12.72\",\n                                    \"code\": \"CJ\"\n                                },\n                                {\n                                    \"amount\": \"26.00\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"0.62\",\n                                    \"code\": \"OG\"\n                                },\n                                {\n                                    \"amount\": \"13.96\",\n                                    \"code\": \"JD\"\n                                },\n                                {\n                                    \"amount\": \"16.47\",\n                                    \"code\": \"RN\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"11\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"GS55PBLG\",\n                                \"brandedFare\": \"LIGHT2\",\n                                \"class\": \"G\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            },\n                            {\n                                \"segmentId\": \"58\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"GS55PBLG\",\n                                \"brandedFare\": \"LIGHT2\",\n                                \"class\": \"G\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"contact\": {\n                    \"emailAddress\": \"germain@mail.com\",\n                    \"phones\": [\n                        {\n                            \"countryCallingCode\": \"57\",\n                            \"deviceType\": \"MOBILE\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                },\n                \"dateOfBirth\": \"1996-12-22\",\n                \"gender\": \"MALE\",\n                \"id\": \"1\",\n                \"name\": {\n                    \"firstName\": \"germain\",\n                    \"lastName\": \"BOLANOS\"\n                }\n            }\n        ],\n        \"contacts\": [\n            {\n                \"address\": {\n                    \"cityName\": \"Colombia\",\n                    \"countryCode\": \"CO\",\n                    \"lines\": [\n                        \"Cra 11 # 84 A 09\"\n                    ],\n                    \"postalCode\": \"77610\"\n                },\n                \"addresseeName\": {\n                    \"firstName\": \"germain\",\n                    \"lastName\": \"BOLANOS\"\n                },\n                \"companyName\": \"AMADEUS\",\n                \"emailAddress\": \"support@mail.com\",\n                \"phones\": [\n                    {\n                        \"countryCallingCode\": \"57\",\n                        \"deviceType\": \"MOBILE\",\n                        \"number\": \"666982806\"\n                    }\n                ],\n                \"purpose\": \"STANDARD\"\n            }\n        ],\n        \"remarks\": {\n            \"general\": [\n                {\n                    \"subType\": \"GENERAL_MISCELLANEOUS\",\n                    \"text\": \"ONLINE BOOKING FROM AMADEUS\"\n                }\n            ]\n        },\n        \"automatedProcess\": [\n            {\n                \"officeId\": \"PARA1219R\",\n                \"code\": \"IMMEDIATE\",\n                \"queue\": {\n                    \"number\": \"30\",\n                    \"category\": \"5\"\n                }\n            }\n        ],\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        1\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash - Weight Concept (1 ADT)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"1\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"nonHomogeneous\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-11-08\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-15T00:15:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-15T06:20:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"910\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"duration\": \"PT13H5M\",\n                                \"id\": \"10\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"LHR\",\n                                    \"terminal\": \"2\",\n                                    \"at\": \"2021-11-29T11:50:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"BKK\",\n                                    \"at\": \"2021-11-30T06:15:00\"\n                                },\n                                \"carrierCode\": \"TG\",\n                                \"number\": \"911\",\n                                \"aircraft\": {\n                                    \"code\": \"773\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"TG\"\n                                },\n                                \"duration\": \"PT11H25M\",\n                                \"id\": \"58\",\n                                \"numberOfStops\": 0\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"EUR\",\n                    \"total\": \"872.72\",\n                    \"base\": \"621.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"SUPPLIER\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        },\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"FORM_OF_PAYMENT\"\n                        }\n                    ],\n                    \"grandTotal\": \"952.66\",\n                    \"billingCurrency\": \"EUR\",\n                    \"additionalServices\": [\n                        {\n                            \"amount\": \"79.94\",\n                            \"type\": \"CHECKED_BAGS\"\n                        }\n                    ]\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": true\n                },\n                \"validatingAirlineCodes\": [\n                    \"TG\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"EUR\",\n                            \"total\": \"872.72\",\n                            \"base\": \"621.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"0.78\",\n                                    \"code\": \"G8\"\n                                },\n                                {\n                                    \"amount\": \"1.82\",\n                                    \"code\": \"E7\"\n                                },\n                                {\n                                    \"amount\": \"75.68\",\n                                    \"code\": \"YQ\"\n                                },\n                                {\n                                    \"amount\": \"95.73\",\n                                    \"code\": \"GB\"\n                                },\n                                {\n                                    \"amount\": \"49.12\",\n                                    \"code\": \"UB\"\n                                },\n                                {\n                                    \"amount\": \"10.39\",\n                                    \"code\": \"R1\"\n                                },\n                                {\n                                    \"amount\": \"18.20\",\n                                    \"code\": \"TS\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"10\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            },\n                            {\n                                \"segmentId\": \"58\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"K2LRSV\",\n                                \"class\": \"K\",\n                                \"includedCheckedBags\": {\n                                    \"weight\": 20,\n                                    \"weightUnit\": \"KG\"\n                                },\n                                \"additionalServices\": {\n                                    \"chargeableCheckedBags\": {\n                                        \"quantity\": 1\n                                    }\n                                }\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"contact\": {\n                    \"emailAddress\": \"germain@mail.com\",\n                    \"phones\": [\n                        {\n                            \"countryCallingCode\": \"57\",\n                            \"deviceType\": \"MOBILE\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                },\n                \"dateOfBirth\": \"1996-12-22\",\n                \"gender\": \"MALE\",\n                \"id\": \"1\",\n                \"name\": {\n                    \"firstName\": \"germain\",\n                    \"lastName\": \"BOLANOS\"\n                }\n            }\n        ],\n        \"contacts\": [\n            {\n                \"address\": {\n                    \"cityName\": \"Colombia\",\n                    \"countryCode\": \"CO\",\n                    \"lines\": [\n                        \"Cra 11 # 84 A 09\"\n                    ],\n                    \"postalCode\": \"77610\"\n                },\n                \"addresseeName\": {\n                    \"firstName\": \"germain\",\n                    \"lastName\": \"BOLANOS\"\n                },\n                \"companyName\": \"AMADEUS\",\n                \"emailAddress\": \"support@mail.com\",\n                \"phones\": [\n                    {\n                        \"countryCallingCode\": \"57\",\n                        \"deviceType\": \"MOBILE\",\n                        \"number\": \"666982806\"\n                    }\n                ],\n                \"purpose\": \"STANDARD\"\n            }\n        ],\n        \"remarks\": {\n            \"general\": [\n                {\n                    \"subType\": \"GENERAL_MISCELLANEOUS\",\n                    \"text\": \"ONLINE BOOKING FROM AMADEUS\"\n                }\n            ]\n        },\n        \"automatedProcess\": [\n            {\n                \"officeId\": \"PARA1219R\",\n                \"code\": \"IMMEDIATE\",\n                \"queue\": {\n                    \"number\": \"30\",\n                    \"category\": \"5\"\n                }\n            }\n        ],\n        \"formOfPayments\": [\n            {\n                \"other\": {\n                    \"method\": \"CASH\",\n                    \"flightOfferIds\": [\n                        \"1\"\n                    ]\n                }\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

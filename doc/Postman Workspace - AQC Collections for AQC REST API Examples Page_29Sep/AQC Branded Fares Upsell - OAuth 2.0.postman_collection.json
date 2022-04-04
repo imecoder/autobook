@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "b022c516-35c5-48e0-bb24-917ce442e170",
+		"name": "AQC Branded Fares Upsell - OAuth 2.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search (2 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var currencyCode = \"GBP\";\r",
+							"var originLocationCode = \"NCE\";\r",
+							"var destinationLocationCode= \"JFK\";\r",
+							"var departureDate = \"2021-11-25\";\r",
+							"var returnDate = \"2021-11-30\";\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"{{currencyCode}}\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{originLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{returnDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"2\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"maxFlightOffers\": 250,\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Branded Fares Upsell",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price\r",
+							"var offer_id = \"1\";\r",
+							"\r",
+							"var choose_offer;\r",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == offer_id){\r",
+							"        choose_offer = data;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"//FlightOffer to price\r",
+							"postman.setEnvironmentVariable(\"price_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-offers-pricing\",\n        \"flightOffers\": [\n            {{price_flightOffer}}\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/upselling",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"upselling"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Cash  (2 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"type\": \"flight-order\",\n        \"flightOffers\": [\n            {\n                \"type\": \"flight-offer\",\n                \"id\": \"5\",\n                \"source\": \"GDS\",\n                \"instantTicketingRequired\": false,\n                \"paymentCardRequired\": false,\n                \"lastTicketingDate\": \"2021-05-07\",\n                \"itineraries\": [\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"MIA\",\n                                    \"at\": \"2021-05-08T08:10:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"JFK\",\n                                    \"at\": \"2021-05-08T11:01:00\"\n                                },\n                                \"carrierCode\": \"B6\",\n                                \"number\": \"2292\",\n                                \"aircraft\": {\n                                    \"code\": \"320\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"B6\"\n                                },\n                                \"duration\": \"PT2H51M\",\n                                \"id\": \"30\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    },\n                    {\n                        \"segments\": [\n                            {\n                                \"departure\": {\n                                    \"iataCode\": \"JFK\",\n                                    \"terminal\": \"5\",\n                                    \"at\": \"2021-05-10T12:00:00\"\n                                },\n                                \"arrival\": {\n                                    \"iataCode\": \"MIA\",\n                                    \"at\": \"2021-05-10T15:11:00\"\n                                },\n                                \"carrierCode\": \"B6\",\n                                \"number\": \"2593\",\n                                \"aircraft\": {\n                                    \"code\": \"320\"\n                                },\n                                \"operating\": {\n                                    \"carrierCode\": \"B6\"\n                                },\n                                \"duration\": \"PT3H11M\",\n                                \"id\": \"44\",\n                                \"numberOfStops\": 0,\n                                \"blacklistedInEU\": false\n                            }\n                        ]\n                    }\n                ],\n                \"price\": {\n                    \"currency\": \"GBP\",\n                    \"total\": \"2790.30\",\n                    \"base\": \"2538.00\",\n                    \"fees\": [\n                        {\n                            \"amount\": \"0.00\",\n                            \"type\": \"TICKETING\"\n                        }\n                    ],\n                    \"grandTotal\": \"2790.30\"\n                },\n                \"pricingOptions\": {\n                    \"fareType\": [\n                        \"PUBLISHED\"\n                    ],\n                    \"includedCheckedBagsOnly\": false,\n                    \"refundableFare\": false,\n                    \"noRestrictionFare\": false,\n                    \"noPenaltyFare\": false\n                },\n                \"validatingAirlineCodes\": [\n                    \"B6\"\n                ],\n                \"travelerPricings\": [\n                    {\n                        \"travelerId\": \"1\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"GBP\",\n                            \"total\": \"930.10\",\n                            \"base\": \"846.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"8.00\",\n                                    \"code\": \"AY\"\n                                },\n                                {\n                                    \"amount\": \"63.50\",\n                                    \"code\": \"US\"\n                                },\n                                {\n                                    \"amount\": \"6.40\",\n                                    \"code\": \"XF\"\n                                },\n                                {\n                                    \"amount\": \"6.20\",\n                                    \"code\": \"ZP\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"30\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            },\n                            {\n                                \"segmentId\": \"44\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"2\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"ADULT\",\n                        \"price\": {\n                            \"currency\": \"GBP\",\n                            \"total\": \"930.10\",\n                            \"base\": \"846.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"8.00\",\n                                    \"code\": \"AY\"\n                                },\n                                {\n                                    \"amount\": \"63.50\",\n                                    \"code\": \"US\"\n                                },\n                                {\n                                    \"amount\": \"6.40\",\n                                    \"code\": \"XF\"\n                                },\n                                {\n                                    \"amount\": \"6.20\",\n                                    \"code\": \"ZP\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"30\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            },\n                            {\n                                \"segmentId\": \"44\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"3\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"CHILD\",\n                        \"price\": {\n                            \"currency\": \"GBP\",\n                            \"total\": \"930.10\",\n                            \"base\": \"846.00\",\n                            \"taxes\": [\n                                {\n                                    \"amount\": \"8.00\",\n                                    \"code\": \"AY\"\n                                },\n                                {\n                                    \"amount\": \"63.50\",\n                                    \"code\": \"US\"\n                                },\n                                {\n                                    \"amount\": \"6.40\",\n                                    \"code\": \"XF\"\n                                },\n                                {\n                                    \"amount\": \"6.20\",\n                                    \"code\": \"ZP\"\n                                }\n                            ]\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"30\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            },\n                            {\n                                \"segmentId\": \"44\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            }\n                        ]\n                    },\n                    {\n                        \"travelerId\": \"4\",\n                        \"fareOption\": \"STANDARD\",\n                        \"travelerType\": \"HELD_INFANT\",\n                        \"associatedAdultId\": \"2\",\n                        \"price\": {\n                            \"currency\": \"GBP\",\n                            \"total\": \"0.00\",\n                            \"base\": \"0.00\"\n                        },\n                        \"fareDetailsBySegment\": [\n                            {\n                                \"segmentId\": \"30\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            },\n                            {\n                                \"segmentId\": \"44\",\n                                \"cabin\": \"ECONOMY\",\n                                \"fareBasis\": \"YREFY5\",\n                                \"brandedFare\": \"AR\",\n                                \"class\": \"Y\",\n                                \"includedCheckedBags\": {\n                                    \"quantity\": 0\n                                },\n                                \"amenities\": [\n                                    {\n                                        \"code\": \"02R\",\n                                        \"description\": \"DIRECT TV\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"056\",\n                                        \"description\": \"REFUNDABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"059\",\n                                        \"description\": \"CHANGEABLE TICKET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BRANDED_FARES\"\n                                    },\n                                    {\n                                        \"code\": \"0AT\",\n                                        \"description\": \"SNACK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0AW\",\n                                        \"description\": \"NON ALCOHOLIC DRINK\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CL\",\n                                        \"description\": \"FLY FI BROADBAND INTERNET\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"ENTERTAINMENT\"\n                                    },\n                                    {\n                                        \"code\": \"0MU\",\n                                        \"description\": \"CARRY ON UP TO 45 LI  22X14X9\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"PSA\",\n                                        \"description\": \"ADVANCE SEAT SELECTION\",\n                                        \"isChargeable\": false,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    },\n                                    {\n                                        \"code\": \"0AV\",\n                                        \"description\": \"ALCOHOLIC DRINK\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"MEAL\"\n                                    },\n                                    {\n                                        \"code\": \"0CC\",\n                                        \"description\": \"CHECKED BAG FIRST\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0CD\",\n                                        \"description\": \"CHECKED BAG SECOND\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"BAGGAGE\"\n                                    },\n                                    {\n                                        \"code\": \"0G6\",\n                                        \"description\": \"GROUP A BOARDING\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"TRAVEL_SERVICES\"\n                                    },\n                                    {\n                                        \"code\": \"PRS\",\n                                        \"description\": \"EXTRA LEGROOM\",\n                                        \"isChargeable\": true,\n                                        \"amenityType\": \"PRE_RESERVED_SEAT\"\n                                    }\n                                ]\n                            }\n                        ]\n                    }\n                ]\n            }\n        ],\n        \"travelers\": [\n            {\n                \"id\": \"1\",\n                \"dateOfBirth\": \"1983-11-17\",\n                \"name\": {\n                    \"firstName\": \"Herbert\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Herbert@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n                       {\n                \"id\": \"2\",\n                \"dateOfBirth\": \"1985-10-17\",\n                \"name\": {\n                    \"firstName\": \"Jennifer\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"emailAddress\": \"Jennifer@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080076\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"3\",\n                \"dateOfBirth\": \"2017-10-07\",\n                \"name\": {\n                    \"firstName\": \"Heike\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"FEMALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heike@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080077\"\n                        }\n                    ]\n                }\n            },\n            {\n                \"id\": \"4\",\n                \"dateOfBirth\": \"2020-12-07\",\n                \"name\": {\n                    \"firstName\": \"Heinz\",\n                    \"lastName\": \"Mustermann\"\n                },\n                \"gender\": \"MALE\",\n                \"contact\": {\n                    \"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n                    \"emailAddress\": \"Heinz@Mustermann.com\",\n                    \"phones\": [\n                        {\n                            \"deviceType\": \"MOBILE\",\n                            \"countryCallingCode\": \"33\",\n                            \"number\": \"480080078\"\n                        }\n                    ]\n                }\n            }\n        ],\n        \"remarks\": {\n            \"general\": [\n                {\n                    \"subType\": \"GENERAL_MISCELLANEOUS\",\n                    \"text\": \"ONLINE BOOKING FROM AMADEUS\"\n                }\n            ]\n        },\n        \"ticketingAgreement\": {\n            \"option\": \"DELAY_TO_CANCEL\",\n            \"delay\": \"6D\"\n        },\n        \"automatedProcess\": [\n            {\n                \"code\": \"IMMEDIATE\",\n                \"queue\": {\n                    \"number\": \"7\",\n                    \"category\": \"2\"\n                },\n                \"officeId\": \"LON1A08QC\"\n            }\n        ]\n    }\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

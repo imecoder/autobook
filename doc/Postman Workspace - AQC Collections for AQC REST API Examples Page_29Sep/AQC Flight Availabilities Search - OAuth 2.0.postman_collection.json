@@ -1,0 +1,742 @@
+{
+	"info": {
+		"_postman_id": "0ac25fd1-866d-4dc0-81d0-37827f49517f",
+		"name": "AQC Flight Availabilities Search - OAuth 2.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Flight Availabilities (1 ADT, 1 CHD, 1 INF)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"FRA\";",
+							"var destinationLocationCode= \"WAW\";",
+							"var departureDate = \"2021-11-25\";",
+							"var departureTime = \"08:30:00\";",
+							"var returnDate = \"2021-11-30\";",
+							"var returnTime = \"16:30:00\";",
+							"var timeWindow = \"2H\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"departureTime\", departureTime)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"postman.setEnvironmentVariable(\"returnTime\", returnTime)",
+							"postman.setEnvironmentVariable(\"timeWindow\", timeWindow)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": 1,\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\",\r\n                \"time\": \"{{departureTime}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": 1,\r\n            \"travelerType\": \"ADULT\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"travelerType\": \"CHILD\"\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"excludeAllotments\": false,\r\n        \"flightFilters\": {\r\n            \"carrierRestrictions\": {\r\n                \"blacklistedInEUAllowed\": true\r\n            },\r\n            \"cabinRestrictions\": [\r\n                {\r\n                    \"cabin\": \"PREMIUM_ECONOMY\",\r\n                    \"originDestinationIds\": [\r\n                        1\r\n                    ]\r\n                }\r\n            ],\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": 2,\r\n                \"airportChangeAllowed\": false,\r\n                \"technicalStopsAllowed\": true\r\n            }\r\n        },\r\n        \"includeClosedContent\": false,\r\n        \"class\": \"A\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities (1ADT)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var originLocationCode = \"PAR\";\r",
+							"var destinationLocationCode = \"LON\";\r",
+							"var departureDate = today.addDays(2).toISOString().substr(0, 10);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"SearchCriteria\": {\r\n        \"excludeAllotments\": false,\r\n        \"flightFilters\": {\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": 2,\r\n                \"airportChangeAllowed\": false,\r\n                \"technicalStopsAllowed\": true\r\n            }\r\n        },\r\n        \"includeClosedContent\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities by Airline (1ADT)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var originLocationCode = \"PAR\";\r",
+							"var destinationLocationCode = \"LON\";\r",
+							"var departureDate = today.addDays(2).toISOString().substr(0, 10);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"excludeAllotments\": false,\r\n        \"flightFilters\": {\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": 2\r\n            },\r\n            \"carrierRestrictions\": {\r\n                \"blacklistedInEUAllowed\": true,\r\n                \"includedCarrierCodes\": [\r\n                    \"AF\"\r\n                ]\r\n            }\r\n        },\r\n        \"includeClosedContent\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities with departureDateTime and arrivalDateTime (1ADT)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"CDG\",\r\n            \"destinationLocationCode\": \"JFK\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"2022-03-08\",\r\n                \"time\": \"09:55:00\"\r\n            },\r\n            \"arrivalDateTime\": {\r\n                \"date\": \"2022-03-08\",\r\n                \"time\": \"12:35:00\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"excludeAllotments\": false,\r\n        \"flightFilters\": {\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": 2,\r\n                \"airportChangeAllowed\": false,\r\n                \"technicalStopsAllowed\": true\r\n            }\r\n        },\r\n        \"includeClosedContent\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price from availability",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the availability to price\r",
+							"var avail_id = \"1\";\r",
+							"\r",
+							"var choose_avail;\r",
+							"postman.setEnvironmentVariable(\"originDestinationId\", avail_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"avail_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == avail_id){\r",
+							"        choose_avail = data.segments;\r",
+							"    }\r",
+							"}\r",
+							"//remove carrierCode as empty (bug to fix)\r",
+							"delete choose_avail[0].operating;\r",
+							"//segment to price\r",
+							"postman.setEnvironmentVariable(\"price_segment\", JSON.stringify(choose_avail))\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"preCombine\": false,\r\n        \"isRoundTrip\": false,\r\n        \"type\": \"flight-offers-pricing\",\r\n        \"flightOffers\": [\r\n            {\r\n                \"type\": \"flight-offer\",\r\n                \"id\": \"1\",\r\n                \"source\": \"GDS\",\r\n                \"instantTicketingRequired\": false,\r\n                \"nonHomogeneous\": false,\r\n                \"oneWay\": false,\r\n                \"lastTicketingDate\": \"2021-06-10\",\r\n                \"numberOfBookableSeats\": 2,\r\n                \"itineraries\": [\r\n                    {\r\n                        \"duration\": \"PT1H20M\",\r\n                        \"segments\": {{price_segment}}\r\n                    }\r\n                ],\r\n                \"pricingOptions\": {\r\n                    \"fareType\": [\r\n                        \"PUBLISHED\"\r\n                    ],\r\n                    \"includedCheckedBagsOnly\": false\r\n                },\r\n                \"validatingAirlineCodes\": [\r\n                    \"BA\"\r\n                ],\r\n                \"travelerPricings\": [\r\n                    {\r\n                        \"travelerId\": \"1\",\r\n                        \"fareOption\": \"STANDARD\",\r\n                        \"travelerType\": \"ADULT\",\r\n                        \"fareDetailsBySegment\": [\r\n                            {\r\n                                \"segmentId\": {{originDestinationId}},\r\n                                \"fareBasis\": \"OZ0HO\",\r\n                                \"brandedFare\": \"NOBAG\",\r\n                                \"class\": \"O\",\r\n                                \"includedCheckedBags\": {\r\n                                    \"quantity\": 0\r\n                                }\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ],\r\n        \"payments\": []\r\n    },\r\n    \"forceClass\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing?include=bags",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					],
+					"query": [
+						{
+							"key": "include",
+							"value": "bags"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities cabin restrictions",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var originLocationCode = \"PAR\";\r",
+							"var destinationLocationCode = \"LON\";\r",
+							"var departureDate = today.addDays(8).toISOString().substr(0, 10);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\",\r\n        \"LTC\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"excludeAllotments\": false,\r\n        \"flightFilters\": {\r\n            \"cabinRestrictions\": [\r\n                {\r\n                    \"cabin\": \"BUSINESS\",\r\n                    \"originDestinationIds\": [\r\n                        \"1\"\r\n                    ]\r\n                }\r\n            ],\r\n            \"connectionRestriction\": {\r\n                \"maxNumberOfConnections\": 2,\r\n                \"airportChangeAllowed\": false,\r\n                \"technicalStopsAllowed\": true\r\n            }\r\n        },\r\n        \"includeClosedContent\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities Closed content",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var originLocationCode = \"PAR\";\r",
+							"var destinationLocationCode = \"LON\";\r",
+							"var departureDate = today.addDays(8).toISOString().substr(0, 10);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\",\"LTC\"\r\n    ],\r\n  \"searchCriteria\": {\r\n    \"excludeAllotments\": false,\r\n    \"flightFilters\": {\r\n      \"carrierRestrictions\": {\r\n        \"includedCarrierCodes\": [\r\n          \"BA\",\"U2\",\"AF\"\r\n        ]\r\n      },\r\n      \"connectionRestriction\": {\r\n        \"maxNumberOfConnections\": 2,\r\n        \"airportChangeAllowed\": false,\r\n        \"technicalStopsAllowed\": true\r\n      }\r\n    },\r\n    \"includeClosedContent\": true\r\n\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Flight Availabilities warning PYTON",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"\r",
+							"//Criterias\r",
+							"var originLocationCode = \"PAR\";\r",
+							"var destinationLocationCode = \"LON\";\r",
+							"var departureDate = today.addDays(8).toISOString().substr(0, 10);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)\r",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)\r",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)\r",
+							"\r",
+							"Date.prototype.addDays = function(days) {\r",
+							"    var date = new Date(this.valueOf());\r",
+							"    date.setDate(date.getDate() + days);\r",
+							"    return date;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"avail_responseBody\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTime\": {\r\n                \"date\": \"{{departureDate}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"PYTON\"\r\n    ],\r\n  \"searchCriteria\": {\r\n    \"excludeAllotments\": false,\r\n    \"flightFilters\": {\r\n      \"carrierRestrictions\": {\r\n        \"includedCarrierCodes\": [\r\n          \"BA\",\"U2\",\"AF\"\r\n        ]\r\n      },\r\n      \"connectionRestriction\": {\r\n        \"maxNumberOfConnections\": 2,\r\n        \"airportChangeAllowed\": false,\r\n        \"technicalStopsAllowed\": true\r\n      }\r\n    },\r\n    \"includeClosedContent\": false\r\n\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1//shopping/availability/flight-availabilities",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"",
+						"shopping",
+						"availability",
+						"flight-availabilities"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
