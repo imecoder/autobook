@@ -1,0 +1,7 @@
+2022-04-05 22:56:40,420 MainThread mynet.py   [077]: -------------- request --------------
+2022-04-05 22:56:40,420 MainThread mynet.py   [080]: url = https://test.travel.api.amadeus.com/v1/security/oauth2/token
+2022-04-05 22:56:40,420 MainThread mynet.py   [081]: params = {}
+2022-04-05 22:56:40,420 MainThread mynet.py   [082]: headers = {"Content-Type": "application/x-www-form-urlencoded"}
+2022-04-05 22:56:40,420 MainThread mynet.py   [083]: payload = grant_type=client_credentials&client_id=gtAD9AaLtE8iNSNeuvrpHKZq47qucBTo&client_secret=Z2mjUGv3hkZx8oAk
+2022-04-05 22:56:49,907 MainThread mynet.py   [101]: 网络连接失败 : HTTPSConnectionPool(host='test.travel.api.amadeus.com', port=443): Max retries exceeded with url: /v1/security/oauth2/token (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1131)')))
+2022-04-05 22:56:49,914 MainThread booking.py [030]: get_access_token 运行失败
