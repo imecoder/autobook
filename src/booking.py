@@ -126,8 +126,8 @@ if __name__ == '__main__':
     ama_client_ref = 'LOSN828UU-' + str(time.time())
     # ama_client_ref = 'LOSN828UU-1649074792.4925225'
 
-    import flight_offers_case1
-    payload = flight_offers_case1.get_payload()
+    import flight_offers_case2
+    payload = flight_offers_case2.get_payload()
 
     ret, flight_offers_result = fun_flight_offers(access_token, ama_client_ref, payload)
     if ret == False:
@@ -137,12 +137,12 @@ if __name__ == '__main__':
     # if ret == False :
     #     exit(-1)
 
-    import flight_offers_case1again
-    payload = flight_offers_case1again.get_payload()
-
-    ret, flight_offers_result = fun_flight_offers(access_token, ama_client_ref, payload)
-    if ret == False:
-        exit(-1)
+    # import flight_offers_case1again
+    # payload = flight_offers_case1again.get_payload()
+    #
+    # ret, flight_offers_result = fun_flight_offers(access_token, ama_client_ref, payload)
+    # if ret == False:
+    #     exit(-1)
 
     book_id = fun_flight_orders(access_token, ama_client_ref, flight_offers_result)
     if ret == "":

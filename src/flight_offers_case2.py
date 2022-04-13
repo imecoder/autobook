@@ -12,7 +12,8 @@ def get_payload():
                 "originLocationCode": "LOS",
                 "destinationLocationCode": "AMS",
                 "departureDateTimeRange": {
-                    "date": "2022-04-03"
+                    "date": "2022-04-10",
+                    "dateWindow": "I3D"
                 }
             },
             {
@@ -20,7 +21,8 @@ def get_payload():
                 "originLocationCode": "AMS",
                 "destinationLocationCode": "LOS",
                 "departureDateTimeRange": {
-                    "date": "2022-04-07"
+                    "date": "2022-04-14",
+                    "dateWindow": "I3D"
                 }
             }
         ],
@@ -60,8 +62,6 @@ def get_payload():
         ],
         "searchCriteria": {
             "maxFlightOffers": 1,
-            "flightFilters": {
-            },
             "pricingOptions": {
                 "fareType": [
                     "PUBLISHED"
