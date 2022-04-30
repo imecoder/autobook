@@ -1,0 +1,177 @@
+{
+    "warnings": [
+        {
+            "code": 0,
+            "title": "PricingOrFareBasisDiscrepancyWarning",
+            "detail": "Actual price and/or fare basis for some passengers is different from requested ones",
+            "status": 200
+        }
+    ],
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2021-03-05",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "PMI",
+                                    "at": "2021-04-20T12:25:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "MAD",
+                                    "terminal": "2",
+                                    "at": "2021-04-20T13:50:00"
+                                },
+                                "carrierCode": "UX",
+                                "number": "6048",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "UX"
+                                },
+                                "duration": "PT1H25M",
+                                "id": "24",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "MAD",
+                                    "terminal": "2",
+                                    "at": "2021-04-25T08:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "PMI",
+                                    "at": "2021-04-25T09:45:00"
+                                },
+                                "carrierCode": "UX",
+                                "number": "6031",
+                                "aircraft": {
+                                    "code": "E90"
+                                },
+                                "operating": {
+                                    "carrierCode": "UX"
+                                },
+                                "duration": "PT1H25M",
+                                "id": "68",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "35.97",
+                    "base": "6.74",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "35.97",
+                    "billingCurrency": "EUR"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "UX"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "SPANISH_BALEARIC_RESIDENT",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "35.97",
+                            "base": "6.74",
+                            "taxes": [
+                                {
+                                    "amount": "21.50",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "1.20",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "6.53",
+                                    "code": "QV"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "24",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ZD7Y4L",
+                                "brandedFare": "LITE",
+                                "class": "Z",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "68",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ZD7Y4L",
+                                "brandedFare": "LITE",
+                                "class": "Z",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "bookingRequirements": {
+            "travelerRequirements": [
+                {
+                    "travelerId": "1",
+                    "dateOfBirthRequired": true,
+                    "spanishResidentDiscountRequired": true
+                }
+            ]
+        }
+    },
+    "dictionaries": {
+        "locations": {
+            "MAD": {
+                "cityCode": "MAD",
+                "countryCode": "ES"
+            },
+            "PMI": {
+                "cityCode": "PMI",
+                "countryCode": "ES"
+            }
+        }
+    }
+}

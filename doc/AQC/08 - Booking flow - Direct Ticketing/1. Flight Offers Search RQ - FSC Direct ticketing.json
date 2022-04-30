@@ -1,0 +1,46 @@
+{
+    "originDestinations": [
+        {
+            "id": "1",
+            "originLocationCode": "PAR",
+            "destinationLocationCode": "NCE",
+            "departureDateTimeRange": {
+                "date": "2021-10-11"
+            }
+        }
+    ],
+    "travelers": [
+        {
+            "id": "1",
+            "travelerType": "ADULT",
+            "fareOptions": [
+                "STANDARD"
+            ]
+        }
+    ],
+    "sources": [
+        "GDS"
+    ],
+    "searchCriteria": {
+        "addOneWayOffers": false,
+        "flightFilters": {
+            "carrierRestrictions": {
+                "includedCarrierCodes": [
+                    "6X"
+                ]
+            }
+        },
+        "additionalInformation": {
+            "chargeableCheckedBags": true,
+            "brandedFares": true,
+            "fareRules": false
+        },
+        "pricingOptions": {
+            "fareType": [
+                "PUBLISHED"
+            ]
+        },
+        "maxFlightOffers": 20
+    },
+    "currencyCode": "EUR"
+}

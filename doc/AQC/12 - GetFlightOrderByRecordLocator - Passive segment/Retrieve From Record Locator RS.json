@@ -1,0 +1,177 @@
+{
+    "meta": {
+        "count": 1,
+        "links": {
+            "self": "https://test.travel.api.amadeus.com/v1/booking/flight-orders/by-reference?reference=WRWVCJ&originSystemCode=GDS"
+        }
+    },
+    "data": [
+        {
+            "type": "flight-order",
+            "id": "eJzTd9cPDwoPc%2FYCAAwDAok%3D",
+            "queuingOfficeId": "NCE1A01AP",
+            "associatedRecords": [
+                {
+                    "reference": "RECLOC",
+                    "originSystemCode": "AA",
+                    "flightOfferId": "1"
+                },
+                {
+                    "reference": "WRWVCJ",
+                    "creationDate": "2021-08-31T16:58:00",
+                    "originSystemCode": "GDS",
+                    "flightOfferId": "1"
+                }
+            ],
+            "flightOffers": [
+                {
+                    "type": "flight-offer",
+                    "id": "1",
+                    "source": "GDS",
+                    "nonHomogeneous": false,
+                    "itineraries": [
+                        {
+                            "segments": [
+                                {
+                                    "departure": {
+                                        "iataCode": "LHR",
+                                        "terminal": "3",
+                                        "at": "2021-11-24T10:35:00"
+                                    },
+                                    "arrival": {
+                                        "iataCode": "MIA",
+                                        "at": "2021-11-24T15:35:00"
+                                    },
+                                    "carrierCode": "AA",
+                                    "number": "39",
+                                    "aircraft": {
+                                        "code": "772"
+                                    },
+                                    "operating": {},
+                                    "bookingStatus": "CONFIRMED",
+                                    "segmentType": "PASSIVE",
+                                    "isFlown": false,
+                                    "id": "4",
+                                    "numberOfStops": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "price": {
+                        "currency": "EUR",
+                        "total": "2143.49",
+                        "base": "1835.00",
+                        "grandTotal": "2143.49"
+                    },
+                    "pricingOptions": {
+                        "fareType": [
+                            "PUBLISHED"
+                        ]
+                    },
+                    "validatingAirlineCodes": [
+                        "AA"
+                    ],
+                    "travelerPricings": [
+                        {
+                            "travelerId": "1",
+                            "travelerType": "ADULT",
+                            "price": {
+                                "currency": "EUR",
+                                "total": "2143.49",
+                                "base": "1835.00",
+                                "taxes": [
+                                    {
+                                        "amount": "95.73",
+                                        "code": "GB"
+                                    },
+                                    {
+                                        "amount": "10.39",
+                                        "code": "R1"
+                                    },
+                                    {
+                                        "amount": "49.12",
+                                        "code": "UB"
+                                    },
+                                    {
+                                        "amount": "16.24",
+                                        "code": "US"
+                                    },
+                                    {
+                                        "amount": "3.37",
+                                        "code": "XA"
+                                    },
+                                    {
+                                        "amount": "5.96",
+                                        "code": "XY"
+                                    },
+                                    {
+                                        "amount": "5.10",
+                                        "code": "YC"
+                                    },
+                                    {
+                                        "amount": "122.58",
+                                        "code": "YR"
+                                    }
+                                ]
+                            },
+                            "fareDetailsBySegment": [
+                                {
+                                    "segmentId": "4",
+                                    "cabin": "ECONOMY",
+                                    "fareBasis": "Y1N0C9S0",
+                                    "class": "Y",
+                                    "includedCheckedBags": {
+                                        "quantity": 1
+                                    },
+                                    "mealServices": [
+                                        {
+                                            "label": "Lunch"
+                                        },
+                                        {
+                                            "label": "Snack"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "travelers": [
+                {
+                    "id": "1",
+                    "name": {
+                        "firstName": "MICHELLE",
+                        "lastName": "STANLEY"
+                    }
+                }
+            ],
+            "ticketingAgreement": {
+                "option": "CONFIRM"
+            },
+            "contacts": [
+                {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "number": "NCE 33492943273 - AMADEUS TCH CNS API TEAMS - A"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "dictionaries": {
+        "locations": {
+            "MIA": {
+                "cityCode": "MIA",
+                "countryCode": "US"
+            },
+            "LHR": {
+                "cityCode": "LON",
+                "countryCode": "GB"
+            }
+        }
+    }
+}

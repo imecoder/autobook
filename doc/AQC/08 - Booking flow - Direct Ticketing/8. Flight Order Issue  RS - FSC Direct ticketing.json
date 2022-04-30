@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "count": 1,
+    "links": {
+      "self": "{host}/v1/booking/flight-orders/eJzTd9cPdfcOi%2FAGAAu7AoY%3D/issuance"
+    }
+  },
+  "data": {
+    "type": "flight-order",
+    "id": "eJzTd9cPdfcOi%2FAGAAu7AoY%3D",
+    "queuingOfficeId": "PAR1A015U",
+    "associatedRecords": [
+      {
+        "reference": "UGKVXK",
+        "originSystemCode": "6X",
+        "flightOfferId": "1"
+      },
+      {
+        "reference": "UGKVXK",
+        "creationDate": "2021-08-17T16:21:00",
+        "originSystemCode": "GDS",
+        "flightOfferId": "1"
+      }
+    ],
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "nonHomogeneous": false,
+        "lastTicketingDate": "2021-10-11",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "CDG",
+                  "at": "2021-10-11T10:00:00"
+                },
+                "arrival": {
+                  "iataCode": "NCE",
+                  "at": "2021-10-11T11:00:00"
+                },
+                "carrierCode": "6X",
+                "number": "688",
+                "aircraft": {
+                  "code": "319"
+                },
+                "operating": {},
+                "bookingStatus": "CONFIRMED",
+                "segmentType": "ACTIVE",
+                "isFlown": false,
+                "id": "1",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "335.66",
+          "base": "200.00",
+          "grandTotal": "335.66"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "PUBLISHED"
+          ]
+        },
+        "validatingAirlineCodes": [
+          "6X"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "335.66",
+              "base": "200.00",
+              "taxes": [
+                {
+                  "amount": "16.36",
+                  "code": "FR"
+                },
+                {
+                  "amount": "11.27",
+                  "code": "IZ"
+                },
+                {
+                  "amount": "9.00",
+                  "code": "O4"
+                },
+                {
+                  "amount": "12.03",
+                  "code": "QW"
+                }
+              ]
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "1",
+                "cabin": "BUSINESS",
+                "fareBasis": "C6UI",
+                "class": "C",
+                "includedCheckedBags": {
+                  "quantity": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "travelers": [
+      {
+        "id": "1",
+        "dateOfBirth": "1982-01-16",
+        "name": {
+          "firstName": "STEPHANE",
+          "lastName": "MARTIN"
+        },
+        "contact": {
+          "purpose": "STANDARD",
+          "phones": [
+            {
+              "deviceType": "MOBILE",
+              "countryCallingCode": "33",
+              "number": "487692704"
+            }
+          ]
+        }
+      }
+    ],
+    "remarks": {
+      "general": [
+        {
+          "subType": "GENERAL_MISCELLANEOUS",
+          "text": "PRICING ENTRY FXP/SBF/FF-BUSCDETE/R,P,VC-6X,FC-EUR,PAR.PAR/P1",
+          "flightOfferIds": [
+            "1"
+          ]
+        }
+      ]
+    },
+    "ticketingAgreement": {
+      "option": "CONFIRM"
+    },
+    "contacts": [
+      {
+        "addresseeName": {
+          "firstName": "TEST AMADEUS"
+        },
+        "address": {
+          "lines": [
+            "485 ROUTE DU PIN MONTARD"
+          ],
+          "postalCode": "06902",
+          "countryCode": "FR",
+          "cityName": "SOPHIA ANTIPOLIS CEDEX"
+        },
+        "purpose": "STANDARD",
+        "phones": [
+          {
+            "deviceType": "LANDLINE",
+            "countryCallingCode": "33",
+            "number": "480080070"
+          },
+          {
+            "deviceType": "MOBILE",
+            "countryCallingCode": "33",
+            "number": "88888888"
+          },
+          {
+            "deviceType": "FAX",
+            "countryCallingCode": "33",
+            "number": "480080070"
+          }
+        ],
+        "companyName": "AMADEUS",
+        "emailAddress": "SUPPORT@MAIL.COM"
+      },
+      {
+        "addresseeName": {
+          "firstName": "INVOICE CONTACT"
+        },
+        "address": {
+          "lines": [
+            "20 RUE DE INVOICE"
+          ],
+          "countryCode": "FR",
+          "cityName": "ISSY"
+        },
+        "purpose": "INVOICE"
+      }
+    ],
+    "tickets": [
+      {
+        "documentType": "ETICKET",
+        "documentNumber": "172-2400048600",
+        "documentStatus": "ISSUED",
+        "travelerId": "1",
+        "segmentIds": [
+          "1"
+        ]
+      }
+    ]
+  },
+  "dictionaries": {
+    "locations": {
+      "NCE": {
+        "cityCode": "NCE",
+        "countryCode": "FR"
+      },
+      "CDG": {
+        "cityCode": "PAR",
+        "countryCode": "FR"
+      }
+    }
+  }
+}

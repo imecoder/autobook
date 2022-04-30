@@ -1,0 +1,2 @@
+GET: https://test.travel.api.amadeus.com/v1/booking/flight-orders/by-reference?reference=WRWVCJ&originSystemCode=GDS
+

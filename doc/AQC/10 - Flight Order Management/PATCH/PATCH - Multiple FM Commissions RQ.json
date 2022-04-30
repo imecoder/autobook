@@ -1,0 +1,38 @@
+{
+    "data": {
+        "type": "flight-order",
+        "commissions": [
+            {
+                "controls": [
+                    "MANUAL"
+                ],
+                "values": [
+                    {
+                        "commissionType": "NEW",
+                        "amount": "123.45"
+                    },
+                    {
+                        "commissionType": "VAT_ON_NEW"
+                    }
+                ],
+                "travelerIds": [
+                    "2"
+                ]
+            },
+            {
+                "controls": [
+                    "MANUAL"
+                ],
+                "values": [
+                    {
+                        "commissionType": "NEW",
+                        "percentage": "15"
+                    }
+                ],
+                "travelerIds": [
+                    "1"
+                ]
+            }
+        ]
+    }
+}

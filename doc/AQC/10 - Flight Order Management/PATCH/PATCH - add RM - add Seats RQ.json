@@ -1,0 +1,56 @@
+{
+    "data": {
+        "type": "flight-order",
+        "id": "eJzTd9f3c%252FX1tXAGAAssAk4%253D",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "additionalServices": {
+                                    "chargeableSeatNumber": "14D"
+                                }
+                            },
+                            {
+                                "segmentId": "3",
+                                "additionalServices": {
+                                    "chargeableSeatNumber": "8C"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "additionalServices": {
+                                    "chargeableSeatNumber": "14E"
+                                }
+                            },
+                            {
+                                "segmentId": "3",
+                                "additionalServices": {
+                                    "chargeableSeatNumber": "8D"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "remarks": {
+            "general": [
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "Seats added - Tue Sep 28 2021 09:08:41 GMT+0200 (Mitteleuropäische Sommerzeit)"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,319 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2021-08-06",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "CDG",
+                                    "terminal": "2F",
+                                    "at": "2021-08-11T06:25:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "FCO",
+                                    "terminal": "1",
+                                    "at": "2021-08-11T08:25:00"
+                                },
+                                "carrierCode": "AZ",
+                                "number": "317",
+                                "aircraft": {
+                                    "code": "320"
+                                },
+                                "operating": {
+                                    "carrierCode": "AZ"
+                                },
+                                "duration": "PT2H",
+                                "id": "1",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "FCO",
+                                    "terminal": "1",
+                                    "at": "2021-08-21T21:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "CDG",
+                                    "terminal": "2F",
+                                    "at": "2021-08-21T23:30:00"
+                                },
+                                "carrierCode": "AZ",
+                                "number": "332",
+                                "aircraft": {
+                                    "code": "320"
+                                },
+                                "operating": {
+                                    "carrierCode": "AZ"
+                                },
+                                "duration": "PT2H10M",
+                                "id": "2",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "GBP",
+                    "total": "213.10",
+                    "base": "53.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "213.10",
+                    "billingCurrency": "GBP"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "AZ"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "102.00",
+                            "base": "25.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.00",
+                                    "code": "EX"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "FR"
+                                },
+                                {
+                                    "amount": "6.50",
+                                    "code": "HB"
+                                },
+                                {
+                                    "amount": "13.80",
+                                    "code": "IT"
+                                },
+                                {
+                                    "amount": "1.00",
+                                    "code": "IZ"
+                                },
+                                {
+                                    "amount": "0.90",
+                                    "code": "MJ"
+                                },
+                                {
+                                    "amount": "1.30",
+                                    "code": "O4"
+                                },
+                                {
+                                    "amount": "10.40",
+                                    "code": "QX"
+                                },
+                                {
+                                    "amount": "2.80",
+                                    "code": "VT"
+                                },
+                                {
+                                    "amount": "5.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "19.00",
+                                    "code": "YR"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "95.10",
+                            "base": "25.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.00",
+                                    "code": "EX"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "FR"
+                                },
+                                {
+                                    "amount": "6.50",
+                                    "code": "HB"
+                                },
+                                {
+                                    "amount": "6.90",
+                                    "code": "IT"
+                                },
+                                {
+                                    "amount": "1.00",
+                                    "code": "IZ"
+                                },
+                                {
+                                    "amount": "0.90",
+                                    "code": "MJ"
+                                },
+                                {
+                                    "amount": "1.30",
+                                    "code": "O4"
+                                },
+                                {
+                                    "amount": "10.40",
+                                    "code": "QX"
+                                },
+                                {
+                                    "amount": "2.80",
+                                    "code": "VT"
+                                },
+                                {
+                                    "amount": "5.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "19.00",
+                                    "code": "YR"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1CH",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1CH",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "1",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "16.00",
+                            "base": "3.00",
+                            "taxes": [
+                                {
+                                    "amount": "13.00",
+                                    "code": "YR"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1IN",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ORLGFR1IN",
+                                "brandedFare": "ECOLIGHT",
+                                "class": "O",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "bookingRequirements": {
+            "travelerRequirements": [
+                {
+                    "travelerId": "3",
+                    "dateOfBirthRequired": true
+                }
+            ]
+        }
+    },
+    "dictionaries": {
+        "locations": {
+            "FCO": {
+                "cityCode": "ROM",
+                "countryCode": "IT"
+            },
+            "CDG": {
+                "cityCode": "PAR",
+                "countryCode": "FR"
+            }
+        }
+    }
+}

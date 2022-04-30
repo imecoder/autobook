@@ -1,0 +1,58 @@
+{
+    "data": {
+        "type": "flight-order",
+        "travelers": [
+           {
+        "id": "1",
+        "dateOfBirth": "1982-12-22",
+        "name": {
+          "firstName": "JOHN",
+          "lastName": "SMITH"
+        },
+        "gender": "MALE",
+        "contact": {
+                    "emailAddress": "JHSMITH@gmail.com",
+                    "phones": [
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "44",
+                            "number": "7000001200"
+                        }
+                    ]
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "birthPlace": "NICE",
+                        "issuanceLocation": "NICE",
+                        "issuanceDate": "2020-04-14",
+                        "number": "FR3456789",
+                        "expiryDate": "2030-04-14",
+                        "issuanceCountry": "FR",
+                        "validityCountry": "FR",
+                        "nationality": "FR",
+                        "holder":true
+                    }
+                ]
+            }
+        ],
+        "automatedProcess": [
+            {
+                "code": "IMMEDIATE",
+                "queue": {
+                    "number": "2",
+                    "category": "0"
+                },
+                "officeId": "MIA1A0111"
+            }
+        ],
+        "remarks": {
+            "general": [
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "CUSTOMER WANTS AN UPGRADE"
+                }
+            ]
+        }
+    }
+}

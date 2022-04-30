@@ -1,0 +1,66 @@
+{
+    "currencyCode": "EUR",
+    "originDestinations": [
+        {
+            "id": "1",
+            "originLocationCode": "AMS",
+            "destinationLocationCode": "BCN",
+            "departureDateTimeRange": {
+                "date": "2021-09-20"
+            }
+        },
+        {
+            "id": "2",
+            "originLocationCode": "BCN",
+            "destinationLocationCode": "AMS",
+            "departureDateTimeRange": {
+                "date": "2021-09-25"
+            }
+        }
+    ],
+    "travelers": [
+        {
+            "id": "1",
+            "travelerType": "ADULT",
+            "fareOptions": [
+                "STANDARD"
+            ]
+        },
+        {
+            "id": "2",
+            "travelerType": "ADULT",
+            "fareOptions": [
+                "STANDARD"
+            ]
+        },
+        {
+            "id": "3",
+            "travelerType": "CHILD",
+            "fareOptions": [
+                "STANDARD"
+            ]
+        },
+        {
+            "id": "4",
+            "travelerType": "HELD_INFANT",
+            "associatedAdultId": "1",
+            "fareOptions": [
+                "STANDARD"
+                
+            ]
+        }
+    ],
+    "sources": [
+        "PYTON"
+    ],
+    "searchCriteria": {
+        "pricingOptions": {
+            "fareType": [
+                "PUBLISHED"
+            ]
+        },
+        "additionalInformation": {
+            "chargeableCheckedBags": "true"
+        }
+    }
+}

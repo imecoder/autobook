@@ -1,0 +1,3243 @@
+{
+    "meta": {
+        "count": 4
+    },
+    "data": [
+        {
+            "type": "flight-offer",
+            "id": "2",
+            "source": "GDS",
+            "instantTicketingRequired": false,
+            "paymentCardRequired": false,
+            "lastTicketingDate": "2021-09-28",
+            "itineraries": [
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-08T14:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-10-08T16:25:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1673",
+                            "aircraft": {
+                                "code": "73J"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "terminal": "1",
+                                "at": "2021-10-15T06:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-15T08:40:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1662",
+                            "aircraft": {
+                                "code": "73H"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "71",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "GBP",
+                "total": "330.30",
+                "base": "109.00",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "330.30"
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false,
+                "refundableFare": false,
+                "noRestrictionFare": false,
+                "noPenaltyFare": false
+            },
+            "validatingAirlineCodes": [
+                "KL"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "105.70",
+                        "base": "37.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "105.70",
+                        "base": "37.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "99.70",
+                        "base": "31.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "2",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "19.20",
+                        "base": "4.00",
+                        "taxes": [
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBLG",
+                            "brandedFare": "LIGHT2",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06A",
+                                    "description": "LIGHT MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": true,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "3",
+            "source": "GDS",
+            "instantTicketingRequired": false,
+            "paymentCardRequired": false,
+            "lastTicketingDate": "2021-09-28",
+            "itineraries": [
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-08T14:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-10-08T16:25:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1673",
+                            "aircraft": {
+                                "code": "73J"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "terminal": "1",
+                                "at": "2021-10-15T06:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-15T08:40:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1662",
+                            "aircraft": {
+                                "code": "73H"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "71",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "GBP",
+                "total": "453.30",
+                "base": "232.00",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "453.30"
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false,
+                "refundableFare": false,
+                "noRestrictionFare": false,
+                "noPenaltyFare": false
+            },
+            "validatingAirlineCodes": [
+                "KL"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "148.70",
+                        "base": "80.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "148.70",
+                        "base": "80.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "132.70",
+                        "base": "64.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "2",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "23.20",
+                        "base": "8.00",
+                        "taxes": [
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PBST",
+                            "brandedFare": "STANDARD",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06B",
+                                    "description": "STANDARD MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "4",
+            "source": "GDS",
+            "instantTicketingRequired": false,
+            "paymentCardRequired": false,
+            "lastTicketingDate": "2021-09-28",
+            "itineraries": [
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-08T14:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-10-08T16:25:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1673",
+                            "aircraft": {
+                                "code": "73J"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "terminal": "1",
+                                "at": "2021-10-15T06:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-15T08:40:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1662",
+                            "aircraft": {
+                                "code": "73H"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "71",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "GBP",
+                "total": "648.30",
+                "base": "427.00",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "648.30"
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false,
+                "refundableFare": false,
+                "noRestrictionFare": false,
+                "noPenaltyFare": false
+            },
+            "validatingAirlineCodes": [
+                "KL"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "215.70",
+                        "base": "147.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "215.70",
+                        "base": "147.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "186.70",
+                        "base": "118.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "2",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "30.20",
+                        "base": "15.00",
+                        "taxes": [
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "GS55PEFX",
+                            "brandedFare": "FLEX",
+                            "class": "G",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0C3",
+                                    "description": "CHECKED BAG 1PC OF 23KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0MR",
+                                    "description": "CABIN BAGGAGE 12KG 1PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "050",
+                                    "description": "CHOICE OF STANDARD SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "06D",
+                                    "description": "FLEX MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "058",
+                                    "description": "UPGRADE ELIGIBILITY",
+                                    "isChargeable": true,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "5",
+            "source": "GDS",
+            "instantTicketingRequired": false,
+            "paymentCardRequired": false,
+            "lastTicketingDate": "2021-10-08",
+            "itineraries": [
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-08T14:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-10-08T16:25:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1673",
+                            "aircraft": {
+                                "code": "73J"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "terminal": "1",
+                                "at": "2021-10-15T06:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-10-15T08:40:00"
+                            },
+                            "carrierCode": "KL",
+                            "number": "1662",
+                            "aircraft": {
+                                "code": "73H"
+                            },
+                            "operating": {
+                                "carrierCode": "KL"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "71",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "GBP",
+                "total": "3157.30",
+                "base": "2936.00",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "3157.30"
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false,
+                "refundableFare": false,
+                "noRestrictionFare": false,
+                "noPenaltyFare": false
+            },
+            "validatingAirlineCodes": [
+                "KL"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "1080.70",
+                        "base": "1012.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "1080.70",
+                        "base": "1012.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "878.70",
+                        "base": "810.00",
+                        "taxes": [
+                            {
+                                "amount": "6.70",
+                                "code": "VV"
+                            },
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "10.80",
+                                "code": "CJ"
+                            },
+                            {
+                                "amount": "22.00",
+                                "code": "YQ"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            },
+                            {
+                                "amount": "14.00",
+                                "code": "RN"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 2
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "2",
+                    "price": {
+                        "currency": "GBP",
+                        "total": "117.20",
+                        "base": "102.00",
+                        "taxes": [
+                            {
+                                "amount": "2.90",
+                                "code": "QV"
+                            },
+                            {
+                                "amount": "0.50",
+                                "code": "OG"
+                            },
+                            {
+                                "amount": "11.80",
+                                "code": "JD"
+                            }
+                        ]
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "10",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        },
+                        {
+                            "segmentId": "71",
+                            "cabin": "BUSINESS",
+                            "fareBasis": "OS50AENB",
+                            "brandedFare": "BUSINESS",
+                            "class": "O",
+                            "includedCheckedBags": {
+                                "quantity": 1
+                            },
+                            "amenities": [
+                                {
+                                    "code": "0MS",
+                                    "description": "CABIN BAGGAGE 18KG 2PC 115CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0FK",
+                                    "description": "CHECKED BAG 2PC OF 32KG 158CM",
+                                    "isChargeable": false,
+                                    "amenityType": "BAGGAGE"
+                                },
+                                {
+                                    "code": "0B3",
+                                    "description": "MEAL",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "05Z",
+                                    "description": "BUSINESS CLASS SEAT",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0BX",
+                                    "description": "LOUNGE ACCESS",
+                                    "isChargeable": false,
+                                    "amenityType": "LOUNGE"
+                                },
+                                {
+                                    "code": "06H",
+                                    "description": "BUSINESS CLASS MILES ACCRUAL",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "0AT",
+                                    "description": "SNACK",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "0AX",
+                                    "description": "BEVERAGE",
+                                    "isChargeable": false,
+                                    "amenityType": "MEAL"
+                                },
+                                {
+                                    "code": "059",
+                                    "description": "CHANGEABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "056",
+                                    "description": "REFUNDABLE TICKET",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07G",
+                                    "description": "SKY PRIORITY",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                },
+                                {
+                                    "code": "07H",
+                                    "description": "GO SHOW",
+                                    "isChargeable": false,
+                                    "amenityType": "BRANDED_FARES"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "dictionaries": {
+        "locations": {
+            "AMS": {
+                "cityCode": "AMS",
+                "countryCode": "NL"
+            },
+            "BCN": {
+                "cityCode": "BCN",
+                "countryCode": "ES"
+            }
+        }
+    }
+}

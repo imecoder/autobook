@@ -1,0 +1,871 @@
+{
+	"meta": {
+		"count": 9
+	},
+	"data": [
+		 {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "nonHomogeneous": false,
+        "lastTicketingDate": "2021-10-11",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "CDG",
+                  "at": "2021-10-11T10:00:00"
+                },
+                "arrival": {
+                  "iataCode": "NCE",
+                  "at": "2021-10-11T11:00:00"
+                },
+                "carrierCode": "6X",
+                "number": "688",
+                "aircraft": {
+                  "code": "319"
+                },
+                "operating": {},
+                "bookingStatus": "CONFIRMED",
+                "segmentType": "ACTIVE",
+                "isFlown": false,
+                "id": "1",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "335.66",
+          "base": "200.00",
+          "grandTotal": "335.66"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "PUBLISHED"
+          ]
+        },
+        "validatingAirlineCodes": [
+          "6X"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "335.66",
+              "base": "200.00",
+              "taxes": [
+                {
+                  "amount": "16.36",
+                  "code": "FR"
+                },
+                {
+                  "amount": "11.27",
+                  "code": "IZ"
+                },
+                {
+                  "amount": "9.00",
+                  "code": "O4"
+                },
+                {
+                  "amount": "12.03",
+                  "code": "QW"
+                }
+              ]
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "1",
+                "cabin": "BUSINESS",
+                "fareBasis": "C6UI",
+                "class": "C",
+                "includedCheckedBags": {
+                  "quantity": 1
+                }
+              }
+            ]
+          }
+        ]
+      },
+		{
+			"type": "flight-offer",
+			"id": "2",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 4,
+			"itineraries": [
+				{
+					"duration": "PT1H30M",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "CDG",
+								"at": "2021-10-11T11:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T12:30:00"
+							},
+							"carrierCode": "6X",
+							"number": "408",
+							"aircraft": {
+								"code": "737"
+							},
+							"operating": {
+								"carrierCode": "8X"
+							},
+							"duration": "PT1H30M",
+							"id": "7",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "335.66",
+				"base": "287.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "335.66",
+				"additionalServices": [
+					{
+						"amount": "6.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "335.66",
+						"base": "287.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "7",
+							"cabin": "BUSINESS",
+							"fareBasis": "C6UI",
+							"brandedFare": "BUSCDETE",
+							"class": "C",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "3",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H30M",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "CDG",
+								"at": "2021-10-11T18:15:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T19:45:00"
+							},
+							"carrierCode": "6X",
+							"number": "3850",
+							"aircraft": {
+								"code": "321"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H30M",
+							"id": "8",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "335.66",
+				"base": "287.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "335.66",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "335.66",
+						"base": "287.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "8",
+							"cabin": "BUSINESS",
+							"fareBasis": "C6UI",
+							"brandedFare": "BUSCDETE",
+							"class": "C",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "4",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H30M",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "CDG",
+								"at": "2021-10-11T19:30:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T21:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "29",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H30M",
+							"id": "9",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "468.02",
+				"base": "437.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "468.02",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "468.02",
+						"base": "437.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "9",
+							"cabin": "ECONOMY",
+							"fareBasis": "Y6UI",
+							"brandedFare": "ECPLTE",
+							"class": "Y",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "5",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "ORY",
+								"at": "2021-10-11T08:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T09:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "2063",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H",
+							"id": "1",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "1434.58",
+				"base": "1387.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "1434.58",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "1434.58",
+						"base": "1387.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "1",
+							"cabin": "ECONOMY",
+							"fareBasis": "U6XDWTST",
+							"class": "U",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "6",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "ORY",
+								"at": "2021-10-11T11:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T12:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "2064",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H",
+							"id": "3",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "1434.58",
+				"base": "1387.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "1434.58",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "1434.58",
+						"base": "1387.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "3",
+							"cabin": "ECONOMY",
+							"fareBasis": "U6XDWTST",
+							"class": "U",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "7",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "ORY",
+								"at": "2021-10-11T14:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T15:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "2065",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H",
+							"id": "4",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "1434.58",
+				"base": "1387.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "1434.58",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "1434.58",
+						"base": "1387.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "4",
+							"cabin": "ECONOMY",
+							"fareBasis": "U6XDWTST",
+							"class": "U",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "8",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "ORY",
+								"at": "2021-10-11T17:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T18:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "2066",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H",
+							"id": "5",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "1434.58",
+				"base": "1387.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "1434.58",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "1434.58",
+						"base": "1387.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "5",
+							"cabin": "ECONOMY",
+							"fareBasis": "U6XDWTST",
+							"class": "U",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "flight-offer",
+			"id": "9",
+			"source": "GDS",
+			"instantTicketingRequired": false,
+			"nonHomogeneous": false,
+			"oneWay": false,
+			"lastTicketingDate": "2021-10-11",
+			"numberOfBookableSeats": 9,
+			"itineraries": [
+				{
+					"duration": "PT1H",
+					"segments": [
+						{
+							"departure": {
+								"iataCode": "ORY",
+								"at": "2021-10-11T20:00:00"
+							},
+							"arrival": {
+								"iataCode": "NCE",
+								"at": "2021-10-11T21:00:00"
+							},
+							"carrierCode": "6X",
+							"number": "2067",
+							"aircraft": {
+								"code": "320"
+							},
+							"operating": {
+								"carrierCode": "6X"
+							},
+							"duration": "PT1H",
+							"id": "6",
+							"numberOfStops": 0,
+							"blacklistedInEU": false
+						}
+					]
+				}
+			],
+			"price": {
+				"currency": "EUR",
+				"total": "1434.58",
+				"base": "1387.00",
+				"fees": [
+					{
+						"amount": "0.00",
+						"type": "SUPPLIER"
+					},
+					{
+						"amount": "0.00",
+						"type": "TICKETING"
+					}
+				],
+				"grandTotal": "1434.58",
+				"additionalServices": [
+					{
+						"amount": "1.00",
+						"type": "CHECKED_BAGS"
+					}
+				]
+			},
+			"pricingOptions": {
+				"fareType": [
+					"PUBLISHED"
+				],
+				"includedCheckedBagsOnly": true
+			},
+			"validatingAirlineCodes": [
+				"6X"
+			],
+			"travelerPricings": [
+				{
+					"travelerId": "1",
+					"fareOption": "STANDARD",
+					"travelerType": "ADULT",
+					"price": {
+						"currency": "EUR",
+						"total": "1434.58",
+						"base": "1387.00"
+					},
+					"fareDetailsBySegment": [
+						{
+							"segmentId": "6",
+							"cabin": "ECONOMY",
+							"fareBasis": "U6XDWTST",
+							"class": "U",
+							"includedCheckedBags": {
+								"quantity": 1
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"dictionaries": {
+		"locations": {
+			"NCE": {
+				"cityCode": "NCE",
+				"countryCode": "FR"
+			},
+			"CDG": {
+				"cityCode": "PAR",
+				"countryCode": "FR"
+			},
+			"ORY": {
+				"cityCode": "PAR",
+				"countryCode": "FR"
+			}
+		},
+		"aircraft": {
+			"320": "AIRBUS A320",
+			"321": "AIRBUS A321",
+			"319": "AIRBUS A319",
+			"737": "BOEING 737 ALL SERIES PASSENGER"
+		},
+		"currencies": {
+			"EUR": "EURO"
+		},
+		"carriers": {
+			"8X": "AMADEUS EIGHT",
+			"6X": "AMADEUS SIX"
+		}
+	}
+}

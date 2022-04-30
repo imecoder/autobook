@@ -1,0 +1,53 @@
+{
+  "currencyCode": "EUR",
+  "originDestinations": [
+    {
+      "id": 1,
+      "originLocationCode": "AMS",
+      "destinationLocationCode": "MAD",
+      "departureDateTimeRange": {
+        "date": "2022-01-21"
+      }
+    },
+    {
+      "id": 2,
+      "originLocationCode": "MAD",
+      "destinationLocationCode": "AMS",
+      "departureDateTimeRange": {
+        "date": "2022-01-29"
+      }
+    }
+  ],
+  "travelers": [
+    {
+      "id": 1,
+      "travelerType": "ADULT",
+      "fareOptions": [
+        "INCLUSIVE_TOUR"
+      ]
+    }
+  ],
+  "sources": [
+    "GDS"
+  ],
+  "searchCriteria": {
+    "flightFilters": {
+      "carrierRestrictions": {
+        "includedCarrierCodes": [
+          "KL"
+        ]
+      },
+      "connectionRestriction": {
+        "maxNumberOfConnections": 0
+      }
+    },
+    "pricingOptions": {
+      "fareType": [
+        "CORPORATE"
+      ],
+      "corporateCodes": [
+        "016305"
+      ]
+    }
+  }
+}

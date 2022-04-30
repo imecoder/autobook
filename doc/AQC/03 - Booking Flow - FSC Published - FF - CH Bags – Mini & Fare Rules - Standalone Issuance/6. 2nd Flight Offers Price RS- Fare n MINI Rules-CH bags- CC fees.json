@@ -1,0 +1,391 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2021-10-05",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-15T06:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-15T08:40:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1662",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "duration": "PT2H20M",
+                                "id": "5",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-25T20:35:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-25T22:45:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1681",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "duration": "PT2H10M",
+                                "id": "63",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "GBP",
+                    "total": "333.90",
+                    "base": "111.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "462.30",
+                    "billingCurrency": "GBP",
+                    "additionalServices": [
+                        {
+                            "amount": "128.40",
+                            "type": "CHECKED_BAGS"
+                        }
+                    ]
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "KL"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "100.20",
+                            "base": "31.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "1",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "19.30",
+                            "base": "4.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "bookingRequirements": {
+            "travelerRequirements": [
+                {
+                    "travelerId": "3",
+                    "dateOfBirthRequired": true
+                }
+            ]
+        }
+    },
+    "dictionaries": {
+        "locations": {
+            "AMS": {
+                "cityCode": "AMS",
+                "countryCode": "NL"
+            },
+            "BCN": {
+                "cityCode": "BCN",
+                "countryCode": "ES"
+            }
+        }
+    }
+}

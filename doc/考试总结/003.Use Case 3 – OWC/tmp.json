@@ -1,0 +1,20 @@
+{
+	"formOfPayments": [
+		{
+			"other": {
+				"method": "CASH",
+				"flightOfferIds": [
+					"5"
+				]
+			}
+		},
+		{
+			"other": {
+				"method": "CASH",
+				"flightOfferIds": [
+					"9"
+				]
+			}
+		}
+	]
+}

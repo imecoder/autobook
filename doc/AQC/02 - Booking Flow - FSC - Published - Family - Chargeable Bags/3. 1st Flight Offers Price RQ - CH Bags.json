@@ -1,0 +1,154 @@
+{
+  "data": {
+    "type": "flight-offers-pricing",
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "instantTicketingRequired": false,
+        "nonHomogeneous": false,
+        "oneWay": false,
+        "lastTicketingDate": "2021-12-10",
+        "numberOfBookableSeats": 9,
+        "itineraries": [
+          {
+            "duration": "PT2H5M",
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "AMS",
+                  "at": "2022-09-15T16:45:00"
+                },
+                "arrival": {
+                  "iataCode": "BCN",
+                  "terminal": "1",
+                  "at": "2022-09-15T18:50:00"
+                },
+                "carrierCode": "KL",
+                "number": "1675",
+                "aircraft": {
+                  "code": "73H"
+                },
+                "operating": {
+                  "carrierCode": "KL"
+                },
+                "id": "3",
+                "numberOfStops": 0,
+                "blacklistedInEU": false
+              }
+            ]
+          },
+          {
+            "duration": "PT2H15M",
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "BCN",
+                  "terminal": "1",
+                  "at": "2022-09-29T19:40:00"
+                },
+                "arrival": {
+                  "iataCode": "AMS",
+                  "at": "2022-09-29T21:55:00"
+                },
+                "carrierCode": "KL",
+                "number": "1676",
+                "aircraft": {
+                  "code": "73H"
+                },
+                "operating": {
+                  "carrierCode": "KL"
+                },
+                "id": "76",
+                "numberOfStops": 0,
+                "blacklistedInEU": false
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "127.31",
+          "base": "44.00",
+          "fees": [
+            {
+              "amount": "0.00",
+              "type": "SUPPLIER"
+            },
+            {
+              "amount": "0.00",
+              "type": "TICKETING"
+            }
+          ],
+          "grandTotal": "127.31",
+          "additionalServices": [
+            {
+              "amount": "50.00",
+              "type": "CHECKED_BAGS"
+            }
+          ]
+        },
+        "pricingOptions": {
+          "fareType": [
+            "PUBLISHED"
+          ],
+          "includedCheckedBagsOnly": false
+        },
+        "validatingAirlineCodes": [
+          "KL"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "fareOption": "STANDARD",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "127.31",
+              "base": "44.00"
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "3",
+                "cabin": "ECONOMY",
+                "fareBasis": "GS55PALG",
+                "brandedFare": "LIGHT2",
+                "class": "G",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              },
+              {
+                "segmentId": "76",
+                "cabin": "ECONOMY",
+                "fareBasis": "GS55PALG",
+                "brandedFare": "LIGHT2",
+                "class": "G",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              }
+            ]
+          }
+        ],
+        "fareRules": {
+          "rules": [
+            {
+              "category": "EXCHANGE",
+              "maxPenaltyAmount": "0.00"
+            },
+            {
+              "category": "REFUND",
+              "notApplicable": true
+            },
+            {
+              "category": "REVALIDATION",
+              "notApplicable": true
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

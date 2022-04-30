@@ -1,0 +1,268 @@
+{
+  "warnings": [
+    {
+      "status": 200,
+      "code": 0,
+      "title": "AirlineNotificationContactNotAddedToBookingWarning",
+      "detail": "Unable to add the APN. Missing information"
+    }
+  ],
+  "data": {
+    "type": "flight-order",
+    "id": "eJzTd9cPMg529QkGAAsiAmI%3D",
+    "queuingOfficeId": "AMSN221ST",
+    "associatedRecords": [
+      {
+        "reference": "R3SELS",
+        "creationDate": "2021-10-20T09:10:00.000",
+        "originSystemCode": "GDS",
+        "flightOfferId": "1"
+      }
+    ],
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "nonHomogeneous": false,
+        "lastTicketingDate": "2022-01-21",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-21T13:55:00"
+                },
+                "arrival": {
+                  "iataCode": "MAD",
+                  "terminal": "2",
+                  "at": "2022-01-21T16:25:00"
+                },
+                "carrierCode": "KL",
+                "number": "136",
+                "aircraft": {
+                  "code": "E90"
+                },
+                "operating": {},
+                "id": "2",
+                "numberOfStops": 0
+              }
+            ]
+          },
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "MAD",
+                  "terminal": "1",
+                  "at": "2022-01-29T13:00:00"
+                },
+                "arrival": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-29T15:40:00"
+                },
+                "carrierCode": "KL",
+                "number": "1702",
+                "aircraft": {
+                  "code": "73H"
+                },
+                "operating": {},
+                "id": "10",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "130.99",
+          "base": "49.00",
+          "fees": [
+            {
+              "amount": "0.00",
+              "type": "TICKETING"
+            },
+            {
+              "amount": "0.00",
+              "type": "SUPPLIER"
+            },
+            {
+              "amount": "0.00",
+              "type": "FORM_OF_PAYMENT"
+            }
+          ],
+          "grandTotal": "130.99",
+          "billingCurrency": "EUR"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "CORPORATE"
+          ],
+          "corporateCodes": [
+            "016305"
+          ],
+          "includedCheckedBagsOnly": false
+        },
+        "validatingAirlineCodes": [
+          "KL"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "fareOption": "INCLUSIVE_TOUR",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "130.99",
+              "base": "49.00",
+              "taxes": [
+                {
+                  "amount": "12.72",
+                  "code": "CJ"
+                },
+                {
+                  "amount": "14.95",
+                  "code": "JD"
+                },
+                {
+                  "amount": "0.62",
+                  "code": "OG"
+                },
+                {
+                  "amount": "3.38",
+                  "code": "QV"
+                },
+                {
+                  "amount": "16.47",
+                  "code": "RN"
+                },
+                {
+                  "amount": "7.85",
+                  "code": "VV"
+                },
+                {
+                  "amount": "26.00",
+                  "code": "YQ"
+                }
+              ]
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "2",
+                "cabin": "ECONOMY",
+                "fareBasis": "GS5TO1LG",
+                "class": "G",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              },
+              {
+                "segmentId": "10",
+                "cabin": "ECONOMY",
+                "fareBasis": "XS5TO1LG",
+                "class": "X",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "travelers": [
+      {
+        "id": "1",
+        "dateOfBirth": "1985-10-17",
+        "gender": "FEMALE",
+        "name": {
+          "firstName": "Jennifer",
+          "lastName": "Mustermann"
+        },
+        "contact": {
+          "purpose": "STANDARD",
+          "phones": [
+            {
+              "deviceType": "MOBILE",
+              "countryCallingCode": "33",
+              "number": "480080076"
+            }
+          ],
+          "emailAddress": "Jennifer@Mustermann.com"
+        }
+      }
+    ],
+    "ticketingAgreement": {
+      "option": "CONFIRM"
+    },
+    "automatedProcess": [
+      {
+        "code": "IMMEDIATE",
+        "queue": {
+          "number": "50",
+          "category": "0"
+        },
+        "officeId": "AMSN221ST"
+      }
+    ],
+    "contacts": [
+      {
+        "addresseeName": {
+          "firstName": "Rilana van Etten "
+        },
+        "address": {
+          "lines": [
+            "Gildestraat 1"
+          ],
+          "postalCode": "1704 AG",
+          "countryCode": "NL",
+          "cityName": "Heerhugowaard",
+          "stateName": "Noord Holland"
+        },
+        "purpose": "INVOICE",
+        "companyName": "Style in Travel"
+      },
+      {
+        "addresseeName": {
+          "firstName": "Jennifer Mustermann"
+        },
+        "address": {
+          "lines": [
+            "99 Rue de Paris"
+          ],
+          "postalCode": "75099",
+          "countryCode": "FR",
+          "cityName": "Paris"
+        },
+        "purpose": "STANDARD",
+        "phones": [
+          {
+            "deviceType": "LANDLINE",
+            "countryCallingCode": "31",
+            "number": "206851711"
+          },
+          {
+            "deviceType": "MOBILE",
+            "countryCallingCode": "33",
+            "number": "666982806"
+          }
+        ],
+        "companyName": "Mustermann Company",
+        "emailAddress": "support@MustermannCompany.com"
+      }
+    ]
+  },
+  "dictionaries": {
+    "locations": {
+      "MAD": {
+        "cityCode": "MAD",
+        "countryCode": "ES"
+      },
+      "AMS": {
+        "cityCode": "AMS",
+        "countryCode": "NL"
+      }
+    }
+  }
+}

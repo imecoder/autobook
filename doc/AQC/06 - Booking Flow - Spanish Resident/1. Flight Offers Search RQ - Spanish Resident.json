@@ -1,0 +1,45 @@
+{
+    "currencyCode": "EUR",
+    "originDestinations": [
+        {
+            "id": "1",
+            "originLocationCode": "PMI",
+            "destinationLocationCode": "MAD",
+            "departureDateTimeRange": {
+                "date": "2021-04-20"
+            }
+        },
+        {
+            "id": "2",
+            "originLocationCode": "MAD",
+            "destinationLocationCode": "PMI",
+            "departureDateTimeRange": {
+                "date": "2021-04-25"
+            }
+        }
+    ],
+    "travelers": [
+        {
+            "id": "1",
+            "travelerType": "ADULT",
+            "fareOptions": [
+                "STANDARD"
+            ]
+        }
+    ],
+    "sources": [
+        "GDS"
+    ],
+    "searchCriteria": {
+        "maxFlightOffers": 250,
+        "pricingOptions": {
+            "fareType": [
+                "PUBLISHED"
+            ],
+            "includedCheckedBagsOnly": false
+        },
+        "additionalInformation": {
+            "chargeableCheckedBags": "false"
+        }
+    }
+}

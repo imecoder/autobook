@@ -1,0 +1,430 @@
+{
+    "meta": {
+        "count": 1,
+        "links": {
+            "self": "https://test.travel.api.amadeus.com/v1/booking/flight-orders/eJzTd9f3swwKDXIDAAtTAmw%253D"
+        }
+    },
+    "data": {
+        "type": "flight-order",
+        "id": "eJzTd9f3swwKDXIDAAtTAmw%3D",
+        "queuingOfficeId": "FRAxxxxxx",
+        "associatedRecords": [
+            {
+                "reference": "N9RURF",
+                "originSystemCode": "BA",
+                "flightOfferId": "1"
+            },
+            {
+                "reference": "N9RURF",
+                "creationDate": "2021-09-27T10:55:00",
+                "originSystemCode": "GDS",
+                "flightOfferId": "1"
+            }
+        ],
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "nonHomogeneous": false,
+                "lastTicketingDate": "2021-09-27",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "LHR",
+                                    "terminal": "5",
+                                    "at": "2021-11-25T19:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "FRA",
+                                    "terminal": "2",
+                                    "at": "2021-11-25T22:00:00"
+                                },
+                                "carrierCode": "BA",
+                                "number": "916",
+                                "aircraft": {
+                                    "code": "32N"
+                                },
+                                "operating": {},
+                                "bookingStatus": "CONFIRMED",
+                                "segmentType": "ACTIVE",
+                                "isFlown": false,
+                                "id": "1",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "FRA",
+                                    "terminal": "2",
+                                    "at": "2021-11-30T07:25:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "LHR",
+                                    "terminal": "5",
+                                    "at": "2021-11-30T08:20:00"
+                                },
+                                "carrierCode": "BA",
+                                "number": "901",
+                                "aircraft": {
+                                    "code": "32N"
+                                },
+                                "operating": {},
+                                "bookingStatus": "CONFIRMED",
+                                "segmentType": "ACTIVE",
+                                "isFlown": false,
+                                "id": "2",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "GBP",
+                    "total": "389.66",
+                    "base": "138.00",
+                    "grandTotal": "389.66"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ]
+                },
+                "validatingAirlineCodes": [
+                    "BA"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "121.22",
+                            "base": "46.00",
+                            "taxes": [
+                                {
+                                    "amount": "8.50",
+                                    "code": "DE"
+                                },
+                                {
+                                    "amount": "11.00",
+                                    "code": "OY"
+                                },
+                                {
+                                    "amount": "8.90",
+                                    "code": "R1"
+                                },
+                                {
+                                    "amount": "27.10",
+                                    "code": "RA"
+                                },
+                                {
+                                    "amount": "19.72",
+                                    "code": "UB"
+                                }
+                            ],
+                            "margins": [
+                                {
+                                    "amount": "12.50",
+                                    "name": "AGENT_FEE"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "2",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "134.22",
+                            "base": "46.00",
+                            "taxes": [
+                                {
+                                    "amount": "8.50",
+                                    "code": "DE"
+                                },
+                                {
+                                    "amount": "13.00",
+                                    "code": "GB"
+                                },
+                                {
+                                    "amount": "11.00",
+                                    "code": "OY"
+                                },
+                                {
+                                    "amount": "8.90",
+                                    "code": "R1"
+                                },
+                                {
+                                    "amount": "27.10",
+                                    "code": "RA"
+                                },
+                                {
+                                    "amount": "19.72",
+                                    "code": "UB"
+                                }
+                            ],
+                            "margins": [
+                                {
+                                    "amount": "25.00",
+                                    "name": "AGENT_FEE"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "2",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "134.22",
+                            "base": "46.00",
+                            "taxes": [
+                                {
+                                    "amount": "8.50",
+                                    "code": "DE"
+                                },
+                                {
+                                    "amount": "13.00",
+                                    "code": "GB"
+                                },
+                                {
+                                    "amount": "11.00",
+                                    "code": "OY"
+                                },
+                                {
+                                    "amount": "8.90",
+                                    "code": "R1"
+                                },
+                                {
+                                    "amount": "27.10",
+                                    "code": "RA"
+                                },
+                                {
+                                    "amount": "19.72",
+                                    "code": "UB"
+                                }
+                            ],
+                            "margins": [
+                                {
+                                    "amount": "25.00",
+                                    "name": "AGENT_FEE"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "1",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "2",
+                                "fareBasis": "QOM0Z0R",
+                                "class": "Q",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Food and beverages for purchase"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "travelers": [
+            {
+                "id": "1",
+                "name": {
+                    "firstName": "HEIKE",
+                    "lastName": "MUSTERMANN"
+                },
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "33",
+                            "number": "480080077"
+                        }
+                    ],
+                    "emailAddress": "HEIKE@MUSTERMANN.COM"
+                }
+            },
+            {
+                "id": "2",
+                "name": {
+                    "firstName": "JENNIFER",
+                    "lastName": "MUSTERMANN"
+                },
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "33",
+                            "number": "480080076"
+                        }
+                    ],
+                    "emailAddress": "JENNIFER@MUSTERMANN.COM"
+                }
+            },
+            {
+                "id": "3",
+                "name": {
+                    "firstName": "MARTIN",
+                    "lastName": "MUSTERMANN"
+                },
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "33",
+                            "number": "480080075"
+                        }
+                    ],
+                    "emailAddress": "MARTIN@MUSTERMANN.COM"
+                }
+            }
+        ],
+        "remarks": {
+            "general": [
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "PRICING ENTRY FXP/FF-NOBAG/R,P,VC-BA,FC-GBP/P1-3",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                }
+            ]
+        },
+        "ticketingAgreement": {
+            "option": "CONFIRM"
+        },
+        "contacts": [
+            {
+                "purpose": "STANDARD"
+            }
+        ],
+        "commissions": [
+            {
+                "controls": [
+                    "MANUAL"
+                ],
+                "values": [
+                    {
+                        "commissionType": "NEW",
+                        "amount": "123.45"
+                    },
+                    {
+                        "commissionType": "VAT_ON_NEW"
+                    }
+                ],
+                "travelerIds": [
+                    "2"
+                ]
+            },
+            {
+                "controls": [
+                    "MANUAL"
+                ],
+                "values": [
+                    {
+                        "commissionType": "NEW",
+                        "percentage": 15
+                    }
+                ],
+                "travelerIds": [
+                    "1"
+                ]
+            }
+        ]
+    },
+    "dictionaries": {
+        "locations": {
+            "FRA": {
+                "cityCode": "FRA",
+                "countryCode": "DE"
+            },
+            "LHR": {
+                "cityCode": "LON",
+                "countryCode": "GB"
+            }
+        }
+    }
+}

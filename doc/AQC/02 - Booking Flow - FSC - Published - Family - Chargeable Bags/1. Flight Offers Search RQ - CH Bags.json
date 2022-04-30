@@ -1,0 +1,33 @@
+{
+  "currencyCode": "EUR",
+  "originDestinations": [
+    {
+      "id": "1",
+      "originLocationCode": "AMS",
+      "destinationLocationCode": "BCN",
+      "departureDateTimeRange": {
+        "date": "2022-09-15"
+      }
+    },
+    {
+      "id": "2",
+      "originLocationCode": "BCN",
+      "destinationLocationCode": "AMS",
+      "departureDateTimeRange": {
+        "date": "2022-09-29"
+      }
+    }
+  ],
+  "travelers": [
+    {
+      "id": "1",
+      "travelerType": "ADULT",
+      "fareOptions": [
+        "STANDARD"
+      ]
+    }
+  ],
+  "sources": [
+    "GDS"
+  ]
+}

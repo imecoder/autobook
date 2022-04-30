@@ -1,0 +1,102 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+   {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "nonHomogeneous": false,
+        "lastTicketingDate": "2021-10-11",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "CDG",
+                  "at": "2021-10-11T10:00:00"
+                },
+                "arrival": {
+                  "iataCode": "NCE",
+                  "at": "2021-10-11T11:00:00"
+                },
+                "carrierCode": "6X",
+                "number": "688",
+                "aircraft": {
+                  "code": "319"
+                },
+                "operating": {},
+                "bookingStatus": "CONFIRMED",
+                "segmentType": "ACTIVE",
+                "isFlown": false,
+                "id": "1",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "335.66",
+          "base": "200.00",
+          "grandTotal": "335.66"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "PUBLISHED"
+          ]
+        },
+        "validatingAirlineCodes": [
+          "6X"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "335.66",
+              "base": "200.00",
+              "taxes": [
+                {
+                  "amount": "16.36",
+                  "code": "FR"
+                },
+                {
+                  "amount": "11.27",
+                  "code": "IZ"
+                },
+                {
+                  "amount": "9.00",
+                  "code": "O4"
+                },
+                {
+                  "amount": "12.03",
+                  "code": "QW"
+                }
+              ]
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "1",
+                "cabin": "BUSINESS",
+                "fareBasis": "C6UI",
+                "class": "C",
+                "includedCheckedBags": {
+                  "quantity": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+        ],
+       "payments": [
+            {
+                "brand": "VISA_IXARIS",
+                "binNumber": 123456,
+                "flightOfferIds": 1
+            }
+        ]
+    }
+}

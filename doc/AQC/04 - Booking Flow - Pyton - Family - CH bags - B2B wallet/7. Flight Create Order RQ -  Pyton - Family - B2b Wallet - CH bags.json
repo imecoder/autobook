@@ -1,0 +1,421 @@
+{
+    "data": {
+        "type": "flight-order",
+        "flightOffers": [
+         {
+                "type": "flight-offer",
+                "id": "10",
+                "source": "PYTON",
+                "instantTicketingRequired": true,
+                "nonHomogeneous": false,
+                "paymentCardRequired": true,
+                "itineraries": [
+                    {
+                        "duration": "PT2H10M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-09-20T18:55:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "at": "2021-09-20T21:05:00"
+                                },
+                                "carrierCode": "HV",
+                                "number": "5133",
+                                "aircraft": {},
+                                "operating": {
+                                    "carrierCode": "HV"
+                                },
+                                "id": "3",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    },
+                    {
+                        "duration": "PT2H25M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "at": "2021-09-25T09:50:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-09-25T12:15:00"
+                                },
+                                "carrierCode": "HV",
+                                "number": "5132",
+                                "aircraft": {},
+                                "operating": {
+                                    "carrierCode": "HV"
+                                },
+                                "id": "9",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "311.03",
+                    "fees": [
+                        {
+                            "amount": "164.97",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "13.58",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "600.70",
+                    "billingCurrency": "EUR",
+                    "additionalServices": [
+                        {
+                            "amount": "111.12",
+                            "type": "CHECKED_BAGS"
+                        }
+                    ]
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "HV"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "87.01"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "9",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "87.01"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "9",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "87.01"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "9",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1,
+                                        "weight": 15,
+                                        "weightUnit": "KG"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "1",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "50.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "9",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "WEBECONOMY",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "travelers": [
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "amadeus@mail.com"
+                },
+                "id": "1",
+                "dateOfBirth": "1982-01-16",
+                "name": {
+                    "firstName": "JOHN",
+                    "lastName": "SMITH"
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "012345678",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "FR"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "JOHNSMITH@mail.com"
+                },
+                "id": "2",
+                "dateOfBirth": "1984-06-16",
+                "name": {
+                    "firstName": "MARY",
+                    "lastName": "SMITH"
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "129849392",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "CHILD@mail.com"
+                },
+                "id": "3",
+                "dateOfBirth": "2019-01-16",
+                "name": {
+                    "firstName": "BARBIE",
+                    "lastName": "SMITH"
+                },
+                 "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "345678912",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "MOMMY@mail.com"
+                },
+                "id": "4",
+                "dateOfBirth": "2021-01-12",
+                "name": {
+                    "firstName": "KEN",
+                    "lastName": "SMITH"
+                },
+                 "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "56789012345",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            }
+        ],
+       "formOfPayments": [
+            {
+                "b2bWallet": {
+                    "flightOfferIds": [
+                        "10"
+                    ]
+                }
+            }
+        ],
+        "ticketingAgreement": {
+            "option": "DELAY_TO_CANCEL",
+            "delay": "6D"
+        },
+        "automatedProcess": [
+            {
+                "officeId": "LON1A0811",
+                "code": "IMMEDIATE",
+                "queue": {
+                    "number": "7",
+                    "category": "2"
+                }
+            }
+        ],
+        "contacts": [
+            {
+                "phones": [
+                    {
+                        "deviceType": "FAX",
+                        "countryCallingCode": "33",
+                        "number": "480080070"
+                    },
+                    {
+                        "deviceType": "LANDLINE",
+                        "countryCallingCode": "33",
+                        "number": "480080071"
+                    }
+                ],
+                "companyName": "AGENCY AMADEUS",
+                "emailAddress": "AMADEUS@mail.com",
+                "addresseeName": {
+                    "firstName": "JOHN",
+                    "lastName": "PRESIDENT"
+                },
+                "address": {
+                    "lines": [
+                        "BUCKINGHAM ROAD"
+                    ],
+                    "postalCode": "12345",
+                    "countryCode": "FR",
+                    "cityName": "Sophia Antipolis Cedex"
+                },
+                "purpose": "STANDARD"
+            }
+        ]
+    }
+}

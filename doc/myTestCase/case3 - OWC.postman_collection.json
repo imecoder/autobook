@@ -1,0 +1,434 @@
+{
+	"info": {
+		"_postman_id": "90bfa55f-8894-4581-a3a6-a10aee4ec6b5",
+		"name": "case3 - OWC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get new Token",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var AQCUser = pm.environment.get(\"Company_Code\");\r",
+							"let timestamp = new Date().toJSON()\r",
+							"var AmaClientRef = AQCUser + \"-\" + timestamp;\r",
+							"\r",
+							"pm.environment.set(\"AmaClientRef\", AmaClientRef);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{Client_ID}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{Client_Secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "guest_office_id",
+							"value": "LON1A0983",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "guest_office_id",
+							"value": "LON1A08QC",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "guest_office_id",
+							"value": "FRAL12177",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/security/oauth2/token",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"security",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();",
+							"",
+							"//Criterias",
+							"var currencyCode = \"GBP\";",
+							"var originLocationCode = \"LOS\";",
+							"var destinationLocationCode= \"AMS\";",
+							"var departureDate = \"2022-06-06\";",
+							"var returnDate = \"2022-06-24\";",
+							"var dateWindow = \"I3D\";",
+							"var time = \"12:00:00\";",
+							"var timeWindow = \"4H\";",
+							"",
+							"postman.setEnvironmentVariable(\"currencyCode\", currencyCode)",
+							"postman.setEnvironmentVariable(\"originLocationCode\", originLocationCode)",
+							"postman.setEnvironmentVariable(\"destinationLocationCode\", destinationLocationCode)",
+							"postman.setEnvironmentVariable(\"departureDate\", departureDate)",
+							"postman.setEnvironmentVariable(\"returnDate\", returnDate)",
+							"postman.setEnvironmentVariable(\"dateWindow\", dateWindow)",
+							"postman.setEnvironmentVariable(\"time\", time)",
+							"postman.setEnvironmentVariable(\"timeWindow\", timeWindow)",
+							"",
+							"Date.prototype.addDays = function(days) {",
+							"    var date = new Date(this.valueOf());",
+							"    date.setDate(date.getDate() + days);",
+							"    return date;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <span style=\"font-weight: bold;\">nb of offer:{{response.meta.count}}</span>\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>\r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"search_responseBody\", responseBody)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "ama-client-ref",
+						"type": "text",
+						"value": "{{AmaClientRef}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currencyCode\": \"{{currencyCode}}\",\r\n    \"originDestinations\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"originLocationCode\": \"{{originLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{departureDate}}\",\r\n\t\t\t\t\"time\": \"{{time}}\",\r\n                \"timeWindow\": \"{{timeWindow}}\"\r\n            }\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"originLocationCode\": \"{{destinationLocationCode}}\",\r\n            \"destinationLocationCode\": \"{{originLocationCode}}\",\r\n            \"departureDateTimeRange\": {\r\n                \"date\": \"{{returnDate}}\",\r\n\t\t\t\t\"time\": \"{{time}}\",\r\n                \"timeWindow\": \"{{timeWindow}}\"\r\n            }\r\n        }\r\n    ],\r\n    \"travelers\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"travelerType\": \"ADULT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"3\",\r\n            \"travelerType\": \"CHILD\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"4\",\r\n            \"travelerType\": \"HELD_INFANT\",\r\n            \"fareOptions\": [\r\n                \"STANDARD\"\r\n            ],\r\n            \"associatedAdultId\": \"1\"\r\n        }\r\n    ],\r\n    \"sources\": [\r\n        \"GDS\"\r\n    ],\r\n    \"searchCriteria\": {\r\n        \"addOneWayOffers\": true,\r\n        \"maxFlightOffers\": 10,\r\n        \"pricingOptions\": {\r\n            \"fareType\": [\r\n                \"PUBLISHED\"\r\n            ],\r\n            \"includedCheckedBagsOnly\": false\r\n        },\r\n        \"additionalInformation\": {\r\n            \"chargeableCheckedBags\": false,\r\n            \"brandedFares\": true\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/v2/shopping/flight-offers",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v2",
+						"shopping",
+						"flight-offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Price",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//id of the FlightOffer to price\r",
+							"var offer_id = \"1\";\r",
+							"\r",
+							"var choose_offer;\r",
+							"postman.setEnvironmentVariable(\"offer_id\", offer_id)\r",
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"search_responseBody\"));\r",
+							"for (var i = 0; i < jsonData.data.length; i++) {\r",
+							"    var data = jsonData.data[i];\r",
+							"    console.log(data.id);\r",
+							"    if(data.id == offer_id){\r",
+							"        choose_offer = data;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"//FlightOffer to price\r",
+							"postman.setEnvironmentVariable(\"price_flightOffer\", JSON.stringify(choose_offer));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"price_responseBody\", responseBody);\r",
+							"var template = `\r",
+							"    <table bgcolor=\"#FFFFFF\">\r",
+							"        {{#each response.data.flightOffers}}\r",
+							"            <tr>\r",
+							"                <td>{{source}}</td>\r",
+							"                <td>offer id : {{id}}</td>\r",
+							"                <td>{{duration}}</td>\r",
+							"                {{#each itineraries}}\r",
+							"                    {{#each segments}}\r",
+							"                        <tr>\r",
+							"                            <td>{{departure.iataCode}}-{{arrival.iataCode}}</td>\r",
+							"                            <td>({{carrierCode}} {{number}})</td>\r",
+							"                            <td>{{departure.at}}  -  {{arrival.at}}</td>\r",
+							"                        </tr>\r",
+							"                    {{/each}}\r",
+							"                {{/each}}\r",
+							"                <tr>\r",
+							"                    <td>Total amount : {{price.total}} {{price.currency}}</td>\r",
+							"                </tr>\r",
+							"                <table bgcolor=\"#FFFFFF\">\r",
+							"                    {{#each travelerPricings}}\r",
+							"                        <tr>\r",
+							"                            <td>\r",
+							"                                Traveler {{travelerId}}-{{travelerType}}</br>\r",
+							"                                Amount : {{price.total}} </br>\r",
+							"                                Currency : {{price.currency}} </br>\r",
+							"                                {{#each price.margins}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}\r",
+							"                                {{#each price.discounts}}\r",
+							"                                    <span style=\"font-weight: bold;color:red\">{{name}} : {{amount}} {{price.currency}}</span></br>\r",
+							"                                {{/each}}  \r",
+							"                            </td>\r",
+							"                        </tr>       \r",
+							"                    {{/each}}\r",
+							"                <table>  \r",
+							"            </tr>\r",
+							"            <hr />\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"// Set visualizer\r",
+							"pm.visualizer.set(template, {\r",
+							"    // Pass the response body parsed as JSON as `data`\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"type\": \"flight-offers-pricing\",\n\t\t\"flightOffers\": [\n\t\t\t{\n\t\t\t\t\"type\": \"flight-offer\",\n\t\t\t\t\"id\": \"5\",\n\t\t\t\t\"source\": \"GDS\",\n\t\t\t\t\"instantTicketingRequired\": false,\n\t\t\t\t\"nonHomogeneous\": false,\n\t\t\t\t\"oneWay\": true,\n\t\t\t\t\"lastTicketingDate\": \"2022-06-06\",\n\t\t\t\t\"numberOfBookableSeats\": 9,\n\t\t\t\t\"itineraries\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"duration\": \"PT23H30M\",\n\t\t\t\t\t\t\"segments\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"LOS\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"I\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-06T14:10:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-06T21:00:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"876\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT5H50M\",\n\t\t\t\t\t\t\t\t\"id\": \"28\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0,\n\t\t\t\t\t\t\t\t\"blacklistedInEU\": false\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"2\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-07T09:50:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"AMS\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-07T14:40:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"757\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT4H50M\",\n\t\t\t\t\t\t\t\t\"id\": \"29\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0,\n\t\t\t\t\t\t\t\t\"blacklistedInEU\": false\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"price\": {\n\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\"total\": \"1135.70\",\n\t\t\t\t\t\"base\": \"350.00\",\n\t\t\t\t\t\"fees\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"SUPPLIER\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"TICKETING\"\n\t\t\t\t\t\t}\n\t\t\t\t\t],\n\t\t\t\t\t\"grandTotal\": \"1135.70\"\n\t\t\t\t},\n\t\t\t\t\"pricingOptions\": {\n\t\t\t\t\t\"fareType\": [\n\t\t\t\t\t\t\"PUBLISHED\"\n\t\t\t\t\t],\n\t\t\t\t\t\"includedCheckedBagsOnly\": false\n\t\t\t\t},\n\t\t\t\t\"validatingAirlineCodes\": [\n\t\t\t\t\t\"MS\"\n\t\t\t\t],\n\t\t\t\t\"travelerPricings\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"1\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"376.60\",\n\t\t\t\t\t\t\t\"base\": \"123.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"2\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"376.60\",\n\t\t\t\t\t\t\t\"base\": \"123.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"3\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"CHILD\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"344.00\",\n\t\t\t\t\t\t\t\"base\": \"92.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"4\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"HELD_INFANT\",\n\t\t\t\t\t\t\"associatedAdultId\": \"1\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"38.50\",\n\t\t\t\t\t\t\t\"base\": \"12.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"fareRules\": {\n\t\t\t\t\t\"rules\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"category\": \"EXCHANGE\",\n\t\t\t\t\t\t\t\"maxPenaltyAmount\": \"77.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"category\": \"REVALIDATION\",\n\t\t\t\t\t\t\t\"notApplicable\": true\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"type\": \"flight-offer\",\n\t\t\t\t\"id\": \"9\",\n\t\t\t\t\"source\": \"GDS\",\n\t\t\t\t\"instantTicketingRequired\": false,\n\t\t\t\t\"nonHomogeneous\": false,\n\t\t\t\t\"oneWay\": true,\n\t\t\t\t\"lastTicketingDate\": \"2022-06-24\",\n\t\t\t\t\"numberOfBookableSeats\": 9,\n\t\t\t\t\"itineraries\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"duration\": \"PT22H30M\",\n\t\t\t\t\t\t\"segments\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"AMS\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-24T15:40:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-24T20:05:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"758\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT4H25M\",\n\t\t\t\t\t\t\t\t\"id\": \"9\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0,\n\t\t\t\t\t\t\t\t\"blacklistedInEU\": false\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-25T08:15:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"LOS\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"D\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-25T13:10:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"875\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT5H55M\",\n\t\t\t\t\t\t\t\t\"id\": \"10\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0,\n\t\t\t\t\t\t\t\t\"blacklistedInEU\": false\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"price\": {\n\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\"total\": \"1165.00\",\n\t\t\t\t\t\"base\": \"727.00\",\n\t\t\t\t\t\"fees\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"SUPPLIER\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"TICKETING\"\n\t\t\t\t\t\t}\n\t\t\t\t\t],\n\t\t\t\t\t\"grandTotal\": \"1165.00\"\n\t\t\t\t},\n\t\t\t\t\"pricingOptions\": {\n\t\t\t\t\t\"fareType\": [\n\t\t\t\t\t\t\"PUBLISHED\"\n\t\t\t\t\t],\n\t\t\t\t\t\"includedCheckedBagsOnly\": false\n\t\t\t\t},\n\t\t\t\t\"validatingAirlineCodes\": [\n\t\t\t\t\t\"MS\"\n\t\t\t\t],\n\t\t\t\t\"travelerPricings\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"1\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"392.70\",\n\t\t\t\t\t\t\t\"base\": \"255.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"2\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"392.70\",\n\t\t\t\t\t\t\t\"base\": \"255.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"3\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"CHILD\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"328.70\",\n\t\t\t\t\t\t\t\"base\": \"191.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"4\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"HELD_INFANT\",\n\t\t\t\t\t\t\"associatedAdultId\": \"1\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"50.90\",\n\t\t\t\t\t\t\t\"base\": \"26.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"fareRules\": {\n\t\t\t\t\t\"rules\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"category\": \"EXCHANGE\",\n\t\t\t\t\t\t\t\"maxPenaltyAmount\": \"83.00\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"category\": \"REVALIDATION\",\n\t\t\t\t\t\t\t\"notApplicable\": true\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/shopping/flight-offers/pricing",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"shopping",
+						"flight-offers",
+						"pricing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(postman.getEnvironmentVariable(\"price_responseBody\"));\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"book_flightOffer\", JSON.stringify(jsonData.data.flightOffers[0]))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setEnvironmentVariable(\"book_responseBody\", responseBody);\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"var book_id = encodeURIComponent(jsonData.data.id);\r",
+							"postman.setEnvironmentVariable(\"book_id\", book_id);\r",
+							"var reference_id = encodeURIComponent(jsonData.data.associatedRecords[0].reference);\r",
+							"postman.setEnvironmentVariable(\"reference_id\", reference_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "ama-client-ref",
+						"value": "{{AmaClientRef}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"type\": \"flight-order\",\n\t\t\"flightOffers\": [\n\t\t\t{\n\t\t\t\t\"type\": \"flight-offer\",\n\t\t\t\t\"id\": \"5\",\n\t\t\t\t\"source\": \"GDS\",\n\t\t\t\t\"instantTicketingRequired\": false,\n\t\t\t\t\"nonHomogeneous\": false,\n\t\t\t\t\"paymentCardRequired\": false,\n\t\t\t\t\"lastTicketingDate\": \"2022-06-06\",\n\t\t\t\t\"itineraries\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"segments\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"LOS\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"I\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-06T14:10:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-06T21:00:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"876\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT5H50M\",\n\t\t\t\t\t\t\t\t\"id\": \"28\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"2\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-07T09:50:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"AMS\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-07T14:40:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"757\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT4H50M\",\n\t\t\t\t\t\t\t\t\"id\": \"29\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"price\": {\n\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\"total\": \"1135.70\",\n\t\t\t\t\t\"base\": \"350.00\",\n\t\t\t\t\t\"fees\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"SUPPLIER\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"TICKETING\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"FORM_OF_PAYMENT\"\n\t\t\t\t\t\t}\n\t\t\t\t\t],\n\t\t\t\t\t\"grandTotal\": \"1135.70\",\n\t\t\t\t\t\"billingCurrency\": \"GBP\"\n\t\t\t\t},\n\t\t\t\t\"pricingOptions\": {\n\t\t\t\t\t\"fareType\": [\n\t\t\t\t\t\t\"PUBLISHED\"\n\t\t\t\t\t],\n\t\t\t\t\t\"includedCheckedBagsOnly\": false\n\t\t\t\t},\n\t\t\t\t\"validatingAirlineCodes\": [\n\t\t\t\t\t\"MS\"\n\t\t\t\t],\n\t\t\t\t\"travelerPricings\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"1\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"376.60\",\n\t\t\t\t\t\t\t\"base\": \"123.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.30\",\n\t\t\t\t\t\t\t\t\t\"code\": \"TE\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"76.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"QT\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"114.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"13.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"NG\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"2\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"376.60\",\n\t\t\t\t\t\t\t\"base\": \"123.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.30\",\n\t\t\t\t\t\t\t\t\t\"code\": \"TE\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"76.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"QT\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"114.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"13.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"NG\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"3\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"CHILD\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"344.00\",\n\t\t\t\t\t\t\t\"base\": \"92.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.30\",\n\t\t\t\t\t\t\t\t\t\"code\": \"TE\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"76.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"QT\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"114.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"11.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"NG\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"4\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"HELD_INFANT\",\n\t\t\t\t\t\t\"associatedAdultId\": \"1\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"38.50\",\n\t\t\t\t\t\t\t\"base\": \"12.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"20.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"NG\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"28\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 1\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"29\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"VRINGO\",\n\t\t\t\t\t\t\t\t\"class\": \"V\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 1\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"type\": \"flight-offer\",\n\t\t\t\t\"id\": \"9\",\n\t\t\t\t\"source\": \"GDS\",\n\t\t\t\t\"instantTicketingRequired\": false,\n\t\t\t\t\"nonHomogeneous\": false,\n\t\t\t\t\"paymentCardRequired\": false,\n\t\t\t\t\"lastTicketingDate\": \"2022-06-24\",\n\t\t\t\t\"itineraries\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"segments\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"AMS\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-24T15:40:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-24T20:05:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"758\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT4H25M\",\n\t\t\t\t\t\t\t\t\"id\": \"9\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"departure\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"CAI\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"3\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-25T08:15:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"arrival\": {\n\t\t\t\t\t\t\t\t\t\"iataCode\": \"LOS\",\n\t\t\t\t\t\t\t\t\t\"terminal\": \"D\",\n\t\t\t\t\t\t\t\t\t\"at\": \"2022-06-25T13:10:00\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\",\n\t\t\t\t\t\t\t\t\"number\": \"875\",\n\t\t\t\t\t\t\t\t\"aircraft\": {\n\t\t\t\t\t\t\t\t\t\"code\": \"738\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"operating\": {\n\t\t\t\t\t\t\t\t\t\"carrierCode\": \"MS\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\"duration\": \"PT5H55M\",\n\t\t\t\t\t\t\t\t\"id\": \"10\",\n\t\t\t\t\t\t\t\t\"numberOfStops\": 0\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"price\": {\n\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\"total\": \"1165.00\",\n\t\t\t\t\t\"base\": \"727.00\",\n\t\t\t\t\t\"fees\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"SUPPLIER\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"TICKETING\"\n\t\t\t\t\t\t},\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"amount\": \"0.00\",\n\t\t\t\t\t\t\t\"type\": \"FORM_OF_PAYMENT\"\n\t\t\t\t\t\t}\n\t\t\t\t\t],\n\t\t\t\t\t\"grandTotal\": \"1165.00\",\n\t\t\t\t\t\"billingCurrency\": \"GBP\"\n\t\t\t\t},\n\t\t\t\t\"pricingOptions\": {\n\t\t\t\t\t\"fareType\": [\n\t\t\t\t\t\t\"PUBLISHED\"\n\t\t\t\t\t],\n\t\t\t\t\t\"includedCheckedBagsOnly\": false\n\t\t\t\t},\n\t\t\t\t\"validatingAirlineCodes\": [\n\t\t\t\t\t\"MS\"\n\t\t\t\t],\n\t\t\t\t\"travelerPricings\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"1\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"392.70\",\n\t\t\t\t\t\t\t\"base\": \"255.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"6.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"VV\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"11.00\",\n\t\t\t\t\t\t\t\t\t\"code\": \"CJ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"70.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"RN\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"2\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"ADULT\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"392.70\",\n\t\t\t\t\t\t\t\"base\": \"255.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"6.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"VV\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"11.00\",\n\t\t\t\t\t\t\t\t\t\"code\": \"CJ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"70.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"RN\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"3\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"CHILD\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"328.70\",\n\t\t\t\t\t\t\t\"base\": \"191.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"6.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"VV\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"11.00\",\n\t\t\t\t\t\t\t\t\t\"code\": \"CJ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"29.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"70.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YR\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"15.20\",\n\t\t\t\t\t\t\t\t\t\"code\": \"RN\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 2\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"travelerId\": \"4\",\n\t\t\t\t\t\t\"fareOption\": \"STANDARD\",\n\t\t\t\t\t\t\"travelerType\": \"HELD_INFANT\",\n\t\t\t\t\t\t\"associatedAdultId\": \"1\",\n\t\t\t\t\t\t\"price\": {\n\t\t\t\t\t\t\t\"currency\": \"GBP\",\n\t\t\t\t\t\t\t\"total\": \"50.90\",\n\t\t\t\t\t\t\t\"base\": \"26.00\",\n\t\t\t\t\t\t\t\"taxes\": [\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.40\",\n\t\t\t\t\t\t\t\t\t\"code\": \"F7\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O2\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"20.60\",\n\t\t\t\t\t\t\t\t\t\"code\": \"YQ\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"0.80\",\n\t\t\t\t\t\t\t\t\t\"code\": \"O9\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\"amount\": \"1.50\",\n\t\t\t\t\t\t\t\t\t\"code\": \"EQ\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t]\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\"fareDetailsBySegment\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"9\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 1\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"segmentId\": \"10\",\n\t\t\t\t\t\t\t\t\"cabin\": \"ECONOMY\",\n\t\t\t\t\t\t\t\t\"fareBasis\": \"KRENLO\",\n\t\t\t\t\t\t\t\t\"class\": \"K\",\n\t\t\t\t\t\t\t\t\"includedCheckedBags\": {\n\t\t\t\t\t\t\t\t\t\"quantity\": 1\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t],\n\t\t\"travelers\": [\n\t\t\t{\n\t\t\t\t\"id\": \"1\",\n\t\t\t\t\"dateOfBirth\": \"1985-10-17\",\n\t\t\t\t\"name\": {\n\t\t\t\t\t\"firstName\": \"Join\",\n\t\t\t\t\t\"lastName\": \"Mustermann\"\n\t\t\t\t},\n\t\t\t\t\"gender\": \"MALE\",\n\t\t\t\t\"contact\": {\n\t\t\t\t\t\"emailAddress\": \"Join@Mustermann.com\",\n\t\t\t\t\t\"phones\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"deviceType\": \"MOBILE\",\n\t\t\t\t\t\t\t\"countryCallingCode\": \"33\",\n\t\t\t\t\t\t\t\"number\": \"480080075\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"2\",\n\t\t\t\t\"dateOfBirth\": \"1985-10-16\",\n\t\t\t\t\"name\": {\n\t\t\t\t\t\"firstName\": \"Jennifer\",\n\t\t\t\t\t\"lastName\": \"Mustermann\"\n\t\t\t\t},\n\t\t\t\t\"gender\": \"FEMALE\",\n\t\t\t\t\"contact\": {\n\t\t\t\t\t\"emailAddress\": \"Jennifer@Mustermann.com\",\n\t\t\t\t\t\"phones\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"deviceType\": \"MOBILE\",\n\t\t\t\t\t\t\t\"countryCallingCode\": \"33\",\n\t\t\t\t\t\t\t\"number\": \"480080076\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"3\",\n\t\t\t\t\"dateOfBirth\": \"2017-10-07\",\n\t\t\t\t\"name\": {\n\t\t\t\t\t\"firstName\": \"Heike\",\n\t\t\t\t\t\"lastName\": \"Mustermann\"\n\t\t\t\t},\n\t\t\t\t\"gender\": \"FEMALE\",\n\t\t\t\t\"contact\": {\n\t\t\t\t\t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n\t\t\t\t\t\"emailAddress\": \"Heike@Mustermann.com\",\n\t\t\t\t\t\"phones\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"deviceType\": \"MOBILE\",\n\t\t\t\t\t\t\t\"countryCallingCode\": \"33\",\n\t\t\t\t\t\t\t\"number\": \"480080077\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"4\",\n\t\t\t\t\"dateOfBirth\": \"2020-12-07\",\n\t\t\t\t\"name\": {\n\t\t\t\t\t\"firstName\": \"Heinz\",\n\t\t\t\t\t\"lastName\": \"Mustermann\"\n\t\t\t\t},\n\t\t\t\t\"gender\": \"MALE\",\n\t\t\t\t\"contact\": {\n\t\t\t\t\t\"purpose\": \"STANDARD_WITHOUT_TRANSMISSION\",\n\t\t\t\t\t\"emailAddress\": \"Heinz@Mustermann.com\",\n\t\t\t\t\t\"phones\": [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"deviceType\": \"MOBILE\",\n\t\t\t\t\t\t\t\"countryCallingCode\": \"33\",\n\t\t\t\t\t\t\t\"number\": \"480080078\"\n\t\t\t\t\t\t}\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t}\n\t\t],\n\t\t\"ticketingAgreement\": {\n\t\t\t\"option\": \"DELAY_TO_CANCEL\",\n\t\t\t\"delay\": \"6D\"\n\t\t},\n\t\t\"formOfPayments\": [\n\t\t\t{\n\t\t\t\t\"other\": {\n\t\t\t\t\t\"method\": \"CASH\",\n\t\t\t\t\t\"flightOfferIds\": [\n\t\t\t\t\t\t\"5\"\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"other\": {\n\t\t\t\t\t\"method\": \"CASH\",\n\t\t\t\t\t\"flightOfferIds\": [\n\t\t\t\t\t\t\"9\"\n\t\t\t\t\t]\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/v1/booking/flight-orders",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"v1",
+						"booking",
+						"flight-orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,132 @@
+{
+  "data": {
+    "type": "flight-offers-pricing",
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "instantTicketingRequired": false,
+        "nonHomogeneous": false,
+        "oneWay": false,
+        "lastTicketingDate": "2022-01-21",
+        "numberOfBookableSeats": 9,
+        "itineraries": [
+          {
+            "duration": "PT2H30M",
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-21T13:55:00"
+                },
+                "arrival": {
+                  "iataCode": "MAD",
+                  "terminal": "2",
+                  "at": "2022-01-21T16:25:00"
+                },
+                "carrierCode": "KL",
+                "number": "136",
+                "aircraft": {
+                  "code": "E90"
+                },
+                "duration": "PT2H30M",
+                "id": "2",
+                "numberOfStops": 0,
+                "blacklistedInEU": false
+              }
+            ]
+          },
+          {
+            "duration": "PT2H40M",
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "MAD",
+                  "terminal": "1",
+                  "at": "2022-01-29T13:00:00"
+                },
+                "arrival": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-29T15:40:00"
+                },
+                "carrierCode": "KL",
+                "number": "1702",
+                "aircraft": {
+                  "code": "73H"
+                },
+                "operating": {
+                  "carrierCode": "KL"
+                },
+                "duration": "PT2H40M",
+                "id": "10",
+                "numberOfStops": 0,
+                "blacklistedInEU": false
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "130.99",
+          "base": "49.00",
+          "fees": [
+            {
+              "amount": "0.00",
+              "type": "SUPPLIER"
+            },
+            {
+              "amount": "0.00",
+              "type": "TICKETING"
+            }
+          ],
+          "grandTotal": "130.99"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "CORPORATE"
+          ],
+          "corporateCodes": [
+            "016305"
+          ],
+          "includedCheckedBagsOnly": false
+        },
+        "validatingAirlineCodes": [
+          "KL"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "fareOption": "INCLUSIVE_TOUR",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "130.99",
+              "base": "49.00"
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "2",
+                "cabin": "ECONOMY",
+                "fareBasis": "GS5TO1LG",
+                "class": "G",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              },
+              {
+                "segmentId": "10",
+                "cabin": "ECONOMY",
+                "fareBasis": "XS5TO1LG",
+                "class": "X",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

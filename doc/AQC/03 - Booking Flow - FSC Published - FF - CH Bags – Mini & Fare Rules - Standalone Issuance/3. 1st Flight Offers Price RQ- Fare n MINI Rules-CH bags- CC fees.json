@@ -1,0 +1,245 @@
+https://test.travel.api.amadeus.com/v1/shopping/flight-offers/pricing?include=bags,credit-card-fees,detailed-fare-rules
+
+
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "oneWay": false,
+                "lastTicketingDate": "2021-08-27",
+                "numberOfBookableSeats": 9,
+                "itineraries": [
+                    {
+                        "duration": "PT2H20M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-15T06:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-15T08:40:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1662",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "id": "5",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    },
+                    {
+                        "duration": "PT2H10M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-25T20:35:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-25T22:45:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1681",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "id": "63",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "GBP",
+                    "total": "333.90",
+                    "base": "111.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        }
+                    ],
+                    "grandTotal": "333.90",
+                    "additionalServices": [
+                        {
+                            "amount": "42.80",
+                            "type": "CHECKED_BAGS"
+                        }
+                    ]
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "KL"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "100.20",
+                            "base": "31.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G"
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G"
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "1",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "19.30",
+                            "base": "4.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G"
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G"
+                            }
+                        ]
+                    }
+                ],
+                "fareRules": {
+                    "rules": [
+                        {
+                            "category": "EXCHANGE",
+                            "maxPenaltyAmount": "0.00"
+                        },
+                        {
+                            "category": "REFUND",
+                            "notApplicable": true
+                        },
+                        {
+                            "category": "REVALIDATION",
+                            "notApplicable": true
+                        }
+                    ]
+                }
+            }
+        ],
+        "additionalInformation": {
+            "fareRules": true
+        }
+    }
+}

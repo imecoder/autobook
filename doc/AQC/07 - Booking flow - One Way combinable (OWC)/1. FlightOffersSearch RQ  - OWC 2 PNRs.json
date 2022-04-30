@@ -1,0 +1,59 @@
+{
+  "currencyCode": "SGD",
+  "originDestinations": [
+    {
+      "id": "1",
+      "originLocationCode": "SIN",
+      "destinationLocationCode": "PAR",
+      "departureDateTimeRange": {
+        "date": "2019-12-24",
+        "time": "12:00:00",
+        "timeWindow": "12H"
+      }
+    },
+    {
+      "id": "2",
+      "originLocationCode": "PAR",
+      "destinationLocationCode": "SIN",
+      "departureDateTimeRange": {
+        "date": "2020-01-02",
+        "time": "12:00:00",
+        "timeWindow": "12H"
+      }
+    }
+  ],
+  "sources": [
+    "GDS"
+  ],
+  "searchCriteria": {
+    "addOneWayOffers": true,
+    "pricingOptions": {
+      "fareType": [
+        "PUBLISHED",
+        "NEGOTIATED"
+      ]
+    },
+    "flightFilters": {
+      "connectionRestriction": {
+        "maxNumberOfConnections": 0
+      }
+    }
+  },
+  "travelers": [
+    {
+      "id": "1",
+      "travelerType": "ADULT",
+      "fareOptions": [
+        "STANDARD"
+      ]
+    },
+    {
+      "id": "2",
+      "travelerType": "ADULT",
+      "fareOptions": [
+        "STANDARD"
+      ]
+    }
+  ]
+}
+

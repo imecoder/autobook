@@ -1,0 +1,101 @@
+{
+	"data": {
+		"type": "flight-offers-pricing",
+		"flightOffers": [
+			{
+				"type": "flight-offer",
+				"id": "1",
+				"source": "GDS",
+				"validatingAirlineCodes": [
+					"AZ"
+				],
+				"itineraries": [
+					{
+						"segments": [
+							{
+								"id": "1",
+								"number": "317",
+								"departure": {
+									"iataCode": "CDG",
+									"at": "2021-08-11T06:25:00"
+								},
+								"arrival": {
+									"iataCode": "FCO",
+									"at": "02021-08-11T08:25:00"
+								},
+								"carrierCode": "AZ",
+								"numberOfStops": "0"
+							}
+						]
+					},
+					{
+						"segments": [
+							{
+								"id": "2",
+								"number": "332",
+								"departure": {
+									"iataCode": "FCO",
+									"at": "2021-08-21T21:20:00"
+								},
+								"arrival": {
+									"iataCode": "CDG",
+									"at": "2021-08-21T23:30:00"
+								},
+								"carrierCode": "AZ",
+								"numberOfStops": "0"
+							}
+						]
+					}
+				],
+				"travelerPricings": [
+					{
+						"travelerId": "1",
+						"fareOption": "STANDARD",
+						"travelerType": "ADULT",
+						"fareDetailsBySegment": [
+							{
+								"segmentId": "1",
+								"cabin": "ECONOMY"
+							},
+							{
+								"segmentId": "2",
+								"cabin": "ECONOMY"
+							}
+						]
+					},
+					{
+						"travelerId": "2",
+						"fareOption": "STANDARD",
+						"travelerType": "CHILD",
+						"fareDetailsBySegment": [
+							{
+								"segmentId": "1",
+								"cabin": "ECONOMY"
+							},
+							{
+								"segmentId": "2",
+								"cabin": "ECONOMY"
+							}
+						]
+					},
+					{
+						"travelerId": "3",
+						"fareOption": "STANDARD",
+						"travelerType": "HELD_INFANT",
+						"associatedAdultId": "1",
+						"fareDetailsBySegment": [
+							{
+								"segmentId": "1",
+								"cabin": "ECONOMY"
+							},
+							{
+								"segmentId": "2",
+								"cabin": "ECONOMY"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

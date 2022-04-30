@@ -1,0 +1,224 @@
+{
+  "data": {
+    "type": "flight-order",
+    "id": "eJzTd9cPdfcOi%2FAGAAu7AoY%3D",
+    "associatedRecords": [
+      {
+        "reference": "UGKVXK",
+        "creationDate": "2021-08-17T16:21:00.000",
+        "originSystemCode": "GDS",
+        "flightOfferId": "1"
+      }
+    ],
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "nonHomogeneous": false,
+        "lastTicketingDate": "2021-10-10",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "CDG",
+                  "at": "2021-10-11T10:00:00"
+                },
+                "arrival": {
+                  "iataCode": "NCE",
+                  "at": "2021-10-11T11:00:00"
+                },
+                "carrierCode": "6X",
+                "number": "688",
+                "aircraft": {
+                  "code": "319"
+                },
+                "operating": {},
+                "id": "2",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "248.66",
+          "base": "200.00",
+          "fees": [
+            {
+              "amount": "87.00",
+              "type": "TICKETING"
+            },
+            {
+              "amount": "0.00",
+              "type": "SUPPLIER"
+            },
+            {
+              "amount": "0.00",
+              "type": "FORM_OF_PAYMENT"
+            }
+          ],
+          "grandTotal": "335.66",
+          "billingCurrency": "EUR"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "PUBLISHED"
+          ],
+          "includedCheckedBagsOnly": true
+        },
+        "validatingAirlineCodes": [
+          "6X"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "fareOption": "STANDARD",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "248.66",
+              "base": "200.00",
+              "taxes": [
+                {
+                  "amount": "16.36",
+                  "code": "FR"
+                },
+                {
+                  "amount": "11.27",
+                  "code": "IZ"
+                },
+                {
+                  "amount": "9.00",
+                  "code": "O4"
+                },
+                {
+                  "amount": "12.03",
+                  "code": "QW"
+                }
+              ],
+              "refundableTaxes": "48.66"
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "2",
+                "cabin": "BUSINESS",
+                "fareBasis": "C6UI",
+                "brandedFare": "BUSCDETE",
+                "class": "C",
+                "includedCheckedBags": {
+                  "quantity": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "travelers": [
+      {
+        "id": "1",
+        "dateOfBirth": "1982-01-16",
+        "name": {
+          "firstName": "STEPHANE",
+          "lastName": "MARTIN"
+        },
+        "documents": [
+          {
+            "number": "012345678",
+            "expiryDate": "2030-04-14",
+            "issuanceCountry": "FR",
+            "nationality": "FR",
+            "documentType": "PASSPORT",
+            "holder": true
+          }
+        ],
+        "contact": {
+          "purpose": "STANDARD",
+          "phones": [
+            {
+              "deviceType": "MOBILE",
+              "countryCallingCode": "33",
+              "number": "487692704"
+            }
+          ]
+        }
+      }
+    ],
+    "formOfPayments": [
+      {
+        "other": {
+          "method": "CASH",
+          "flightOfferIds": [
+            "1"
+          ]
+        }
+      }
+    ],
+    "ticketingAgreement": {
+      "option": "DELAY_TO_CANCEL",
+      "delay": "1D"
+    },
+    "contacts": [
+      {
+        "addresseeName": {
+          "firstName": "Invoice Contact"
+        },
+        "address": {
+          "lines": [
+            "20 rue de invoice"
+          ],
+          "countryCode": "FR",
+          "cityName": "Issy"
+        },
+        "purpose": "INVOICE"
+      },
+      {
+        "addresseeName": {
+          "firstName": "test amadeus"
+        },
+        "address": {
+          "lines": [
+            "485 route du Pin Montard"
+          ],
+          "postalCode": "06902",
+          "countryCode": "FR",
+          "cityName": "Sophia Antipolis Cedex"
+        },
+        "purpose": "STANDARD",
+        "phones": [
+          {
+            "deviceType": "LANDLINE",
+            "countryCallingCode": "33",
+            "number": "480080070"
+          },
+          {
+            "deviceType": "MOBILE",
+            "countryCallingCode": "33",
+            "number": "88888888"
+          },
+          {
+            "deviceType": "FAX",
+            "countryCallingCode": "33",
+            "number": "480080070"
+          }
+        ],
+        "companyName": "AMADEUS",
+        "emailAddress": "support@mail.com"
+      }
+    ]
+  },
+  "dictionaries": {
+    "locations": {
+      "NCE": {
+        "cityCode": "NCE",
+        "countryCode": "FR"
+      },
+      "CDG": {
+        "cityCode": "PAR",
+        "countryCode": "FR"
+      }
+    }
+  }
+}

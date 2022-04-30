@@ -1,0 +1,595 @@
+{
+    "meta": {
+        "count": 1,
+        "links": {
+            "self": "https://test.travel.api.amadeus.com/v1/booking/flight-orders/eJzTd9cPDQo2tQwBAAt6AmI%3D"
+        }
+    },
+    "data": {
+        "type": "flight-order",
+        "id": "eJzTd9cPDQo2tQwBAAt6AmI%3D",
+        "queuingOfficeId": "LONxxxxxx",
+        "associatedRecords": [
+            {
+                "reference": "URS59T",
+                "originSystemCode": "KL",
+                "flightOfferId": "1"
+            },
+            {
+                "reference": "URS59T",
+                "creationDate": "2021-08-19T15:41:00",
+                "originSystemCode": "GDS",
+                "flightOfferId": "1"
+            }
+        ],
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "nonHomogeneous": false,
+                "lastTicketingDate": "2021-09-07",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-09-17T14:15:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-09-17T16:25:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1673",
+                                "aircraft": {
+                                    "code": "73J"
+                                },
+                                "operating": {},
+                                "bookingStatus": "CONFIRMED",
+                                "segmentType": "ACTIVE",
+                                "isFlown": false,
+                                "id": "2",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-09-27T17:15:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-09-27T19:35:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1674",
+                                "aircraft": {
+                                    "code": "73J"
+                                },
+                                "operating": {},
+                                "bookingStatus": "CONFIRMED",
+                                "segmentType": "ACTIVE",
+                                "isFlown": false,
+                                "id": "3",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "389.96",
+                    "base": "129.00",
+                    "grandTotal": "539.96",
+                    "additionalServices": [
+                        {
+                            "amount": "150.00",
+                            "type": "CHECKED_BAGS"
+                        }
+                    ]
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ]
+                },
+                "validatingAirlineCodes": [
+                    "KL"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "125.00",
+                            "base": "44.00",
+                            "taxes": [
+                                {
+                                    "amount": "12.72",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "13.96",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "0.62",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "3.38",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "16.47",
+                                    "code": "RN"
+                                },
+                                {
+                                    "amount": "7.85",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "26.00",
+                                    "code": "YQ"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "125.00",
+                            "base": "44.00",
+                            "taxes": [
+                                {
+                                    "amount": "12.72",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "13.96",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "0.62",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "3.38",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "16.47",
+                                    "code": "RN"
+                                },
+                                {
+                                    "amount": "7.85",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "26.00",
+                                    "code": "YQ"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "2",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "22.96",
+                            "base": "5.00",
+                            "taxes": [
+                                {
+                                    "amount": "13.96",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "0.62",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "3.38",
+                                    "code": "QV"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "117.00",
+                            "base": "36.00",
+                            "taxes": [
+                                {
+                                    "amount": "12.72",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "13.96",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "0.62",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "3.38",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "16.47",
+                                    "code": "RN"
+                                },
+                                {
+                                    "amount": "7.85",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "26.00",
+                                    "code": "YQ"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "2",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            },
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "mealServices": [
+                                    {
+                                        "label": "Snack"
+                                    }
+                                ],
+                                "additionalServices": {
+                                    "chargeableCheckedBags": {
+                                        "quantity": 1
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "travelers": [
+            {
+                "id": "1",
+                "dateOfBirth": "1982-01-16",
+                "gender": "MALE",
+                "name": {
+                    "firstName": "JOHN",
+                    "lastName": "SMITH"
+                },
+                "documents": [
+                    {
+                        "number": "FR3456789",
+                        "expiryDate": "2030-04-14",
+                        "issuanceCountry": "FR",
+                        "nationality": "FR",
+                        "documentType": "PASSPORT",
+                        "holder": true
+                    }
+                ],
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        },
+                        {
+                            "deviceType": "MOBILE",
+                            "countryCallingCode": "44",
+                            "number": "7000001200"
+                        }
+                    ],
+                    "emailAddress": "AMADEUS@MAIL.COM"
+                }
+            },
+            {
+                "id": "2",
+                "dateOfBirth": "1984-06-16",
+                "name": {
+                    "firstName": "MARY",
+                    "lastName": "SMITH"
+                },
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "JOHNSMITH@MAIL.COM"
+                }
+            },
+            {
+                "id": "4",
+                "dateOfBirth": "2019-01-16",
+                "name": {
+                    "firstName": "BARBIE",
+                    "lastName": "SMITH"
+                },
+                "contact": {
+                    "purpose": "STANDARD",
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "CHILD@MAIL.COM"
+                }
+            },
+            {
+                "id": "3",
+                "dateOfBirth": "2021-01-12",
+                "name": {
+                    "firstName": "KEN",
+                    "lastName": "SMITH"
+                }
+            }
+        ],
+        "remarks": {
+            "general": [
+                {
+                    "subType": "CONFIDENTIAL",
+                    "text": "RESTRICTED",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                },
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "PRICING ENTRY FXP/FF-LIGHT2/R,P,VC-KL,FC-EUR/P1-3",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                },
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "CUSTOMER WANTS AN UPGRADE",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                },
+                {
+                    "subType": "GENERAL_MISCELLANEOUS",
+                    "text": "CUSTOMER WANTS AN UPGRADE",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                }
+            ],
+            "airline": [
+                {
+                    "subType": "ADVANCED_TICKET_TIME_LIMIT",
+                    "airlineCode": "KL",
+                    "text": "TO KL BY 22AUG 1700 LON OTHERWISE WILL BE XLD",
+                    "flightOfferIds": [
+                        "1"
+                    ]
+                }
+            ]
+        },
+        "ticketingAgreement": {
+            "option": "DELAY_TO_CANCEL",
+            "dateTime": "2021-08-25"
+        },
+        "contacts": [
+            {
+                "addresseeName": {
+                    "firstName": "JOHN PRESIDENT"
+                },
+                "address": {
+                    "lines": [
+                        "BUCKINGHAM ROAD"
+                    ],
+                    "postalCode": "12345",
+                    "countryCode": "FR",
+                    "cityName": "SOPHIA ANTIPOLIS CEDEX"
+                },
+                "purpose": "STANDARD",
+                "phones": [
+                    {
+                        "deviceType": "LANDLINE",
+                        "countryCallingCode": "33",
+                        "number": "480080071"
+                    },
+                    {
+                        "deviceType": "MOBILE",
+                        "countryCallingCode": "44",
+                        "number": "456789023"
+                    },
+                    {
+                        "deviceType": "FAX",
+                        "countryCallingCode": "33",
+                        "number": "480080070"
+                    }
+                ],
+                "companyName": "AGENCY AMADEUS",
+                "emailAddress": "AMADEUS@MAIL.COM"
+            },
+            {
+                "addresseeName": {
+                    "firstName": "Henry Test"
+                },
+                "address": {
+                    "lines": [
+                        "FIRST POINT BUCKINGHAM GATE",
+                        "SR CTC"
+                    ],
+                    "postalCode": "RH60NT",
+                    "countryCode": "GB",
+                    "cityName": "CRAWLEY",
+                    "postalBox": "602"
+                },
+                "purpose": "INVOICE",
+                "companyName": "AMADEUS UK"
+            }
+        ]
+    },
+    "dictionaries": {
+        "locations": {
+            "AMS": {
+                "cityCode": "AMS",
+                "countryCode": "NL"
+            },
+            "BCN": {
+                "cityCode": "BCN",
+                "countryCode": "ES"
+            }
+        }
+    }
+}

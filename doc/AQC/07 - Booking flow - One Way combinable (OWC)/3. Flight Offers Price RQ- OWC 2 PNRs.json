@@ -1,0 +1,229 @@
+{
+  "data": {
+    "flightOffers": [
+      {
+      "type": "flight-offer",
+      "id": "15",
+      "source": "GDS",
+      "instantTicketingRequired": false,
+      "nonHomogeneous": false,
+      "oneWay": true,
+      "lastTicketingDate": "2019-12-24",
+      "numberOfBookableSeats": 9,
+      "itineraries": [
+        {
+          "duration": "PT14H5M",
+          "segments": [
+            {
+              "departure": {
+                "iataCode": "SIN",
+                "terminal": "1",
+                "at": "2019-12-24T23:05:00"
+              },
+              "arrival": {
+                "iataCode": "CDG",
+                "terminal": "2E",
+                "at": "2019-12-25T06:10:00"
+              },
+              "carrierCode": "QF",
+              "number": "4221",
+              "aircraft": {
+                "code": "77W"
+              },
+              "operating": {
+                "carrierCode": "AF"
+              },
+              "id": "3",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            }
+          ]
+        }
+      ],
+      "price": {
+        "currency": "SGD",
+        "total": "11334.80",
+        "base": "11202.00",
+        "fees": [
+          {
+            "amount": "0.00",
+            "type": "SUPPLIER"
+          },
+          {
+            "amount": "0.00",
+            "type": "TICKETING"
+          }
+        ],
+        "grandTotal": "11334.80"
+      },
+      "pricingOptions": {
+        "fareType": [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly": true
+      },
+      "validatingAirlineCodes": [
+        "QF"
+      ],
+      "travelerPricings": [
+        {
+          "travelerId": "1",
+          "fareOption": "STANDARD",
+          "travelerType": "ADULT",
+          "price": {
+            "currency": "SGD",
+            "total": "5667.40",
+            "base": "5601.00"
+          },
+          "fareDetailsBySegment": [
+            {
+              "segmentId": "3",
+              "cabin": "ECONOMY",
+              "fareBasis": "YOW",
+              "class": "Y",
+              "includedCheckedBags": {
+                "weight": 30,
+                "weightUnit": "KG"
+              }
+            }
+          ]
+        },
+        {
+          "travelerId": "2",
+          "fareOption": "STANDARD",
+          "travelerType": "ADULT",
+          "price": {
+            "currency": "SGD",
+            "total": "5667.40",
+            "base": "5601.00"
+          },
+          "fareDetailsBySegment": [
+            {
+              "segmentId": "3",
+              "cabin": "ECONOMY",
+              "fareBasis": "YOW",
+              "class": "Y",
+              "includedCheckedBags": {
+                "weight": 30,
+                "weightUnit": "KG"
+              }
+            }
+          ]
+        }
+      ]
+    },
+      {
+      "type": "flight-offer",
+      "id": "16",
+      "source": "GDS",
+      "instantTicketingRequired": false,
+      "nonHomogeneous": false,
+      "oneWay": true,
+      "lastTicketingDate": "2020-01-02",
+      "numberOfBookableSeats": 9,
+      "itineraries": [
+        {
+          "duration": "PT12H40M",
+          "segments": [
+            {
+              "departure": {
+                "iataCode": "CDG",
+                "terminal": "1",
+                "at": "2020-01-02T20:00:00"
+              },
+              "arrival": {
+                "iataCode": "SIN",
+                "terminal": "0",
+                "at": "2020-01-03T15:40:00"
+              },
+              "carrierCode": "SQ",
+              "number": "333",
+              "aircraft": {
+                "code": "77W"
+              },
+              "operating": {
+                "carrierCode": "SQ"
+              },
+              "id": "5",
+              "numberOfStops": 0,
+              "blacklistedInEU": false
+            }
+          ]
+        }
+      ],
+      "price": {
+        "currency": "SGD",
+        "total": "2912.20",
+        "base": "2752.00",
+        "fees": [
+          {
+            "amount": "0.00",
+            "type": "SUPPLIER"
+          },
+          {
+            "amount": "0.00",
+            "type": "TICKETING"
+          }
+        ],
+        "grandTotal": "2912.20"
+      },
+      "pricingOptions": {
+        "fareType": [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly": true
+      },
+      "validatingAirlineCodes": [
+        "SQ"
+      ],
+      "travelerPricings": [
+        {
+          "travelerId": "1",
+          "fareOption": "STANDARD",
+          "travelerType": "ADULT",
+          "price": {
+            "currency": "SGD",
+            "total": "1456.10",
+            "base": "1376.00"
+          },
+          "fareDetailsBySegment": [
+            {
+              "segmentId": "5",
+              "cabin": "ECONOMY",
+              "fareBasis": "E11FROL",
+              "class": "E",
+              "includedCheckedBags": {
+                "weight": 35,
+                "weightUnit": "KG"
+              }
+            }
+          ]
+        },
+        {
+          "travelerId": "2",
+          "fareOption": "STANDARD",
+          "travelerType": "ADULT",
+          "price": {
+            "currency": "SGD",
+            "total": "1456.10",
+            "base": "1376.00"
+          },
+          "fareDetailsBySegment": [
+            {
+              "segmentId": "5",
+              "cabin": "ECONOMY",
+              "fareBasis": "E11FROL",
+              "class": "E",
+              "includedCheckedBags": {
+                "weight": 35,
+                "weightUnit": "KG"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    ],
+    "type": "flight-offers-pricing"
+  }
+}

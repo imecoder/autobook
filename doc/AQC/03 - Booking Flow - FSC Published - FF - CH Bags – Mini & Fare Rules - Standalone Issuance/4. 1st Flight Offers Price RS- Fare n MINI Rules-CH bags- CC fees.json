@@ -1,0 +1,505 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2021-10-05",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-15T06:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-15T08:40:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1662",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "duration": "PT2H20M",
+                                "id": "5",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "AMS",
+                                    "at": "2021-10-25T20:35:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-10-25T22:45:00"
+                                },
+                                "carrierCode": "KL",
+                                "number": "1681",
+                                "aircraft": {
+                                    "code": "73H"
+                                },
+                                "operating": {
+                                    "carrierCode": "KL"
+                                },
+                                "duration": "PT2H10M",
+                                "id": "63",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "GBP",
+                    "total": "333.90",
+                    "base": "111.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "333.90",
+                    "billingCurrency": "GBP"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "KL"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "107.20",
+                            "base": "38.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "100.20",
+                            "base": "31.00",
+                            "taxes": [
+                                {
+                                    "amount": "6.70",
+                                    "code": "VV"
+                                },
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "10.90",
+                                    "code": "CJ"
+                                },
+                                {
+                                    "amount": "22.20",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                },
+                                {
+                                    "amount": "14.10",
+                                    "code": "RN"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "1",
+                        "price": {
+                            "currency": "GBP",
+                            "total": "19.30",
+                            "base": "4.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.90",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "0.50",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "11.90",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "63",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "GS55PBLG",
+                                "brandedFare": "LIGHT2",
+                                "class": "G",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "fareRules": {
+                    "rules": [
+                        {
+                            "category": "REVALIDATION",
+                            "notApplicable": true
+                        },
+                        {
+                            "category": "EXCHANGE",
+                            "maxPenaltyAmount": "0.00"
+                        },
+                        {
+                            "category": "REFUND",
+                            "notApplicable": true
+                        }
+                    ]
+                }
+            }
+        ],
+        "bookingRequirements": {
+            "travelerRequirements": [
+                {
+                    "travelerId": "3",
+                    "dateOfBirthRequired": true
+                }
+            ]
+        }
+    },
+    "included": {
+        "detailed-fare-rules": {
+            "1": {
+                "fareBasis": "GS55PBLG",
+                "name": "ECONOMY RT UNBUNDLED",
+                "fareNotes": {
+                    "descriptions": [
+                        {
+                            "descriptionType": "GENERAL INFORMATION",
+                            "text": "RU.RULE APPLICATION FOR ECONOMY RT UNBUNDLED FARES KLM -- LIGHT FARES -- HAND BAGGAGE ONLY -ZERO BAGGAGE ALLOWANCE MUST BE DISCLOSED TO CUSTOMER APPLICATION CLASS OF SERVICE THESE FARES APPLY FOR ECONOMY CLASS SERVICE. TYPES OF TRANSPORTATION FARES GOVERNED BY THIS RULE CAN BE USED TO CREATE ONE-WAY/ROUND-TRIP/CIRCLE-TRIP/OPEN-JAW JOURNEYS. CAPACITY LIMITATIONS THE CARRIER SHALL LIMIT THE NUMBER OF PASSENGERS CARRIED ON ANY ONE FLIGHT AT FARES GOVERNED BY THIS RULE AND SUCH FARES WILL NOT NECESSARILY BE AVAILABLE ON ALL FLIGHTS. THE NUMBER OF SEATS WHICH THE CARRIER SHALL MAKE AVAILABLE ON A GIVEN FLIGHT WILL BE DETERMINED BY THE CARRIERS BEST JUDGMENT MN.MIN STAY FOR GS55PBLG TYPE FARES \nTRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 1201AM ON THE FIRST SAT AFTER DEPARTURE FROM FARE ORIGIN OR - TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 1201AM ON THE FIRST SUN AFTER DEPARTURE FROM FARE ORIGIN OR - TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 3 DAYS AFTER DEPARTURE FROM FARE ORIGIN OR - WHEN DEPARTURE FROM FARE ORIGIN IS SAT THEN TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 2 HOURS AFTER DEPARTURE FROM FARE ORIGIN. MX.MAX STAY FOR ECONOMY RT UNBUNDLED FARES \nTRAVEL FROM LAST STOPOVER MUST COMMENCE NO LATER THAN 6 MONTHS AFTER DEPARTURE FROM FARE ORIGIN. SR.SALES RESTRICT \nTICKETS MUST BE ISSUED ON/AFTER 15APR 20. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. *** GENERAL RULE FOLLOWS *** \nTICKETS MUST BE ISSUED ON KL  OR AF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR A5 AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR AM AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR CM AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR CZ AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR DL AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR JU AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR KE AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR KQ AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA AND MAY ONLY BE SOLD IN BURUNDI/ETHIOPIA/MALAWI/MOZAMBIQUE/RWANDA/SUDAN/ SOMALIA/SOUTH SUDAN/ZAMBIA/ZIMBABWE OR - TICKETS MUST BE ISSUED ON KL  OR LG AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MK AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MH AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MU AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR PX AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR QV AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR SB AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR SV AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR VS AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR WF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA TR.TVL RESTRICTION \nVALID FOR TRAVEL COMMENCING ON/AFTER 25JUN 21 AND ON/ BEFORE 01SEP 21. AP.ADVANCE RES/TKT FOR GS55PBLG TYPE FARES \nRESERVATIONS FOR ALL SECTORS AND TICKETING ARE REQUIRED AT LEAST 10 DAYS BEFORE DEPARTURE. NOTE - NOTE - DIFFERENCE COULD EXIST BETWEEN THE CRS LAST TICKETING DATE AND TTL ROBOT REMARK. --- THE MOST RESTRICTIVE DATE PREVAILS --- -------------------------------------------------- FL.FLT APPLICATION FROM/TO EUROPE FOR GS55PBLG TYPE FARES \nIF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND SPAIN AND CANARY ISLANDS THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. AND IF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND PRG THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. AND IF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND SPU THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. CD.CHILD DISCOUNTS \nACCOMPANIED CHILD 2-11. ID REQUIRED - CHARGE 80 PERCENT OF THE FARE. TICKET DESIGNATOR - CH AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. \nINFANT UNDER 2 WITH A SEAT. ID REQUIRED - CHARGE 80 PERCENT OF THE FARE. TICKET DESIGNATOR - CH AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. NOTE - 1 ADULT PASSENGER AGED AT LEAST 18 YEARS MAY BE ACCOMPANIED BY A MAXIMUM OF 2 INFANTS OF WHO BOTH CAN BE BOOKED AS INFANT OCCUPYING A SEAT. \nINFANT UNDER 2 WITHOUT A SEAT - CHARGE 10 PERCENT OF THE FARE. TICKET DESIGNATOR - IN AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. NOTE - 1 ADULT PASSENGER AGED AT LEAST 18 YEARS MAY BE ACCOMPANIED BY A MAXIMUM OF 2 INFANTS OF WHO 1 HAVE TO BE BOOKED AS INFANT OCCUPYING A SEAT ------------------------------------------------- THE AGE LIMITS REFERRED TO IN THIS RULE SHALL BE THOSE IN EFFECT ON THE DATE OF COMMENCEMENT OF TRAVEL. EXCEPTION - INFANTS WHO REACH THEIR 2ND BIRTHDAY DURING THEIR TRAVEL WILL BE REQUIRED TO OCCUPY A SEAT ON THE OUTBOUND AND INBOUND FLIGHT. THE CHILD FARE NEEDS TO BE APPLIED FOR THE WHOLE JOURNEY TC.TOUR CONDUCTOR \nTOUR CONDUCTOR - NO DISCOUNT. AD.AGTS DISCOUNTS \nAGENT - NO DISCOUNT. OD.OTHER DISCOUNTS NONE UNLESS OTHERWISE SPECIFIED SO.STOPOVERS \n1 STOPOVER PERMITTED ON THE PRICING UNIT EITHER OUTBOUND OR INBOUND AT EUR 50.00. CHILD/INFANT DISCOUNTS APPLY. TF.TRANSFERS/RTGS \nUNLIMITED TRANSFERS PERMITTED ON THE FARE COMPONENT FARE BREAK SURFACE SECTORS NOT PERMITTED AND EMBEDDED SURFACE SECTORS PERMITTED ON THE FARE COMPONENT. NOTE - AS PER ROUTING SU.SURCHARGES FROM/TO EUROPE FOR GS55PBLG TYPE FARES \nIF INFANT 0-1 WITHOUT A SEAT. OR - CONTRACT BULK INFANT WITHOUT A SEAT 0-1. OR - INCLUSIVE TOUR INFANT WITHOUT A SEAT 0-1. THERE IS NO CHARGE FOR TRAVEL. \nA SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BELGIUM. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHTS 2900 THROUGH 2999. AND - A SURCHARGE OF EUR 15.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BELGIUM. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHTS 223 THROUGH 224. AND - A SURCHARGE OF EUR 75.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND IST. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY PC. AND - A SURCHARGE OF EUR 55.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BUH. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY RO. AND - A SURCHARGE OF EUR 75.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND MOW. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY SU. AND - A SURCHARGE OF EUR 100.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND ORK. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY EI. AND - A SURCHARGE OF EUR 150.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND PRG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OK. AND - A SURCHARGE OF EUR 65.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR WITHIN SPAIN AND CANARY ISLANDS. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY UX. AND - A SURCHARGE OF EUR 40.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND IEV. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY PS. AND - A SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND CROATIA. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OU. AND - A SURCHARGE OF EUR 3.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BEG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHT 2824. AND - A SURCHARGE OF EUR 77.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BEG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY JU. AND - A SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN ZAG AND DBV. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OU. CO.COMBINABILITY END-ON-END NOT PERMITTED. SIDE TRIPS PERMITTED. APPLICABLE ADD-ON CONSTRUCTION IS ADDRESSED IN MISCELLANEOUS PROVISIONS - CATEGORY 23. OPEN JAWS/ROUND TRIPS/CIRCLE TRIPS FARES MAY BE COMBINED ON A HALF ROUND TRIP BASIS -TO FORM SINGLE OR DOUBLE OPEN JAWS WHICH CONSISTS OF NO MORE THAN 2 INTERNATIONAL FARE COMPONENTS AND THE OPEN SEGMENT AT ORIGIN MUST BE IN ONE COUNTRY. THE OPEN SEGMENT AT DESTINATION HAS NO RESTRICTIONS. MILEAGE OF THE OPEN SEGMENT MUST BE EQUAL/LESS THAN MILEAGE OF THE LONGEST FLOWN FARE COMPONENT. -TO FORM ROUND TRIPS -TO FORM CIRCLE TRIPS A MAXIMUM OF TWO INTERNATIONAL FARE COMPONENTS PERMITTED. PROVIDED - COMBINATIONS ARE WITH ANY FARE FOR CARRIER AF/KL WITHIN EUROPE OR FOR CARRIER AF/KL BETWEEN EUROPE/RUSSIA (EAST OF THE URALS) IN ANY RULE IN ANY TARIFF. HI.HIGHER INTERMEDIATE POINT \nTHE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY FOR CONNECTIONS. AND - THE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY FOR STOPOVERS. MD.MISCELLANEOUS DATA \nTHIS FARE MUST NOT BE USED AS THE HIGH OR THE LOW FARE WHEN CALCULATING A DIFFERENTIAL. THIS FARE MUST NOT BE USED AS THE THROUGH FARE WHEN PRICING A FARE COMPONENT WITH A DIFFERENTIAL. NOTE - IN CASE OF CHANGE OF POINT OF DEPARTURE OR PARTIAL USE OF THE TICKET BY THE PASSENGER FOR THE ABOVE-MENTIONED CHANGE THE PASSENGER WILL BE CHARGED A FIXED FARE COMPLEMENT OF 500EUR ALL TAXES INCLUDED. THIS APPLIES ONLY ON DAY OF TRAVEL AT THE AIRPORT. VC.VOLUNTARY CHANGES VOLUNTARY CHANGES CONDITIONS MAY APPLY FOR AUTOMATED REISSUE/REVALIDATION REFER TO PENALTIES CATEGORY *PE FOR DETAILS \nVR.VOLUNTARY REFUNDS VOLUNTARY CHANGES CONDITIONS MAY APPLY FOR AUTOMATED REFUNDS REFER TO PENALTIES CATEGORY *PE FOR DETAILS \n\n"
+                        },
+                        {
+                            "descriptionType": "TICKET ENDORSMENT",
+                            "text": "TE.TKT ENDORSEMENT \nTHE ORIGINAL AND THE REISSUED TICKET MUST BE ANNOTATED - NONENDO/NONREF - IN THE ENDORSEMENT BOX. "
+                        },
+                        {
+                            "descriptionType": "PENALTIES",
+                            "text": "PE.PENALTIES FROM/TO EUROPE \nCHANGES \nBEFORE DEPARTURE CHANGES PERMITTED. CHILD/INFANT DISCOUNTS APPLY. NOTE - A CHANGE IS A ROUTING / DATE / FLIGHT MODIFICATION WHEN MORE THAN ONE FARE COMPONENT IS BEING CHANGED THE HIGHEST PENALTY OF ALL CHANGED FARE COMPONENTS WILL APPLY //// // BEFORE OUTBOUND DEPARTURE // //// NEW RESERVATION AND REISSUANCE MUST BE MADE AT THE SAME TIME PRIOR TO DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT. IF CHANGE DOES NOT OCCUR ON THE FIRST FARE COMPONENT OF THE JOURNEY NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON THE PREVIOUS TICKETING DATE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- NEW RESERVATION AND REISSUANCE MUST BE MADE AT THE SAME TIME PRIOR TO DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT. WHEN CHANGE OCCURS ON THE FIRST FARE COMPONENT OF THE JOURNEY ONLY OR ON THE FIRST FARE COMPONENT AND OTHER FARE COMPONENT OF THE JOURNEY NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON DATE OF REISSUE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- REISSUE IS PERMITTED WITHIN THE FAMILY OF LIGHT / STANDARD / FLEX / BUSINESS FARES ----------------------- \nCHANGES NOT PERMITTED IN CASE OF NO-SHOW. NOTE - //  BEFORE OUTBOUND DEPARTURE  // //  NO SHOW  // IN THE EVENT OF NO SHOW - WHEN CHANGES ARE REQUESTED AFTER DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT -  CHANGES ARE NOT PERMITTED AND CANCELLATION RULES SHALL APPLY \nAFTER DEPARTURE CHANGES PERMITTED. CHILD/INFANT DISCOUNTS APPLY. NOTE - ///// // AFTER OUTBOUND DEPARTURE // //// NEW RESERVATION / REISSUANCE AND PAYMENT OF THE PENALTY MUST BE MADE AT THE SAME TIME ------------------------------- NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON THE PREVIOUS TICKETING DATE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND UNDER FOLLOWING CONDITIONS A / MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- REISSUE IS PERMITTED WITHIN THE FAMILY OF LIGHT / STANDARD / FLEX / BUSINESS FARES ----------------------- \nCANCELLATIONS \nANY TIME TICKET IS NON-REFUNDABLE IN CASE OF CANCEL. TICKET IS NON-REFUNDABLE IN CASE OF NO-SHOW. \n\nNOTE - BEFORE DEPARTURE CANCELLATIONS RULES APPLY BY FARE COMPONENT WHEN COMBINING A REFUNDABLE TICKET WITH A NON REFUNDABLE TICKET PROVISIONS WILL APPLY AS FOLLOWS - THE AMOUNT PAID ON THE REFUNDABLE FARE COMPONENT WILL BE REFUNDED UPON PAYMENT OF THE PENALTY AMOUNT IF APPLICABLE - THE AMOUNT PAID ON THE NON REFUNDABLE FARE COMPONENT WILL NOT BE REFUNDED AFTER DEPARTURE -THE REFUND GIVEN WILL BE THE DIFFERENCE BETWEEN THE FARE PAID AND THE APPLICABLE FARE FLOWN -------------------------------------------------- FOR NON REFUNDABLE TICKETS THE YQ/YR CARRIER IMPOSED SURCHARGE WILL NOT BE REFUNDED "
+                        }
+                    ]
+                },
+                "segmentId": "5"
+            },
+            "2": {
+                "fareBasis": "GS55PBLG",
+                "name": "ECONOMY RT UNBUNDLED",
+                "fareNotes": {
+                    "descriptions": [
+                        {
+                            "descriptionType": "GENERAL INFORMATION",
+                            "text": "RU.RULE APPLICATION FOR ECONOMY RT UNBUNDLED FARES KLM -- LIGHT FARES -- HAND BAGGAGE ONLY -ZERO BAGGAGE ALLOWANCE MUST BE DISCLOSED TO CUSTOMER APPLICATION CLASS OF SERVICE THESE FARES APPLY FOR ECONOMY CLASS SERVICE. TYPES OF TRANSPORTATION FARES GOVERNED BY THIS RULE CAN BE USED TO CREATE ONE-WAY/ROUND-TRIP/CIRCLE-TRIP/OPEN-JAW JOURNEYS. CAPACITY LIMITATIONS THE CARRIER SHALL LIMIT THE NUMBER OF PASSENGERS CARRIED ON ANY ONE FLIGHT AT FARES GOVERNED BY THIS RULE AND SUCH FARES WILL NOT NECESSARILY BE AVAILABLE ON ALL FLIGHTS. THE NUMBER OF SEATS WHICH THE CARRIER SHALL MAKE AVAILABLE ON A GIVEN FLIGHT WILL BE DETERMINED BY THE CARRIERS BEST JUDGMENT MN.MIN STAY FOR GS55PBLG TYPE FARES \nTRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 1201AM ON THE FIRST SAT AFTER DEPARTURE FROM FARE ORIGIN OR - TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 1201AM ON THE FIRST SUN AFTER DEPARTURE FROM FARE ORIGIN OR - TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 3 DAYS AFTER DEPARTURE FROM FARE ORIGIN OR - WHEN DEPARTURE FROM FARE ORIGIN IS SAT THEN TRAVEL FROM LAST STOPOVER MUST COMMENCE NO EARLIER THAN 2 HOURS AFTER DEPARTURE FROM FARE ORIGIN. MX.MAX STAY FOR ECONOMY RT UNBUNDLED FARES \nTRAVEL FROM LAST STOPOVER MUST COMMENCE NO LATER THAN 6 MONTHS AFTER DEPARTURE FROM FARE ORIGIN. SR.SALES RESTRICT \nTICKETS MUST BE ISSUED ON/AFTER 15APR 20. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. \nSALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. AND - SALE IS RESTRICTED TO SPECIFIC AGENTS. *** GENERAL RULE FOLLOWS *** \nTICKETS MUST BE ISSUED ON KL  OR AF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR A5 AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR AM AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR CM AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR CZ AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR DL AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR JU AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR KE AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR KQ AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA AND MAY ONLY BE SOLD IN BURUNDI/ETHIOPIA/MALAWI/MOZAMBIQUE/RWANDA/SUDAN/ SOMALIA/SOUTH SUDAN/ZAMBIA/ZIMBABWE OR - TICKETS MUST BE ISSUED ON KL  OR LG AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MK AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MH AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR MU AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR PX AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR QV AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR SB AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR SV AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR VS AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA OR - TICKETS MUST BE ISSUED ON KL  OR WF AND MAY NOT BE SOLD IN VENEZUELA/NIGERIA TR.TVL RESTRICTION \nVALID FOR TRAVEL COMMENCING ON/AFTER 25JUN 21 AND ON/ BEFORE 01SEP 21. AP.ADVANCE RES/TKT FOR GS55PBLG TYPE FARES \nRESERVATIONS FOR ALL SECTORS AND TICKETING ARE REQUIRED AT LEAST 10 DAYS BEFORE DEPARTURE. NOTE - NOTE - DIFFERENCE COULD EXIST BETWEEN THE CRS LAST TICKETING DATE AND TTL ROBOT REMARK. --- THE MOST RESTRICTIVE DATE PREVAILS --- -------------------------------------------------- FL.FLT APPLICATION FROM/TO EUROPE FOR GS55PBLG TYPE FARES \nIF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND SPAIN AND CANARY ISLANDS THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. AND IF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND PRG THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. AND IF THE FARE COMPONENT INCLUDES TRAVEL BETWEEN AMS AND SPU THEN THAT TRAVEL MUST BE ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY KL ANY KL FLIGHT OPERATED BY HV ANY KL FLIGHT OPERATED BY AF. CD.CHILD DISCOUNTS \nACCOMPANIED CHILD 2-11. ID REQUIRED - CHARGE 80 PERCENT OF THE FARE. TICKET DESIGNATOR - CH AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. \nINFANT UNDER 2 WITH A SEAT. ID REQUIRED - CHARGE 80 PERCENT OF THE FARE. TICKET DESIGNATOR - CH AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. NOTE - 1 ADULT PASSENGER AGED AT LEAST 18 YEARS MAY BE ACCOMPANIED BY A MAXIMUM OF 2 INFANTS OF WHO BOTH CAN BE BOOKED AS INFANT OCCUPYING A SEAT. \nINFANT UNDER 2 WITHOUT A SEAT - CHARGE 10 PERCENT OF THE FARE. TICKET DESIGNATOR - IN AND PERCENT OF DISCOUNT. MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT BY ADULT 18 OR OLDER. NOTE - 1 ADULT PASSENGER AGED AT LEAST 18 YEARS MAY BE ACCOMPANIED BY A MAXIMUM OF 2 INFANTS OF WHO 1 HAVE TO BE BOOKED AS INFANT OCCUPYING A SEAT ------------------------------------------------- THE AGE LIMITS REFERRED TO IN THIS RULE SHALL BE THOSE IN EFFECT ON THE DATE OF COMMENCEMENT OF TRAVEL. EXCEPTION - INFANTS WHO REACH THEIR 2ND BIRTHDAY DURING THEIR TRAVEL WILL BE REQUIRED TO OCCUPY A SEAT ON THE OUTBOUND AND INBOUND FLIGHT. THE CHILD FARE NEEDS TO BE APPLIED FOR THE WHOLE JOURNEY TC.TOUR CONDUCTOR \nTOUR CONDUCTOR - NO DISCOUNT. AD.AGTS DISCOUNTS \nAGENT - NO DISCOUNT. OD.OTHER DISCOUNTS NONE UNLESS OTHERWISE SPECIFIED SO.STOPOVERS \n1 STOPOVER PERMITTED ON THE PRICING UNIT EITHER OUTBOUND OR INBOUND AT EUR 50.00. CHILD/INFANT DISCOUNTS APPLY. TF.TRANSFERS/RTGS \nUNLIMITED TRANSFERS PERMITTED ON THE FARE COMPONENT FARE BREAK SURFACE SECTORS NOT PERMITTED AND EMBEDDED SURFACE SECTORS PERMITTED ON THE FARE COMPONENT. NOTE - AS PER ROUTING SU.SURCHARGES FROM/TO EUROPE FOR GS55PBLG TYPE FARES \nIF INFANT 0-1 WITHOUT A SEAT. OR - CONTRACT BULK INFANT WITHOUT A SEAT 0-1. OR - INCLUSIVE TOUR INFANT WITHOUT A SEAT 0-1. THERE IS NO CHARGE FOR TRAVEL. \nA SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BELGIUM. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHTS 2900 THROUGH 2999. AND - A SURCHARGE OF EUR 15.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BELGIUM. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHTS 223 THROUGH 224. AND - A SURCHARGE OF EUR 75.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND IST. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY PC. AND - A SURCHARGE OF EUR 55.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BUH. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY RO. AND - A SURCHARGE OF EUR 75.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND MOW. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY SU. AND - A SURCHARGE OF EUR 100.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND ORK. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY EI. AND - A SURCHARGE OF EUR 150.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND PRG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OK. AND - A SURCHARGE OF EUR 65.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR WITHIN SPAIN AND CANARY ISLANDS. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY UX. AND - A SURCHARGE OF EUR 40.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND IEV. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY PS. AND - A SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND CROATIA. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OU. AND - A SURCHARGE OF EUR 3.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BEG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING KL FLIGHT 2824. AND - A SURCHARGE OF EUR 77.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN AMS AND BEG. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY JU. AND - A SURCHARGE OF EUR 50.00 PER DIRECTION WILL BE ADDED TO THE APPLICABLE FARE FOR TRAVEL FOR ANY SECTOR BETWEEN ZAG AND DBV. PROVIDED TRAVEL IS ON ONE OR MORE OF THE FOLLOWING ANY KL FLIGHT OPERATED BY OU. CO.COMBINABILITY END-ON-END NOT PERMITTED. SIDE TRIPS PERMITTED. APPLICABLE ADD-ON CONSTRUCTION IS ADDRESSED IN MISCELLANEOUS PROVISIONS - CATEGORY 23. OPEN JAWS/ROUND TRIPS/CIRCLE TRIPS FARES MAY BE COMBINED ON A HALF ROUND TRIP BASIS -TO FORM SINGLE OR DOUBLE OPEN JAWS WHICH CONSISTS OF NO MORE THAN 2 INTERNATIONAL FARE COMPONENTS AND THE OPEN SEGMENT AT ORIGIN MUST BE IN ONE COUNTRY. THE OPEN SEGMENT AT DESTINATION HAS NO RESTRICTIONS. MILEAGE OF THE OPEN SEGMENT MUST BE EQUAL/LESS THAN MILEAGE OF THE LONGEST FLOWN FARE COMPONENT. -TO FORM ROUND TRIPS -TO FORM CIRCLE TRIPS A MAXIMUM OF TWO INTERNATIONAL FARE COMPONENTS PERMITTED. PROVIDED - COMBINATIONS ARE WITH ANY FARE FOR CARRIER AF/KL WITHIN EUROPE OR FOR CARRIER AF/KL BETWEEN EUROPE/RUSSIA (EAST OF THE URALS) IN ANY RULE IN ANY TARIFF. HI.HIGHER INTERMEDIATE POINT \nTHE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY FOR CONNECTIONS. AND - THE HIGHER INTERMEDIATE POINT RULE DOES NOT APPLY FOR STOPOVERS. MD.MISCELLANEOUS DATA \nTHIS FARE MUST NOT BE USED AS THE HIGH OR THE LOW FARE WHEN CALCULATING A DIFFERENTIAL. THIS FARE MUST NOT BE USED AS THE THROUGH FARE WHEN PRICING A FARE COMPONENT WITH A DIFFERENTIAL. NOTE - IN CASE OF CHANGE OF POINT OF DEPARTURE OR PARTIAL USE OF THE TICKET BY THE PASSENGER FOR THE ABOVE-MENTIONED CHANGE THE PASSENGER WILL BE CHARGED A FIXED FARE COMPLEMENT OF 500EUR ALL TAXES INCLUDED. THIS APPLIES ONLY ON DAY OF TRAVEL AT THE AIRPORT. VC.VOLUNTARY CHANGES VOLUNTARY CHANGES CONDITIONS MAY APPLY FOR AUTOMATED REISSUE/REVALIDATION REFER TO PENALTIES CATEGORY *PE FOR DETAILS \nVR.VOLUNTARY REFUNDS VOLUNTARY CHANGES CONDITIONS MAY APPLY FOR AUTOMATED REFUNDS REFER TO PENALTIES CATEGORY *PE FOR DETAILS \n\n"
+                        },
+                        {
+                            "descriptionType": "TICKET ENDORSMENT",
+                            "text": "TE.TKT ENDORSEMENT \nTHE ORIGINAL AND THE REISSUED TICKET MUST BE ANNOTATED - NONENDO/NONREF - IN THE ENDORSEMENT BOX. "
+                        },
+                        {
+                            "descriptionType": "PENALTIES",
+                            "text": "PE.PENALTIES FROM/TO EUROPE \nCHANGES \nBEFORE DEPARTURE CHANGES PERMITTED. CHILD/INFANT DISCOUNTS APPLY. NOTE - A CHANGE IS A ROUTING / DATE / FLIGHT MODIFICATION WHEN MORE THAN ONE FARE COMPONENT IS BEING CHANGED THE HIGHEST PENALTY OF ALL CHANGED FARE COMPONENTS WILL APPLY //// // BEFORE OUTBOUND DEPARTURE // //// NEW RESERVATION AND REISSUANCE MUST BE MADE AT THE SAME TIME PRIOR TO DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT. IF CHANGE DOES NOT OCCUR ON THE FIRST FARE COMPONENT OF THE JOURNEY NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON THE PREVIOUS TICKETING DATE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- NEW RESERVATION AND REISSUANCE MUST BE MADE AT THE SAME TIME PRIOR TO DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT. WHEN CHANGE OCCURS ON THE FIRST FARE COMPONENT OF THE JOURNEY ONLY OR ON THE FIRST FARE COMPONENT AND OTHER FARE COMPONENT OF THE JOURNEY NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON DATE OF REISSUE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- REISSUE IS PERMITTED WITHIN THE FAMILY OF LIGHT / STANDARD / FLEX / BUSINESS FARES ----------------------- \nCHANGES NOT PERMITTED IN CASE OF NO-SHOW. NOTE - //  BEFORE OUTBOUND DEPARTURE  // //  NO SHOW  // IN THE EVENT OF NO SHOW - WHEN CHANGES ARE REQUESTED AFTER DEPARTURE OF THE ORIGINALLY SCHEDULED FLIGHT -  CHANGES ARE NOT PERMITTED AND CANCELLATION RULES SHALL APPLY \nAFTER DEPARTURE CHANGES PERMITTED. CHILD/INFANT DISCOUNTS APPLY. NOTE - ///// // AFTER OUTBOUND DEPARTURE // //// NEW RESERVATION / REISSUANCE AND PAYMENT OF THE PENALTY MUST BE MADE AT THE SAME TIME ------------------------------- NEW FARE WILL BE RECALCULATED USING FARES IN EFFECT ON THE PREVIOUS TICKETING DATE AND UNDER FOLLOWING CONDITIONS - IF SAME BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND A / MUST COMPLY WITH ALL PROVISIONS OF THE ORIGINALLY TICKETED FARE B / OR MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED - IF A DIFFERENT BOOKING CLASS IS USED NEW FARE MAY BE EQUAL OR HIGHER THAN PREVIOUS AND UNDER FOLLOWING CONDITIONS A / MUST COMPLY WITH ALL PROVISIONS OF THE NEW FARE BEING APPLIED ----------------------- REISSUE IS PERMITTED WITHIN THE FAMILY OF LIGHT / STANDARD / FLEX / BUSINESS FARES ----------------------- \nCANCELLATIONS \nANY TIME TICKET IS NON-REFUNDABLE IN CASE OF CANCEL. TICKET IS NON-REFUNDABLE IN CASE OF NO-SHOW. \n\nNOTE - BEFORE DEPARTURE CANCELLATIONS RULES APPLY BY FARE COMPONENT WHEN COMBINING A REFUNDABLE TICKET WITH A NON REFUNDABLE TICKET PROVISIONS WILL APPLY AS FOLLOWS - THE AMOUNT PAID ON THE REFUNDABLE FARE COMPONENT WILL BE REFUNDED UPON PAYMENT OF THE PENALTY AMOUNT IF APPLICABLE - THE AMOUNT PAID ON THE NON REFUNDABLE FARE COMPONENT WILL NOT BE REFUNDED AFTER DEPARTURE -THE REFUND GIVEN WILL BE THE DIFFERENCE BETWEEN THE FARE PAID AND THE APPLICABLE FARE FLOWN -------------------------------------------------- FOR NON REFUNDABLE TICKETS THE YQ/YR CARRIER IMPOSED SURCHARGE WILL NOT BE REFUNDED "
+                        }
+                    ]
+                },
+                "segmentId": "63"
+            }
+        },
+        "bags": {
+            "1": {
+                "quantity": 2,
+                "name": "CHECKED_BAG",
+                "price": {
+                    "amount": "59.80",
+                    "currencyCode": "GBP"
+                },
+                "bookableByItinerary": true,
+                "segmentIds": [
+                    "5",
+                    "63"
+                ],
+                "travelerIds": [
+                    "1",
+                    "2",
+                    "4"
+                ]
+            },
+            "2": {
+                "quantity": 1,
+                "name": "CHECKED_BAG",
+                "price": {
+                    "amount": "21.40",
+                    "currencyCode": "GBP"
+                },
+                "bookableByItinerary": true,
+                "segmentIds": [
+                    "5",
+                    "63"
+                ],
+                "travelerIds": [
+                    "1",
+                    "2",
+                    "4"
+                ]
+            }
+        },
+        "credit-card-fees": {
+            "1": {
+                "brand": "VISA",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "2": {
+                "brand": "AMERICAN_EXPRESS",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "3": {
+                "brand": "MASTERCARD",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "4": {
+                "brand": "VISA_ELECTRON",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "5": {
+                "brand": "VISA_DEBIT",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "6": {
+                "brand": "MASTERCARD_DEBIT",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "7": {
+                "brand": "MAESTRO",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            },
+            "8": {
+                "brand": "DINERS",
+                "amount": "0",
+                "currency": "EUR",
+                "flightOfferId": "1"
+            }
+        }
+    },
+    "dictionaries": {
+        "locations": {
+            "AMS": {
+                "cityCode": "AMS",
+                "countryCode": "NL"
+            },
+            "BCN": {
+                "cityCode": "BCN",
+                "countryCode": "ES"
+            }
+        }
+    }
+}

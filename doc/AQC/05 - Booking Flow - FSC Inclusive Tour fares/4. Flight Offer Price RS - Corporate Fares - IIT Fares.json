@@ -1,0 +1,181 @@
+{
+  "data": {
+    "type": "flight-offers-pricing",
+    "flightOffers": [
+      {
+        "type": "flight-offer",
+        "id": "1",
+        "source": "GDS",
+        "instantTicketingRequired": false,
+        "nonHomogeneous": false,
+        "paymentCardRequired": false,
+        "lastTicketingDate": "2022-01-21",
+        "itineraries": [
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-21T13:55:00"
+                },
+                "arrival": {
+                  "iataCode": "MAD",
+                  "terminal": "2",
+                  "at": "2022-01-21T16:25:00"
+                },
+                "carrierCode": "KL",
+                "number": "136",
+                "aircraft": {
+                  "code": "E90"
+                },
+                "operating": {
+                  "carrierCode": "KL"
+                },
+                "duration": "PT2H30M",
+                "id": "2",
+                "numberOfStops": 0
+              }
+            ]
+          },
+          {
+            "segments": [
+              {
+                "departure": {
+                  "iataCode": "MAD",
+                  "terminal": "1",
+                  "at": "2022-01-29T13:00:00"
+                },
+                "arrival": {
+                  "iataCode": "AMS",
+                  "at": "2022-01-29T15:40:00"
+                },
+                "carrierCode": "KL",
+                "number": "1702",
+                "aircraft": {
+                  "code": "73H"
+                },
+                "operating": {
+                  "carrierCode": "KL"
+                },
+                "duration": "PT2H40M",
+                "id": "10",
+                "numberOfStops": 0
+              }
+            ]
+          }
+        ],
+        "price": {
+          "currency": "EUR",
+          "total": "130.99",
+          "base": "49.00",
+          "fees": [
+            {
+              "amount": "0.00",
+              "type": "SUPPLIER"
+            },
+            {
+              "amount": "0.00",
+              "type": "TICKETING"
+            },
+            {
+              "amount": "0.00",
+              "type": "FORM_OF_PAYMENT"
+            }
+          ],
+          "grandTotal": "130.99",
+          "billingCurrency": "EUR"
+        },
+        "pricingOptions": {
+          "fareType": [
+            "CORPORATE"
+          ],
+          "corporateCodes": [
+            "016305"
+          ],
+          "includedCheckedBagsOnly": false
+        },
+        "validatingAirlineCodes": [
+          "KL"
+        ],
+        "travelerPricings": [
+          {
+            "travelerId": "1",
+            "fareOption": "INCLUSIVE_TOUR",
+            "travelerType": "ADULT",
+            "price": {
+              "currency": "EUR",
+              "total": "130.99",
+              "base": "49.00",
+              "taxes": [
+                {
+                  "amount": "7.85",
+                  "code": "VV"
+                },
+                {
+                  "amount": "3.38",
+                  "code": "QV"
+                },
+                {
+                  "amount": "12.72",
+                  "code": "CJ"
+                },
+                {
+                  "amount": "26.00",
+                  "code": "YQ"
+                },
+                {
+                  "amount": "0.62",
+                  "code": "OG"
+                },
+                {
+                  "amount": "14.95",
+                  "code": "JD"
+                },
+                {
+                  "amount": "16.47",
+                  "code": "RN"
+                }
+              ]
+            },
+            "fareDetailsBySegment": [
+              {
+                "segmentId": "2",
+                "cabin": "ECONOMY",
+                "fareBasis": "GS5TO1LG",
+                "class": "G",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              },
+              {
+                "segmentId": "10",
+                "cabin": "ECONOMY",
+                "fareBasis": "XS5TO1LG",
+                "class": "X",
+                "includedCheckedBags": {
+                  "quantity": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "bookingRequirements": {
+      "emailAddressRequired": true,
+      "mobilePhoneNumberRequired": true
+    }
+  },
+  "dictionaries": {
+    "locations": {
+      "MAD": {
+        "cityCode": "MAD",
+        "countryCode": "ES"
+      },
+      "AMS": {
+        "cityCode": "AMS",
+        "countryCode": "NL"
+      }
+    }
+  }
+}

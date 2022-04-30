@@ -1,0 +1,3255 @@
+{
+    "meta": {
+        "count": 15
+    },
+    "data": [
+        {
+            "type": "flight-offer",
+            "id": "1",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T12:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T14:25:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5339",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "2",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:40:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5340",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "8",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "191.03",
+                "fees": [
+                    {
+                        "amount": "10.14",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "366.14",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "47.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "47.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "47.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "2",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T06:00:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T08:10:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5131",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "1",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:40:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5340",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "8",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "221.03",
+                "fees": [
+                    {
+                        "amount": "11.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "397.00",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "57.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "57.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "57.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "3",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T21:45:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-21T00:05:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8305",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "6",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:10:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T09:35:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8300",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "7",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "406.92",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "406.92",
+                "additionalServices": [
+                    {
+                        "amount": "33.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "3Y"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "110.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "110.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "110.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "73.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "4",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T12:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T14:25:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5339",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "2",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:50:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:15:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5132",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "9",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "251.03",
+                "fees": [
+                    {
+                        "amount": "11.85",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "427.85",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "5",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T18:55:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T21:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5133",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "3",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:40:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5340",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "8",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "251.03",
+                "fees": [
+                    {
+                        "amount": "11.85",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "427.85",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "67.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "8",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "6",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T12:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T14:25:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5339",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "2",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T15:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T17:45:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5136",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "281.03",
+                "fees": [
+                    {
+                        "amount": "12.71",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "458.71",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "HV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "2",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "7",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T06:00:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T08:10:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5131",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "1",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:50:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:15:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5132",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "9",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "281.03",
+                "fees": [
+                    {
+                        "amount": "12.71",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "458.71",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "77.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "8",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T15:10:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T17:30:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8303",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "5",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:10:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T09:35:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8300",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "7",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "460.92",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "460.92",
+                "additionalServices": [
+                    {
+                        "amount": "34.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "3Y"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "128.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "128.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "128.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "73.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "9",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T10:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T12:40:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8301",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "4",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:10:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T09:35:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8300",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "7",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "478.92",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "478.92",
+                "additionalServices": [
+                    {
+                        "amount": "34.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "3Y"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "134.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "134.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "134.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "73.98"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "7",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "10",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T18:55:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T21:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5133",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "3",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T09:50:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T12:15:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5132",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "9",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "311.03",
+                "fees": [
+                    {
+                        "amount": "13.56",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "489.56",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "HV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "9",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "11",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T06:00:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T08:10:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5131",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "1",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T15:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T17:45:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5136",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "311.03",
+                "fees": [
+                    {
+                        "amount": "13.57",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "489.57",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "XV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "87.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "1",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "12",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H10M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T18:55:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T21:05:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5133",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H10M",
+                            "id": "3",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT2H25M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T15:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T17:45:00"
+                            },
+                            "carrierCode": "HV",
+                            "number": "5136",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "HV"
+                            },
+                            "duration": "PT2H25M",
+                            "id": "10",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "341.03",
+                "fees": [
+                    {
+                        "amount": "14.42",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "164.97",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "520.42",
+                "additionalServices": [
+                    {
+                        "amount": "37.04",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "HV"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "97.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "97.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "97.01"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "50.00"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "3",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "10",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "13",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T21:45:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-21T00:05:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8305",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "6",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT6H35M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T09:10:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6100",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "11",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        },
+                        {
+                            "departure": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T11:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T13:55:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6296",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "12",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "639.38",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "639.38",
+                "additionalServices": [
+                    {
+                        "amount": "53.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "VY"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "181.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "181.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "181.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "94.97"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "6",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "14",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T15:10:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T17:30:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8303",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "5",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT6H35M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T09:10:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6100",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "11",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        },
+                        {
+                            "departure": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T11:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T13:55:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6296",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "12",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "693.38",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "693.38",
+                "additionalServices": [
+                    {
+                        "amount": "54.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "VY"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "199.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "199.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "199.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "94.97"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "5",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "flight-offer",
+            "id": "15",
+            "source": "PYTON",
+            "instantTicketingRequired": true,
+            "nonHomogeneous": false,
+            "oneWay": false,
+            "itineraries": [
+                {
+                    "duration": "PT2H20M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-20T10:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-20T12:40:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "8301",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "duration": "PT2H20M",
+                            "id": "4",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                },
+                {
+                    "duration": "PT6H35M",
+                    "segments": [
+                        {
+                            "departure": {
+                                "iataCode": "BCN",
+                                "at": "2021-09-25T07:20:00"
+                            },
+                            "arrival": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T09:10:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6100",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "11",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        },
+                        {
+                            "departure": {
+                                "iataCode": "FCO",
+                                "at": "2021-09-25T11:15:00"
+                            },
+                            "arrival": {
+                                "iataCode": "AMS",
+                                "at": "2021-09-25T13:55:00"
+                            },
+                            "carrierCode": "VY",
+                            "number": "6296",
+                            "aircraft": {},
+                            "operating": {
+                                "carrierCode": "VY"
+                            },
+                            "id": "12",
+                            "numberOfStops": 0,
+                            "blacklistedInEU": false
+                        }
+                    ]
+                }
+            ],
+            "price": {
+                "currency": "EUR",
+                "total": "711.38",
+                "fees": [
+                    {
+                        "amount": "0.00",
+                        "type": "FORM_OF_PAYMENT"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "SUPPLIER"
+                    },
+                    {
+                        "amount": "0.00",
+                        "type": "TICKETING"
+                    }
+                ],
+                "grandTotal": "711.38",
+                "additionalServices": [
+                    {
+                        "amount": "54.00",
+                        "type": "CHECKED_BAGS"
+                    }
+                ]
+            },
+            "pricingOptions": {
+                "fareType": [
+                    "PUBLISHED"
+                ],
+                "includedCheckedBagsOnly": false
+            },
+            "validatingAirlineCodes": [
+                "3Y"
+            ],
+            "travelerPricings": [
+                {
+                    "travelerId": "1",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "205.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "2",
+                    "fareOption": "STANDARD",
+                    "travelerType": "ADULT",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "205.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "3",
+                    "fareOption": "STANDARD",
+                    "travelerType": "CHILD",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "205.47"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "travelerId": "4",
+                    "fareOption": "STANDARD",
+                    "travelerType": "HELD_INFANT",
+                    "associatedAdultId": "1",
+                    "price": {
+                        "currency": "EUR",
+                        "total": "94.97"
+                    },
+                    "fareDetailsBySegment": [
+                        {
+                            "segmentId": "4",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "11",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        },
+                        {
+                            "segmentId": "12",
+                            "cabin": "ECONOMY",
+                            "fareBasis": "WEBECONOMY",
+                            "includedCheckedBags": {
+                                "quantity": 0
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "dictionaries": {
+        "locations": {
+            "FCO": {
+                "cityCode": "ROM",
+                "countryCode": "IT"
+            },
+            "AMS": {
+                "cityCode": "AMS",
+                "countryCode": "NL"
+            },
+            "BCN": {
+                "cityCode": "BCN",
+                "countryCode": "ES"
+            }
+        },
+        "currencies": {
+            "EUR": "EURO"
+        },
+        "carriers": {
+            "VY": "VUELING AIRLINES",
+            "HV": "TRANSAVIA AIRLINES"
+        }
+    }
+}

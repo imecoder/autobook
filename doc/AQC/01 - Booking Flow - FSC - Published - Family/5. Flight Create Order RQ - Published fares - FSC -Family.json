@@ -1,0 +1,462 @@
+{
+    "data": {
+        "type": "flight-order",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2021-08-13",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "MAD",
+                                    "terminal": "4",
+                                    "at": "2021-09-01T07:30:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-09-01T08:55:00"
+                                },
+                                "carrierCode": "UX",
+                                "number": "7701",
+                                "aircraft": {
+                                    "code": "788"
+                                },
+                                "operating": {
+                                    "carrierCode": "UX"
+                                },
+                                "duration": "PT1H25M",
+                                "id": "27",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "BCN",
+                                    "terminal": "1",
+                                    "at": "2021-09-10T11:50:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "MAD",
+                                    "terminal": "4",
+                                    "at": "2021-09-10T13:25:00"
+                                },
+                                "carrierCode": "UX",
+                                "number": "7706",
+                                "aircraft": {
+                                    "code": "788"
+                                },
+                                "operating": {
+                                    "carrierCode": "UX"
+                                },
+                                "duration": "PT1H35M",
+                                "id": "58",
+                                "numberOfStops": 0
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "342.44",
+                    "base": "180.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "342.44",
+                    "billingCurrency": "EUR"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "UX"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "98.61",
+                            "base": "58.00",
+                            "taxes": [
+                                {
+                                    "amount": "7.44",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "1.36",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "31.81",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "27",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ADYY5L",
+                                "brandedFare": "LITE",
+                                "class": "A",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "58",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "NDYY5L",
+                                "brandedFare": "LITE",
+                                "class": "N",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "98.61",
+                            "base": "58.00",
+                            "taxes": [
+                                {
+                                    "amount": "7.44",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "1.36",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "31.81",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "27",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ADYY5L",
+                                "brandedFare": "LITE",
+                                "class": "A",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "58",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "NDYY5L",
+                                "brandedFare": "LITE",
+                                "class": "N",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "3",
+                        "fareOption": "STANDARD",
+                        "travelerType": "CHILD",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "98.61",
+                            "base": "58.00",
+                            "taxes": [
+                                {
+                                    "amount": "7.44",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "1.36",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "31.81",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "27",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ADYY5L",
+                                "brandedFare": "LITE",
+                                "class": "A",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "58",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "NDYY5L",
+                                "brandedFare": "LITE",
+                                "class": "N",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "4",
+                        "fareOption": "STANDARD",
+                        "travelerType": "HELD_INFANT",
+                        "associatedAdultId": "2",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "46.61",
+                            "base": "6.00",
+                            "taxes": [
+                                {
+                                    "amount": "7.44",
+                                    "code": "QV"
+                                },
+                                {
+                                    "amount": "1.36",
+                                    "code": "OG"
+                                },
+                                {
+                                    "amount": "31.81",
+                                    "code": "JD"
+                                }
+                            ]
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "27",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "ADYY5L",
+                                "brandedFare": "LITE",
+                                "class": "A",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "58",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "NDYY5L",
+                                "brandedFare": "LITE",
+                                "class": "N",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "travelers": [
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "amadeus@mail.com"
+                },
+                "id": "1",
+                "dateOfBirth": "1982-01-16",
+                "name": {
+                    "firstName": "JOHN",
+                    "lastName": "SMITH"
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "012345678",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "FR"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "JOHNSMITH@mail.com"
+                },
+                "id": "2",
+                "dateOfBirth": "1984-06-16",
+                "name": {
+                    "firstName": "MARY",
+                    "lastName": "SMITH"
+                },
+                "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "129849392",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "CHILD@mail.com"
+                },
+                "id": "3",
+                "dateOfBirth": "2019-01-16",
+                "name": {
+                    "firstName": "BARBIE",
+                    "lastName": "SMITH"
+                },
+                 "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "345678912",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            },
+            {
+                "contact": {
+                    "phones": [
+                        {
+                            "deviceType": "LANDLINE",
+                            "countryCallingCode": "33",
+                            "number": "4848484848484"
+                        }
+                    ],
+                    "emailAddress": "MOMMY@mail.com"
+                },
+                "id": "4",
+                "dateOfBirth": "2021-01-12",
+                "name": {
+                    "firstName": "KEN",
+                    "lastName": "SMITH"
+                },
+                 "documents": [
+                    {
+                        "documentType": "PASSPORT",
+                        "holder": true,
+                        "number": "56789012345",
+                        "expiryDate": "2025-09-13",
+                        "issuanceCountry": "GB",
+                        "nationality": "GB"
+                    }
+                ]
+            }
+        ],
+        "formOfPayments": [
+            {
+                "creditCard": {
+                    "securityCode": "737",
+                    "flightOfferIds": [
+                        "1"
+                    ],
+                    "brand": "VISA",
+                    "holder": "CORPORATE",
+                    "number": "4111111111111111",
+                    "expiryDate": "2030-03"
+                }
+            }
+        ],
+        "ticketingAgreement": {
+            "option": "DELAY_TO_CANCEL",
+            "delay": "6D"
+        },
+        "automatedProcess": [
+            {
+                "officeId": "LON1A0811",
+                "code": "IMMEDIATE",
+                "queue": {
+                    "number": "7",
+                    "category": "2"
+                }
+            }
+        ],
+        "contacts": [
+            {
+                "phones": [
+                    {
+                        "deviceType": "FAX",
+                        "countryCallingCode": "33",
+                        "number": "480080070"
+                    },
+                    {
+                        "deviceType": "LANDLINE",
+                        "countryCallingCode": "33",
+                        "number": "480080071"
+                    }
+                ],
+                "companyName": "AGENCY AMADEUS",
+                "emailAddress": "AMADEUS@mail.com",
+                "addresseeName": {
+                    "firstName": "JOHN",
+                    "lastName": "PRESIDENT"
+                },
+                "address": {
+                    "lines": [
+                        "BUCKINGHAM ROAD"
+                    ],
+                    "postalCode": "12345",
+                    "countryCode": "FR",
+                    "cityName": "Sophia Antipolis Cedex"
+                },
+                "purpose": "STANDARD"
+            }
+        ]
+    }
+}
