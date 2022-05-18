@@ -1,0 +1,142 @@
+{
+	"data": {
+		"type": "flight-order",
+		"flightOffers": [
+			{
+				"type": "flight-offer",
+				"id": "1",
+				"source": "GDS",
+				"instantTicketingRequired": false,
+				"nonHomogeneous": false,
+				"paymentCardRequired": false,
+				"lastTicketingDate": "2022-05-19",
+				"itineraries": [
+					{
+						"segments": [
+							{
+								"departure": {
+									"iataCode": "AMS",
+									"terminal": "I",
+									"at": "2022-06-30T20:00:00"
+								},
+								"arrival": {
+									"iataCode": "HGH",
+									"terminal": "1",
+									"at": "2022-07-01T17:05:00"
+								},
+								"carrierCode": "KL",
+								"number": "831",
+								"aircraft": {
+									"code": "789"
+								},
+								"operating": {
+									"carrierCode": "KL"
+								},
+								"duration": "PT15H05M",
+								"id": "2",
+								"numberOfStops": 0
+							}
+						]
+					}
+				],
+				"price": {
+					"currency": "NGN",
+					"total": "1210345.00",
+					"base": "1023864.00",
+					"fees": [
+						{
+							"amount": "0.00",
+							"type": "SUPPLIER"
+						},
+						{
+							"amount": "0.00",
+							"type": "TICKETING"
+						},
+						{
+							"amount": "0.00",
+							"type": "FORM_OF_PAYMENT"
+						}
+					],
+					"grandTotal": "1210345.00",
+					"billingCurrency": "NGN"
+				},
+				"pricingOptions": {
+					"fareType": [
+						"PUBLISHED"
+					],
+					"includedCheckedBagsOnly": true
+				},
+				"validatingAirlineCodes": [
+					"LH"
+				],
+				"travelerPricings": [
+					{
+						"travelerId": "1",
+						"fareOption": "STANDARD",
+						"travelerType": "ADULT",
+						"price": {
+							"currency": "NGN",
+							"total": "1210345",
+							"base": "1023864",
+							"taxes": [
+								{
+									"amount": "8880.00",
+									"code": "TE"
+								},
+								{
+									"amount": "44400.00",
+									"code": "QT"
+								},
+								{
+									"amount": "69321.00",
+									"code": "YQ"
+								},
+								{
+									"amount": "8781.00",
+									"code": "YR"
+								},
+								{
+									"amount": "55099.00",
+									"code": "NG"
+								}
+							]
+						},
+						"fareDetailsBySegment": [
+							{
+								"segmentId": "2",
+								"cabin": "ECONOMY",
+								"fareBasis": "YS50BEN2",
+								"brandedFare": "BUSSAVERA",
+								"class": "Y",
+								"includedCheckedBags": {
+									"quantity": 2
+								}
+							}
+						]
+					}
+				]
+			}
+		],
+		"travelers": [
+			{
+				"id": "1",
+				"dateOfBirth": "1985-10-17",
+				"name": {
+					"firstName": "Join",
+					"lastName": "Mustermann"
+				},
+				"gender": "MALE",
+				"contact": {
+					"emailAddress": "Join@Mustermann.com",
+					"phones": [
+						{
+							"deviceType": "MOBILE",
+							"countryCallingCode": "33",
+							"number": "480080075"
+						}
+					]
+				}
+			}
+		]
+	}
+}
