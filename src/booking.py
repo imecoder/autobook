@@ -2,7 +2,6 @@
 
 import time
 import threadpool
-import json
 import os
 
 from mylimit import *
