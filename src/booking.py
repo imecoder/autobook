@@ -17,13 +17,13 @@ if ret == False:
 	exit(0)
 
 def get_access_token() :
-	url_token = 'https://test.travel.api.amadeus.com/v1/security/oauth2/token'
+	url_token = 'https://travel.api.amadeus.com/v1/security/oauth2/token'
 
 	headers = {
 		'Content-Type': "application/x-www-form-urlencoded",
 	}
 
-	payload = "grant_type=client_credentials&client_id=gtAD9AaLtE8iNSNeuvrpHKZq47qucBTo&client_secret=Z2mjUGv3hkZx8oAk"
+	payload = "grant_type=client_credentials&client_id=IhVSuf2u1CImHOwSGCpBCkxLlZvJd07b&client_secret=GS2y32UKgJqEgUQS"
 
 	ret, response = mynet.post(session=session, url=url_token, headers=headers, payload=payload)
 	if ret == False:
@@ -72,9 +72,9 @@ def fun_flight_orders(access_token, ama_client_ref, flight_offers_result) :
 		'ama-client-ref': ama_client_ref
 	}
 
-	import flight_orders
+	import order
 
-	payload = flight_orders.get_payload(flight_offers_result)
+	payload = order.get_payload(flight_offers_result)
 
 	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
 	if ret == False:
@@ -126,25 +126,11 @@ if __name__ == '__main__':
 	ama_client_ref = 'LOSN828UU-' + str(time.time())
 	# ama_client_ref = 'LOSN828UU-1649074792.4925225'
 
-	import flight_offers_case2
-	payload = flight_offers_case2.get_payload()
+	import order
+	payload = order.get_payload()
 
-	ret, flight_offers_result = fun_flight_offers(access_token, ama_client_ref, payload)
-	if ret == False:
-		exit(-1)
 
-	# ret, access_token = get_access_token()
-	# if ret == False :
-	#     exit(-1)
-
-	# import flight_offers_case1again
-	# payload = flight_offers_case1again.get_payload()
-	#
-	# ret, flight_offers_result = fun_flight_offers(access_token, ama_client_ref, payload)
-	# if ret == False:
-	#     exit(-1)
-
-	book_id = fun_flight_orders(access_token, ama_client_ref, flight_offers_result)
+	book_id = fun_flight_orders(access_token, ama_client_ref, payload)
 	if ret == "":
 		exit(-1)
 
