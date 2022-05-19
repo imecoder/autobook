@@ -58,12 +58,21 @@ def do_order(access_token, ama_client_ref) :
 	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
 	if ret == False:
 		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-		return ""
+		return False, ''
 
-	repJson = json.loads(response.text)
-	PNR = repJson["data"]["associatedRecords"]["reference"]
-	logger.warning('PNR = ' + PNR)
-	return PNR
+
+	try:
+		jsonResponse = json.loads(response.text)
+		PNR = jsonResponse["data"]["associatedRecords"][0]["reference"]
+		logger.warning('PNR = ' + PNR)
+		return True, PNR
+	except json.decoder.JSONDecodeError as e:
+		logger.warning('解析json失败 : ' + str(e))
+		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+		return False, ''
+
+
+	return True, PNR
 
 
 
@@ -87,9 +96,10 @@ if __name__ == '__main__':
 	# ama_client_ref = 'LOSN828UU-1649074792.4925225'
 
 
-	book_id = do_order(access_token, ama_client_ref)
-	if ret == "":
+	ret, PNR = do_order(access_token, ama_client_ref)
+	if ret == False :
 		exit(-1)
+
 
 
 	logger.warning('程序退出 ...')
