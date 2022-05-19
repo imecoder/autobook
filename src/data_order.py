@@ -3,13 +3,78 @@
 
 import json
 
-def get_payload(flight_offers):
+def get_payload():
 	data = \
 {
 	"data": {
 		"type": "flight-order",
 		"flightOffers": [
-			flight_offers
+			{
+				"type": "flight-offer",
+				"id": "1",
+				"source": "GDS",
+				"instantTicketingRequired": False,
+				"nonHomogeneous": False,
+				"paymentCardRequired": False,
+				"lastTicketingDate": "2022-05-30",
+				"itineraries": [
+					{
+						"segments": [
+							{
+								"departure": {
+									"iataCode": "LOS",
+									"terminal": "I",
+									"at": "2022-05-31T23:00:00"
+								},
+								"arrival": {
+									"iataCode": "FRA",
+									"terminal": "1",
+									"at": "2022-06-01T06:25:00"
+								},
+								"carrierCode": "LH",
+								"number": "569",
+								"aircraft": {
+									"code": "333"
+								},
+								"operating": {
+									"carrierCode": "LH"
+								},
+								"duration": "PT6H25M",
+								"id": "2",
+								"numberOfStops": 0
+							}
+						]
+					}
+				],
+				"pricingOptions": {
+					"fareType": [
+						"PUBLISHED"
+					],
+					"includedCheckedBagsOnly": True
+				},
+				"validatingAirlineCodes": [
+					"LH"
+				],
+				"travelerPricings": [
+					{
+						"travelerId": "1",
+						"fareOption": "STANDARD",
+						"travelerType": "ADULT",
+						"fareDetailsBySegment": [
+							{
+								"segmentId": "2",
+								"cabin": "BUSINESS",
+								"fareBasis": "CNCOWNG",
+								"brandedFare": "BUSSAVERA",
+								"class": "C",
+								"includedCheckedBags": {
+									"quantity": 2
+								}
+							}
+						]
+					}
+				]
+			}
 		],
 		"travelers": [
 			{
@@ -30,71 +95,8 @@ def get_payload(flight_offers):
 						}
 					]
 				}
-			},
-			{
-				"id": "2",
-				"dateOfBirth": "1985-10-16",
-				"name": {
-					"firstName": "Jennifer",
-					"lastName": "Mustermann"
-				},
-				"gender": "FEMALE",
-				"contact": {
-					"emailAddress": "Jennifer@Mustermann.com",
-					"phones": [
-						{
-							"deviceType": "MOBILE",
-							"countryCallingCode": "33",
-							"number": "480080076"
-						}
-					]
-				}
-			},
-			{
-				"id": "3",
-				"dateOfBirth": "2017-10-07",
-				"name": {
-					"firstName": "Heike",
-					"lastName": "Mustermann"
-				},
-				"gender": "FEMALE",
-				"contact": {
-					"purpose": "STANDARD_WITHOUT_TRANSMISSION",
-					"emailAddress": "Heike@Mustermann.com",
-					"phones": [
-						{
-							"deviceType": "MOBILE",
-							"countryCallingCode": "33",
-							"number": "480080077"
-						}
-					]
-				}
-			},
-			{
-				"id": "4",
-				"dateOfBirth": "2020-12-07",
-				"name": {
-					"firstName": "Heinz",
-					"lastName": "Mustermann"
-				},
-				"gender": "MALE",
-				"contact": {
-					"purpose": "STANDARD_WITHOUT_TRANSMISSION",
-					"emailAddress": "Heinz@Mustermann.com",
-					"phones": [
-						{
-							"deviceType": "MOBILE",
-							"countryCallingCode": "33",
-							"number": "480080078"
-						}
-					]
-				}
 			}
-		],
-		"ticketingAgreement": {
-			"option": "DELAY_TO_CANCEL",
-			"delay": "6D"
-		}
+		]
 	}
 }
 

@@ -42,29 +42,9 @@ def get_access_token() :
 	return True, access_token
 
 
-def fun_flight_offers(access_token, ama_client_ref, payload) :
+def do_order(access_token, ama_client_ref) :
 
-	url = 'https://test.travel.api.amadeus.com/v2/shopping/flight-offers'
-
-	headers = {
-		'Content-Type': "application/json",
-		'Authorization': "Bearer " + access_token,
-		'ama-client-ref': ama_client_ref
-	}
-
-	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
-	if ret == False:
-		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-		return False, {}
-
-	flight_offers = json.loads(response.text)['data'][0]
-
-	return True, flight_offers
-
-
-def fun_flight_orders(access_token, ama_client_ref, flight_offers_result) :
-
-	url = 'https://test.travel.api.amadeus.com/v1/booking/flight-orders'
+	url = 'https://travel.api.amadeus.com/v1/booking/flight-orders'
 
 	headers = {
 		'Content-Type': "application/json",
@@ -72,9 +52,8 @@ def fun_flight_orders(access_token, ama_client_ref, flight_offers_result) :
 		'ama-client-ref': ama_client_ref
 	}
 
-	import order
-
-	payload = order.get_payload(flight_offers_result)
+	import data_order
+	payload = data_order.get_payload()
 
 	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
 	if ret == False:
@@ -84,27 +63,6 @@ def fun_flight_orders(access_token, ama_client_ref, flight_offers_result) :
 	repJson = json.loads(response.text)
 	return repJson["data"]["id"]
 
-
-def fun_remark_order(access_token, ama_client_ref, book_id) :
-
-	url = 'https://test.travel.api.amadeus.com/v1/booking/flight-orders/'+book_id
-
-	headers = {
-		'Content-Type': "application/json",
-		'Authorization': "Bearer " + access_token ,
-		'ama-client-ref': ama_client_ref
-	}
-
-	import remark_order
-
-	payload = remark_order.get_payload(book_id)
-
-	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
-	if ret == False:
-		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-		return False
-
-	return True
 
 
 def main():
@@ -126,17 +84,11 @@ if __name__ == '__main__':
 	ama_client_ref = 'LOSN828UU-' + str(time.time())
 	# ama_client_ref = 'LOSN828UU-1649074792.4925225'
 
-	import order
-	payload = order.get_payload()
 
-
-	book_id = fun_flight_orders(access_token, ama_client_ref, payload)
+	book_id = do_order(access_token, ama_client_ref)
 	if ret == "":
 		exit(-1)
 
-	# ret = fun_remark_order(access_token, book_id)
-	# if ret == False:
-	#     exit(-1)
 
 	logger.warning('程序退出 ...')
 	logger.warning('')
