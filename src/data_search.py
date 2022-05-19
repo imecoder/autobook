@@ -3,25 +3,17 @@
 
 import json
 
+
 def get_payload():
     data = {
-        "currencyCode": "GBP",
+        "currencyCode": "NGN",
         "originDestinations": [
             {
                 "id": "1",
                 "originLocationCode": "LOS",
-                "destinationLocationCode": "AMS",
+                "destinationLocationCode": "FRA",
                 "departureDateTimeRange": {
-                    "date": "2022-04-10",
-                    "dateWindow": "I1D"
-                }
-            },
-            {
-                "id": "2",
-                "originLocationCode": "AMS",
-                "destinationLocationCode": "LOS",
-                "departureDateTimeRange": {
-                    "date": "2022-04-14",
+                    "date": "2022-05-31",
                     "dateWindow": "I1D"
                 }
             }
@@ -33,28 +25,6 @@ def get_payload():
                 "fareOptions": [
                     "STANDARD"
                 ]
-            },
-            {
-                "id": "2",
-                "travelerType": "ADULT",
-                "fareOptions": [
-                    "STANDARD"
-                ]
-            },
-            {
-                "id": "3",
-                "travelerType": "CHILD",
-                "fareOptions": [
-                    "STANDARD"
-                ]
-            },
-            {
-                "id": "4",
-                "travelerType": "HELD_INFANT",
-                "fareOptions": [
-                    "STANDARD"
-                ],
-                "associatedAdultId": "1"
             }
         ],
         "sources": [
@@ -62,6 +32,28 @@ def get_payload():
         ],
         "searchCriteria": {
             "maxFlightOffers": 1,
+            "flightFilters": {
+                "carrierRestrictions": {
+                    "includedCarrierCodes": [
+                        "LH"
+                    ]
+                },
+                "cabinRestrictions": [
+                    {
+                        "cabin": "ECONOMY",
+                        "originDestinationIds": [
+                            1
+                        ]
+                    }
+                ],
+                "connectionRestriction": {
+                    "maxNumberOfConnections": 2,
+                    "airportChangeAllowed": False,
+                    "technicalStopsAllowed": True
+                }
+            },
+            "includeClosedContent": False,
+            "class": "Y",
             "pricingOptions": {
                 "fareType": [
                     "PUBLISHED"

@@ -16,7 +16,7 @@ ret, base_config = myfile.read_json('config.base.json')
 if ret == False:
 	exit(0)
 
-def get_access_token() :
+def do_get_token() :
 	url_token = 'https://travel.api.amadeus.com/v1/security/oauth2/token'
 
 	headers = {
@@ -42,9 +42,9 @@ def get_access_token() :
 	return True, access_token
 
 
-def fun_flight_offers(access_token, ama_client_ref, payload) :
+def do_search(access_token, ama_client_ref, payload) :
 
-	url = 'https://test.travel.api.amadeus.com/v2/shopping/flight-offers'
+	url = 'https://travel.api.amadeus.com/v2/shopping/flight-offers'
 
 	headers = {
 		'Content-Type': "application/json",
@@ -57,54 +57,91 @@ def fun_flight_offers(access_token, ama_client_ref, payload) :
 		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
 		return False, {}
 
-	flight_offers = json.loads(response.text)['data'][0]
+	try:
+		jsonResponse = json.loads(response.text)
+		count = jsonResponse["meta"]["count"]
+		if count==0 :
+			logger.warning('没有查询到匹配的航班')
+			return False,''
 
-	return True, flight_offers
-
-
-def fun_flight_orders(access_token, ama_client_ref, flight_offers_result) :
-
-	url = 'https://test.travel.api.amadeus.com/v1/booking/flight-orders'
-
-	headers = {
-		'Content-Type': "application/json",
-		'Authorization': "Bearer " + access_token ,
-		'ama-client-ref': ama_client_ref
-	}
-
-	import order
-
-	payload = order.get_payload(flight_offers_result)
-
-	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
-	if ret == False:
+		search_result = jsonResponse['data'][0]
+	except json.decoder.JSONDecodeError as e:
+		logger.warning('解析json失败 : ' + str(e))
 		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
-		return ""
+		return False, ''
 
-	repJson = json.loads(response.text)
-	return repJson["data"]["id"]
+	return True, search_result
 
 
-def fun_remark_order(access_token, ama_client_ref, book_id) :
+def do_price(access_token, ama_client_ref, search_result) :
 
-	url = 'https://test.travel.api.amadeus.com/v1/booking/flight-orders/'+book_id
+	url = 'https://travel.api.amadeus.com/v1/shopping/flight-offers/pricing'
 
 	headers = {
 		'Content-Type': "application/json",
-		'Authorization': "Bearer " + access_token ,
+		'Authorization': "Bearer " + access_token,
 		'ama-client-ref': ama_client_ref
 	}
 
-	import remark_order
-
-	payload = remark_order.get_payload(book_id)
+	payload = {
+		"data": {
+			"type": "flight-offers-pricing",
+			"flightOffers": [
+				search_result
+			]
+		}
+	}
 
 	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
 	if ret == False:
 		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
 		return False
 
+	try:
+		if json.loads(response.text)["data"]["type"] != "flight-offers-pricing" :
+			logger.warning('查询价格错误')
+			return False
+	except json.decoder.JSONDecodeError as e:
+		logger.warning('解析json失败 : ' + str(e))
+		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+		return False
+
 	return True
+
+
+
+def do_order(access_token, ama_client_ref, search_result) :
+
+	url = 'https://travel.api.amadeus.com/v1/booking/flight-orders'
+
+	headers = {
+		'Content-Type': "application/json",
+		'Authorization': "Bearer " + access_token ,
+		'ama-client-ref': ama_client_ref
+	}
+
+	import data_order
+	payload = data_order.get_payload(search_result)
+
+	ret, response = mynet.post(session=session, url=url, headers=headers, payload=json.dumps(payload))
+	if ret == False:
+		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+		return False, ""
+
+
+	try:
+		jsonResponse = json.loads(response.text)
+		PNR = jsonResponse["data"]["associatedRecords"][0]["reference"]
+		logger.warning('PNR = ' + PNR)
+		return True, PNR
+	except json.decoder.JSONDecodeError as e:
+		logger.warning('解析json失败 : ' + str(e))
+		logger.warning(sys._getframe().f_code.co_name + ' 运行失败')
+		return False, ''
+
+
+	return True, PNR
+
 
 
 def main():
@@ -119,24 +156,27 @@ if __name__ == '__main__':
 	if mylimit.limit() == True:
 		exit(0)
 
-	ret, access_token = get_access_token()
+	ret, access_token = do_get_token()
 	if ret == False :
 		exit(-1)
 
 	ama_client_ref = 'LOSN828UU-' + str(time.time())
-	# ama_client_ref = 'LOSN828UU-1649074792.4925225'
 
-	import order
-	payload = order.get_payload()
+	import data_search
+	payload = data_search.get_payload()
 
-
-	book_id = fun_flight_orders(access_token, ama_client_ref, payload)
-	if ret == "":
+	ret, search_result = do_search(access_token, ama_client_ref, payload)
+	if ret == False :
 		exit(-1)
 
-	# ret = fun_remark_order(access_token, book_id)
-	# if ret == False:
-	#     exit(-1)
+	ret = do_price(access_token, ama_client_ref, search_result)
+	if ret == False :
+		exit(-1)
+
+	ret, PNR = do_order(access_token, ama_client_ref, search_result)
+	if ret == False :
+		exit(-1)
+
 
 	logger.warning('程序退出 ...')
 	logger.warning('')
