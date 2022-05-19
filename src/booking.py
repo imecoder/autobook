@@ -61,7 +61,9 @@ def do_order(access_token, ama_client_ref) :
 		return ""
 
 	repJson = json.loads(response.text)
-	return repJson["data"]["id"]
+	PNR = repJson["data"]["associatedRecords"]["reference"]
+	logger.warning('PNR = ' + PNR)
+	return PNR
 
 
 
