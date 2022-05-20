@@ -12,8 +12,8 @@ https://developers.amadeus.com/
 
 
 
-测试环境    ymUeKeaKJcxW5vN2mBdFlwcfcSQ9jyDc    mU4qd7e4Ezhl4nsX
-生产环境    te8ZC3BmobVE8DYpJck8s1Isvx73FZ7m    SkdB6l1jU1UK7j0Z
+测试环境    gtAD9AaLtE8iNSNeuvrpHKZq47qucBTo    Z2mjUGv3hkZx8oAk
+生产环境    IhVSuf2u1CImHOwSGCpBCkxLlZvJd07b    GS2y32UKgJqEgUQS
 
 
 

@@ -10,6 +10,7 @@ import myfile
 import mynet
 import mylimit
 
+
 session = requests.session()
 
 ret, base_config = myfile.read_json('config.base.json')
@@ -61,8 +62,11 @@ def do_search(access_token, ama_client_ref, payload) :
 		jsonResponse = json.loads(response.text)
 
 		if 'errors' in jsonResponse :
-			if jsonResponse["errors"]['code'] == 38192 :
+			if jsonResponse["errors"]['title'] == 'Access token expired' :
 				return False, '38192'
+			logger.warning(response.text)
+			logger.warning('查询失败，请检查查询条件')
+			return False, ''
 
 		if 'meta' not in jsonResponse:
 			logger.warning('查询失败，请检查查询条件')
@@ -110,8 +114,10 @@ def do_price(access_token, ama_client_ref, search_result) :
 		jsonResponse = json.loads(response.text)
 
 		if 'errors' in jsonResponse :
-			if jsonResponse["errors"]['code'] == 38192 :
+			if jsonResponse["errors"]['title'] == 'Access token expired' :
 				return False, '38192'
+			logger.warning(response.text)
+			return False, ''
 
 		if json.loads(response.text)["data"]["type"] != "flight-offers-pricing" :
 			logger.warning('查询价格错误')
@@ -145,8 +151,10 @@ def do_order(access_token, ama_client_ref, payload) :
 		jsonResponse = json.loads(response.text)
 
 		if 'errors' in jsonResponse :
-			if jsonResponse["errors"]['code'] == 38192 :
+			if jsonResponse["errors"]['title'] == 'Access token expired' :
 				return False, '38192'
+			logger.warning(response.text)
+			return False, ''
 
 		PNR = jsonResponse["data"]["associatedRecords"][0]["reference"]
 		logger.warning('PNR = ' + PNR)
