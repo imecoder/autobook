@@ -62,8 +62,10 @@ def do_order(access_token, ama_client_ref, payload) :
 		jsonResponse = json.loads(response.text)
 
 		if 'errors' in jsonResponse :
-			if jsonResponse["errors"]['code'] == 38192 :
+			if jsonResponse["errors"]['title'] == 'Access token expired' :
 				return False, '38192'
+			logger.warning(response.text)
+			return False, ''
 
 		PNR = jsonResponse["data"]["associatedRecords"][0]["reference"]
 		logger.warning('PNR = ' + PNR)
