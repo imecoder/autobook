@@ -4,7 +4,7 @@
 import json
 
 
-def get_payload():
+def get_payload(_date, _carrier_code, _cabin, _class):
     data = {
         "currencyCode": "NGN",
         "originDestinations": [
@@ -13,7 +13,7 @@ def get_payload():
                 "originLocationCode": "LOS",
                 "destinationLocationCode": "FRA",
                 "departureDateTimeRange": {
-                    "date": "2022-05-31",
+                    "date": _date,
                     "dateWindow": "I1D"
                 }
             }
@@ -35,12 +35,12 @@ def get_payload():
             "flightFilters": {
                 "carrierRestrictions": {
                     "includedCarrierCodes": [
-                        "LH"
+                        _carrier_code
                     ]
                 },
                 "cabinRestrictions": [
                     {
-                        "cabin": "ECONOMY",
+                        "cabin": _cabin,
                         "originDestinationIds": [
                             1
                         ]
@@ -53,7 +53,7 @@ def get_payload():
                 }
             },
             "includeClosedContent": False,
-            "class": "Y",
+            "class": _class,
             "pricingOptions": {
                 "fareType": [
                     "PUBLISHED"

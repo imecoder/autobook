@@ -2,7 +2,6 @@ https://amadeus.com/zh/
 https://servicehub.amadeus.com/
 
 peilanglang@gmail.com
-Pll74918583
 Pll74918584
 
 
@@ -12,21 +11,33 @@ https://developers.amadeus.com/
 
 
 
-测试环境    gtAD9AaLtE8iNSNeuvrpHKZq47qucBTo    Z2mjUGv3hkZx8oAk
-生产环境    IhVSuf2u1CImHOwSGCpBCkxLlZvJd07b    GS2y32UKgJqEgUQS
+测试环境	gtAD9AaLtE8iNSNeuvrpHKZq47qucBTo    Z2mjUGv3hkZx8oAk
+生产环境	IhVSuf2u1CImHOwSGCpBCkxLlZvJd07b    GS2y32UKgJqEgUQS
 
 
 
 
 https://www.sellingplatformconnect.amadeus.com/LoginService/login.jsp?SITE=LOGINURL&LANGUAGE=GB
 
-用户名:    WXIAONAN
-ID:        LOSN82312
-密码：     Tut@2020
+用户名:	WXIAONAN
+ID:		LOSN82312
+密码:	Tut@2020
 
-一次性密码   ATVRFY
 
--data -gif -png -css -prompt.js -svg -jpg -html -ttf -pdf -woff -cfm -7273017 -tpl -ico
+XUTONGP
+LOSN827UU			LOSN828UU
+Mh74918583**
+
+
+[17:27] Adebukola ADEKEYE
+	But LOSN827UU and LOSN828UU are restricted by some airlines because of no IATA number
+
+online : LOSN827UU			LOSN828UU
+offline : LOSN827TU
+
+
+FXDHKG/D22MAYDOH
+
 
 AN10DECLOSFRA/ALH
 SS1Y1
