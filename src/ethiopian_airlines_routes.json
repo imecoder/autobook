@@ -1,0 +1,1257 @@
+{
+  "airline": "Ethiopian Airlines",
+  "date":"2026-02-20",
+  "airline_code": "ET",
+  "total_african_cities": 68,
+  "cities_with_international_routes": 40,
+  "total_international_routes": 282,
+  "cities": [
+    {
+      "name": "Abidjan",
+      "has_international_routes": true,
+      "international_routes_count": 6,
+      "destinations": {
+        "africa": [
+          "Accra",
+          "Addis Ababa",
+          "Dakar",
+          "Lagos"
+        ],
+        "europe": [
+          "Brussels",
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Abuja",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Accra",
+      "has_international_routes": true,
+      "international_routes_count": 7,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Addis Ababa",
+          "Dakar",
+          "Lagos"
+        ],
+        "europe": [
+          "London"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [
+          "New York",
+          "Washington D.C."
+        ],
+        "other": []
+      }
+    },
+    {
+      "name": "Addis Ababa",
+      "has_international_routes": true,
+      "international_routes_count": 62,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Accra",
+          "Algiers",
+          "Bamako",
+          "Cairo",
+          "Cape Town",
+          "Casablanca",
+          "Dakar",
+          "Dar es Salaam",
+          "Djibouti",
+          "Entebbe/Kampala",
+          "Harare",
+          "Hargeisa",
+          "Johannesburg",
+          "Juba",
+          "Khartoum",
+          "Kigali",
+          "Lagos",
+          "Lusaka",
+          "Maputo",
+          "Mogadishu",
+          "Nairobi",
+          "Ouagadougou",
+          "Tunis"
+        ],
+        "europe": [
+          "Brussels",
+          "Copenhagen",
+          "Frankfurt",
+          "Geneva",
+          "London",
+          "Moscow",
+          "Oslo",
+          "Paris",
+          "Rome",
+          "Stockholm",
+          "Vienna",
+          "Warsaw",
+          "Zurich"
+        ],
+        "asia": [
+          "Bangkok",
+          "Beijing",
+          "Chennai",
+          "Delhi",
+          "Guangzhou",
+          "Hong Kong",
+          "Kuala Lumpur",
+          "Mumbai",
+          "Seoul",
+          "Shanghai",
+          "Singapore",
+          "Tokyo"
+        ],
+        "middle_east": [
+          "Abu Dhabi",
+          "Beirut",
+          "Doha",
+          "Dubai",
+          "Jeddah",
+          "Kuwait",
+          "Riyadh"
+        ],
+        "americas": [
+          "Buenos Aires",
+          "Chicago",
+          "New York",
+          "São Paulo",
+          "Toronto",
+          "Washington D.C."
+        ],
+        "other": []
+      }
+    },
+    {
+      "name": "Algiers",
+      "has_international_routes": true,
+      "international_routes_count": 6,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Casablanca",
+          "Tunis"
+        ],
+        "europe": [
+          "London",
+          "Marseille",
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Antananarivo",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Johannesburg",
+          "Mauritius",
+          "Nosy Be"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Arba Minch",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Assosa",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Axum",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Bahir Dar",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Bamako",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Addis Ababa",
+          "Dakar",
+          "Ouagadougou"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Bangui",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Douala",
+          "Kinshasa",
+          "Yaoundé"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Brazzaville",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Douala",
+          "Kinshasa",
+          "Yaoundé"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Bujumbura",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Cairo",
+      "has_international_routes": true,
+      "international_routes_count": 8,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Casablanca",
+          "Khartoum"
+        ],
+        "europe": [
+          "London",
+          "Paris",
+          "Rome"
+        ],
+        "asia": [],
+        "middle_east": [
+          "Dubai",
+          "Riyadh"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Cape Town",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Gaborone",
+          "Johannesburg",
+          "Windhoek"
+        ],
+        "europe": [
+          "London"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Casablanca",
+      "has_international_routes": true,
+      "international_routes_count": 8,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Algiers",
+          "Cairo",
+          "Tunis"
+        ],
+        "europe": [
+          "Madrid",
+          "Paris",
+          "Rome"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [
+          "New York"
+        ],
+        "other": []
+      }
+    },
+    {
+      "name": "Conakry",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Cotonou",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Dakar",
+      "has_international_routes": true,
+      "international_routes_count": 7,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Accra",
+          "Addis Ababa",
+          "Lagos"
+        ],
+        "europe": [
+          "Brussels",
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [
+          "New York"
+        ],
+        "other": []
+      }
+    },
+    {
+      "name": "Dar es Salaam",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Johannesburg",
+          "Kigali",
+          "Nairobi"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Dire Dawa",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Djibouti",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Hargeisa",
+          "Mogadishu"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai",
+          "Jeddah"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Douala",
+      "has_international_routes": true,
+      "international_routes_count": 8,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Bangui",
+          "Brazzaville",
+          "Kinshasa",
+          "Libreville",
+          "Malabo",
+          "Yaoundé"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Durban",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Entebbe/Kampala",
+      "has_international_routes": true,
+      "international_routes_count": 6,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Juba",
+          "Kigali",
+          "Nairobi"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Freetown",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Gaborone",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Cape Town",
+          "Johannesburg",
+          "Windhoek"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Gambela",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Gondar",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Harare",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Johannesburg",
+          "Lusaka",
+          "Maputo"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Hargeisa",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Djibouti",
+          "Mogadishu"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Jijiga",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Jimma",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Johannesburg",
+      "has_international_routes": true,
+      "international_routes_count": 11,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Cape Town",
+          "Dar es Salaam",
+          "Durban",
+          "Harare",
+          "Lusaka",
+          "Maputo",
+          "Nairobi"
+        ],
+        "europe": [
+          "Frankfurt",
+          "London"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [
+          "New York"
+        ],
+        "other": []
+      }
+    },
+    {
+      "name": "Juba",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Entebbe/Kampala",
+          "Khartoum",
+          "Nairobi"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Kano",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Khartoum",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Cairo"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai",
+          "Jeddah",
+          "Riyadh"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Kigali",
+      "has_international_routes": true,
+      "international_routes_count": 7,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Entebbe/Kampala",
+          "Johannesburg",
+          "Juba",
+          "Nairobi"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Kilimanjaro",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Kinshasa",
+      "has_international_routes": true,
+      "international_routes_count": 7,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Brazzaville",
+          "Douala",
+          "Johannesburg",
+          "Yaoundé"
+        ],
+        "europe": [
+          "Brussels",
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Kisumu",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Lagos",
+      "has_international_routes": true,
+      "international_routes_count": 6,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Accra",
+          "Addis Ababa",
+          "Dakar"
+        ],
+        "europe": [
+          "London"
+        ],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Lalibela",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Libreville",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Douala",
+          "Malabo",
+          "Yaoundé"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Lilongwe",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Lomé",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Lusaka",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Harare",
+          "Johannesburg",
+          "Maputo"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Malabo",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Douala",
+          "Libreville",
+          "Yaoundé"
+        ],
+        "europe": [
+          "Madrid"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Maputo",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Harare",
+          "Johannesburg",
+          "Lusaka"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Mauritius",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Antananarivo",
+          "Johannesburg"
+        ],
+        "europe": [
+          "London",
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Mekele",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Mogadishu",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Djibouti",
+          "Hargeisa"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Dubai",
+          "Istanbul"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Mombasa",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Monrovia",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Mwanza",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "N'Djamena",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Douala",
+          "Khartoum",
+          "Yaoundé"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Nairobi",
+      "has_international_routes": true,
+      "international_routes_count": 8,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Dar es Salaam",
+          "Entebbe/Kampala",
+          "Johannesburg",
+          "Juba",
+          "Kigali"
+        ],
+        "europe": [
+          "London"
+        ],
+        "asia": [],
+        "middle_east": [
+          "Dubai"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Niamey",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Nosy Be",
+      "has_international_routes": true,
+      "international_routes_count": 3,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Antananarivo",
+          "Johannesburg"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Nouakchott",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Casablanca",
+          "Dakar"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Ouagadougou",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Abidjan",
+          "Addis Ababa",
+          "Bamako",
+          "Dakar"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Port Harcourt",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Tripoli",
+      "has_international_routes": true,
+      "international_routes_count": 5,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Cairo",
+          "Casablanca",
+          "Tunis"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [
+          "Istanbul"
+        ],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Tunis",
+      "has_international_routes": true,
+      "international_routes_count": 6,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Algiers",
+          "Casablanca"
+        ],
+        "europe": [
+          "Frankfurt",
+          "Paris",
+          "Rome"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Windhoek",
+      "has_international_routes": true,
+      "international_routes_count": 4,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Cape Town",
+          "Gaborone",
+          "Johannesburg"
+        ],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Yaoundé",
+      "has_international_routes": true,
+      "international_routes_count": 8,
+      "destinations": {
+        "africa": [
+          "Addis Ababa",
+          "Bangui",
+          "Brazzaville",
+          "Douala",
+          "Kinshasa",
+          "Libreville",
+          "Malabo"
+        ],
+        "europe": [
+          "Paris"
+        ],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    },
+    {
+      "name": "Zanzibar",
+      "has_international_routes": false,
+      "international_routes_count": 0,
+      "destinations": {
+        "africa": [],
+        "europe": [],
+        "asia": [],
+        "middle_east": [],
+        "americas": [],
+        "other": []
+      }
+    }
+  ]
+}

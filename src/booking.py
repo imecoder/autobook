@@ -171,12 +171,7 @@ def do_order(access_token, ama_client_ref, payload) :
 
 
 def main():
-	branch_size = base_config['branch_size']
-	print(branch_size)
-
 	while True :
-		if mylimit.limit() == True:
-			exit(0)
 
 		ret, access_token = do_get_token()
 		if ret == False :
@@ -203,20 +198,6 @@ def main():
 				if price_result == '38192' :
 					break
 				continue
-
-			# 获取制作订单信息
-			import data_order
-			payload = data_order.get_payload(search_result)
-
-			# 订票
-			ret, PNR = do_order(access_token, ama_client_ref, payload)
-			if ret == False :
-				if PNR == '38192' :
-					break
-				continue
-
-			# 此时订票成功已经成功的情况下
-			break
 
 		# 此时订票成功已经成功的情况下
 		break
