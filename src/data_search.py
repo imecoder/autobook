@@ -3,13 +3,7 @@
 
 import json
 
-
-def get_payload():
-    """Legacy function, kept for compatibility."""
-    return get_payload_custom("LOS", "FRA", "2022-05-31", "NGN")
-
-
-def get_payload_custom(origin_city, destination_city, date, currency="NGN"):
+def get_payload(origin_city, destination_city, date, carrier, currency="NGN"):
     """
     Return a payload for flight search with given parameters.
     origin_city and destination_city are city names (must be mapped to IATA codes).
@@ -32,7 +26,7 @@ def get_payload_custom(origin_city, destination_city, date, currency="NGN"):
                 "destinationLocationCode": destination_code,
                 "departureDateTimeRange": {
                     "date": date,
-                    "dateWindow": "I1D"
+                    "dateWindow": "I3D"
                 }
             }
         ],
@@ -53,7 +47,7 @@ def get_payload_custom(origin_city, destination_city, date, currency="NGN"):
             "flightFilters": {
                 "carrierRestrictions": {
                     "includedCarrierCodes": [
-                        "LH"
+                        carrier
                     ]
                 },
                 "cabinRestrictions": [
@@ -71,7 +65,7 @@ def get_payload_custom(origin_city, destination_city, date, currency="NGN"):
                 }
             },
             "includeClosedContent": False,
-            "class": "Y",
+            # "class": "Y",
             "pricingOptions": {
                 "fareType": [
                     "PUBLISHED"
@@ -86,11 +80,3 @@ def get_payload_custom(origin_city, destination_city, date, currency="NGN"):
     }
 
     return data
-
-
-def get_payloads_for_currencies(origin_city, destination_city, date, currencies=("CNY", "USD")):
-    """Return a list of payloads for each currency."""
-    payloads = []
-    for currency in currencies:
-        payloads.append(get_payload_custom(origin_city, destination_city, date, currency))
-    return payloads

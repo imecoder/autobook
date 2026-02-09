@@ -74,17 +74,17 @@ def option(session, url, params={}, headers={}, payload='', debug=True):
 
 def post(session, url, params={}, headers={}, payload='', debug=True):
     try:
-        logger.warning("-------------- request --------------")
+        logger.info("-------------- request --------------")
 
         if debug == True :
-            logger.warning('url = ' + url)
-            logger.warning('params = ' + json.dumps(params))
-            logger.warning('headers = ' + json.dumps(headers))
-            logger.warning('payload = ' + payload)
+            logger.info('url = ' + url)
+            logger.info('params = ' + json.dumps(params))
+            logger.info('headers = ' + json.dumps(headers))
+            logger.info('payload = ' + payload)
 
         response = session.post(url=url, params=params, headers=headers, data=payload, timeout=100)
 
-        logger.warning("-------------- response --------------")
+        logger.info("-------------- response --------------")
 
         if debug == True :
             logger.info('response.headers >>>')

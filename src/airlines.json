@@ -1,10 +1,10 @@
 {
-  "airline": "Ethiopian Airlines",
   "date":"2026-02-20",
-  "airline_code": "ET",
-  "total_african_cities": 68,
-  "cities_with_international_routes": 40,
-  "total_international_routes": 282,
+  "carriers":[
+    "LH"
+  ],
+  "first_currency":"CNY",
+  "second_currency":"USD",
   "cities": [
     {
       "name": "Abidjan",
